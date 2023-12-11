@@ -9,7 +9,10 @@ import SwiftUI
 
 struct LoginPage: View {
     @State private var username: String = ""
-        @State private var password: String = ""
+    @State private var password: String = ""
+    @State private var loginSuccess: Bool = false
+    @State private var isNavigationActive: Bool = false
+
         
         var body: some View {
             VStack {
@@ -25,19 +28,32 @@ struct LoginPage: View {
                     .cornerRadius(10)
                     .padding(.bottom, 20)
                 
-                SecureField("Password", text: $password)
+                TextField("Password", text: $password)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.bottom, 20)
                 
+                NavigationLink(
+                        destination: Reviews(),
+                        isActive: $isNavigationActive
+                                ) {
+                                    EmptyView()
+                                }
+                
+                
                 Button(action: {
-                    // Handle login logic here
-                    // You would typically check the entered username and password
-                    // against your authentication system
-                    // If valid, navigate to the next screen, else show an error
-                    print("Login tapped")
-                }) {
+                    LoginManager.performLogin(username: self.username, password: self.password)
+                    { success in
+                        self.loginSuccess = success
+
+                    if success {
+                        // Navigate to ReviewsView upon successful login
+                    self.isNavigationActive = true
+                        }
+                    }
+                })
+                {
                     Text("Login")
                         .foregroundColor(.white)
                         .padding()
