@@ -33,13 +33,7 @@ struct LoginPage: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.bottom, 20)
-                
-                NavigationLink(
-                        destination: Reviews(),
-                        isActive: $isNavigationActive
-                                ) {
-                                    EmptyView()
-                                }
+            
                 
                 
                 Button(action: {
