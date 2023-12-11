@@ -33,9 +33,7 @@ struct LoginPage: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.bottom, 20)
-            
-                
-                
+     
                 Button(action: {
                     LoginManager.performLogin(username: self.username, password: self.password)
                     { success in
