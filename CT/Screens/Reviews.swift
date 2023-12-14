@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct Reviews: View {
+    
+    @State private var switchview: Bool = false
+
+    
     var body: some View {
-        Text("Reviews")
+        NavigationView {
+                    VStack {
+                        NavigationLink(destination: LoginPage()) {
+                            Text("Login")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                    }
+                }
     }
 }
 

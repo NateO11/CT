@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+
+struct Schools: Identifiable, Decodable {
+        var id: Int
+        var name: String
+        var location: String
+}

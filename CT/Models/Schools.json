@@ -1,6 +1,9 @@
-{
-    "type": "MultiPolygon",
-    "coordinates": [
-        
-    ]
-}
+
+[
+        {
+                "id": 1,
+                "name": "UVA",
+                "location": "Virginia",
+        }
+]
+
