@@ -28,6 +28,9 @@
 		E6D2D36C2B2B8BC90093872A /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36B2B2B8BC90093872A /* FirebaseFirestoreCombine-Community */; };
 		E6D2D36E2B2B8BC90093872A /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36D2B2B8BC90093872A /* FirebaseFirestoreSwift */; };
 		E6D2D3722B2B94460093872A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6D2D3712B2B94460093872A /* GoogleService-Info.plist */; };
+		E6D2D3742B2BB5BC0093872A /* SchoolSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */; };
+		E6D2D3762B2BB9750093872A /* Schoolinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3752B2BB9750093872A /* Schoolinfo.swift */; };
+		E6D2D3782B2BCE060093872A /* SchoolViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3772B2BCE060093872A /* SchoolViewer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		E6D2D3582B2B84C50093872A /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		E6D2D3702B2B93DF0093872A /* GoogleService-Info (1).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info (1).plist"; path = "../../Downloads/GoogleService-Info (1).plist"; sourceTree = "<group>"; };
 		E6D2D3712B2B94460093872A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelect.swift; sourceTree = "<group>"; };
+		E6D2D3752B2BB9750093872A /* Schoolinfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schoolinfo.swift; sourceTree = "<group>"; };
+		E6D2D3772B2BCE060093872A /* SchoolViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,9 @@
 				A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */,
 				E670FAF92B26992600BB3692 /* LoginPage.swift */,
 				E6D2D3582B2B84C50093872A /* SignUp.swift */,
+				E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */,
+				E6D2D3772B2BCE060093872A /* SchoolViewer.swift */,
+				E6D2D3752B2BB9750093872A /* Schoolinfo.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -354,7 +363,10 @@
 				E670FAD12B268F6D00BB3692 /* ContentView.swift in Sources */,
 				A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */,
 				E670FAFA2B26992600BB3692 /* LoginPage.swift in Sources */,
+				E6D2D3742B2BB5BC0093872A /* SchoolSelect.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
+				E6D2D3782B2BCE060093872A /* SchoolViewer.swift in Sources */,
+				E6D2D3762B2BB9750093872A /* Schoolinfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct SchoolViewer: View {
+    
+    // from SchoolSelect
+    var selectedSchool: School?
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            if let school = selectedSchool {
+                Image(school.imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 200)
+                    .cornerRadius(8)
+                
+                Text(school.name)
+                    .font(.title)
+                    .padding()
+            }
+            
+            Spacer()
+        }
+        .navigationBarHidden(true)
     }
 }
 
-#Preview {
-    SchoolViewer()
+struct SchoolViewer_Previews: PreviewProvider {
+    static var previews: some View {
+        SchoolViewer(selectedSchool: schools.first)
+    }
 }
