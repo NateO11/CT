@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */; };
-		E66DB8532B26CF96009F9359 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66DB8522B26CF96009F9359 /* LoginManager.swift */; };
 		E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FACE2B268F6D00BB3692 /* CTApp.swift */; };
 		E670FAD12B268F6D00BB3692 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FAD02B268F6D00BB3692 /* ContentView.swift */; };
 		E670FAD32B268F6F00BB3692 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD22B268F6F00BB3692 /* Assets.xcassets */; };
@@ -31,6 +30,7 @@
 		E6D2D3742B2BB5BC0093872A /* SchoolSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */; };
 		E6D2D3762B2BB9750093872A /* Schoolinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3752B2BB9750093872A /* Schoolinfo.swift */; };
 		E6D2D3782B2BCE060093872A /* SchoolViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3772B2BCE060093872A /* SchoolViewer.swift */; };
+		E6D2D37E2B2CF5540093872A /* passwordReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D37D2B2CF5540093872A /* passwordReset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,6 @@
 
 /* Begin PBXFileReference section */
 		A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
-		E66DB8522B26CF96009F9359 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		E670FACB2B268F6D00BB3692 /* CT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E670FACE2B268F6D00BB3692 /* CTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTApp.swift; sourceTree = "<group>"; };
 		E670FAD02B268F6D00BB3692 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +70,7 @@
 		E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSelect.swift; sourceTree = "<group>"; };
 		E6D2D3752B2BB9750093872A /* Schoolinfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schoolinfo.swift; sourceTree = "<group>"; };
 		E6D2D3772B2BCE060093872A /* SchoolViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewer.swift; sourceTree = "<group>"; };
+		E6D2D37D2B2CF5540093872A /* passwordReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passwordReset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +117,7 @@
 		E66DB8562B26D1E9009F9359 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				E66DB8522B26CF96009F9359 /* LoginManager.swift */,
+				E6D2D3752B2BB9750093872A /* Schoolinfo.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -127,10 +127,10 @@
 			children = (
 				A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */,
 				E670FAF92B26992600BB3692 /* LoginPage.swift */,
+				E6D2D37D2B2CF5540093872A /* passwordReset.swift */,
 				E6D2D3582B2B84C50093872A /* SignUp.swift */,
 				E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */,
 				E6D2D3772B2BCE060093872A /* SchoolViewer.swift */,
-				E6D2D3752B2BB9750093872A /* Schoolinfo.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -358,7 +358,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E66DB8532B26CF96009F9359 /* LoginManager.swift in Sources */,
 				E6D2D3592B2B84C50093872A /* SignUp.swift in Sources */,
 				E670FAD12B268F6D00BB3692 /* ContentView.swift in Sources */,
 				A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */,
@@ -366,6 +365,7 @@
 				E6D2D3742B2BB5BC0093872A /* SchoolSelect.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
 				E6D2D3782B2BCE060093872A /* SchoolViewer.swift in Sources */,
+				E6D2D37E2B2CF5540093872A /* passwordReset.swift in Sources */,
 				E6D2D3762B2BB9750093872A /* Schoolinfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

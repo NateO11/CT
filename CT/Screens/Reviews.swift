@@ -7,28 +7,40 @@
 
 import SwiftUI
 
+
 struct Reviews: View {
-    
-    @State private var switchview: Bool = false
 
     
     var body: some View {
-        NavigationView {
-                    VStack {
-                        NavigationLink(destination: LoginPage()) {
-                            Text("Login")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
+      
+                HStack {
+                    Button(action: {
+                    }) {
+                        Text("Reviews")
+                            .font(.headline)
+                            .bold()
+                            .frame(width: 150, height: 60)
+                            .foregroundColor(.white)
+                            .background(Color.black)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button(action: {
+                    }) {
+                        Text("General")
+                            .font(.headline)
+                            .bold()
+                            .frame(width: 150, height: 60)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
                     }
                 }
-    }
-}
+        Spacer()
+            }
+        }
 
-struct Reviews_Previews: PreviewProvider {
-    static var previews: some View {
-        Reviews()
-    }
+#Preview {
+    Reviews()
 }
