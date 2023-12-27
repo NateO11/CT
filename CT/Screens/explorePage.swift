@@ -1,0 +1,236 @@
+//
+//  explorePage.swift
+//  CT
+//
+//  Created by Nate Owen on 12/26/23.
+//
+import SwiftUI
+import FirebaseFirestoreSwift
+import FirebaseFirestore
+
+struct ExplorePage: View {
+    @State private var firestoreSchools: [FirestoreSchoolList] = []
+
+    var body: some View {
+        NavigationView {
+            ScrollView(.vertical) {
+                VStack {
+                    // Top Buttons Section
+                    VStack {
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.blue)
+                                .frame(height: 300)
+                                .edgesIgnoringSafeArea(.all)
+
+                            VStack(alignment: .leading) {
+                                Text("Explore Schools")
+                                    .font(.largeTitle)
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .bold()
+                                    .fontWeight(.heavy)
+
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        StyledButton(icon: "book", title: "Schools")
+                                        StyledButton(icon: "mappin", title: "Locations")
+                                    }
+                                    VStack(alignment: .leading) {
+                                        StyledButton(icon: "graduationcap", title: "Academics")
+                                        StyledButton(icon: "sportscourt", title: "Athletics")
+                                    }
+                                }
+                            }
+                            .padding(.leading, 20)
+                        }
+                    }
+                    .padding(.bottom, 10)
+
+                    // Large Image Section
+                    ZStack {
+                        Image("stockimage1")
+                            .resizable()
+                            .scaledToFill()
+                            .edgesIgnoringSafeArea(.all)
+
+                        VStack(alignment: .leading, spacing: 10) {
+                            Spacer()
+                            Text("Discover Your Future")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+
+                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            Button(action: { }) {
+                                Text("Reviews")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .bold()
+                                    .background(Color.white)
+                                    .cornerRadius(30)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding(.bottom, 50)
+
+                    // Small Images Horizontal Section
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 16) {
+                            ForEach(firestoreSchools) { school in
+                                VStack(alignment: .leading) {
+                                    NavigationLink(destination: Reviews()) {
+                                        Image("\(school.image)")
+                                            .resizable()
+                                            .cornerRadius(20)
+                                            .frame(width: 225, height: 200)
+                                            .clipped()
+                                    }
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text("\(school.name)")
+                                                .fontWeight(.heavy)
+                                                .font(.title3)
+                                            Text("\(school.city)")
+                                                .fontWeight(.light)
+                                        }
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
+                        .padding()
+                    }
+                    
+                    // Large Image Section
+                    ZStack {
+                        Image("stockimage2")
+                            .resizable()
+                            .scaledToFill()
+                            .edgesIgnoringSafeArea(.all)
+
+                        VStack(alignment: .leading, spacing: 10) {
+                            Spacer()
+                            Text("Find Your Next Step")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+
+                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            Button(action: { }) {
+                                Text("Reviews")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .bold()
+                                    .background(Color.white)
+                                    .cornerRadius(30)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding(.bottom, 50)
+                    
+                    // Small Images Horizontal Section
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 16) {
+                            ForEach(firestoreSchools) { school in
+                                VStack(alignment: .leading) {
+                                    NavigationLink(destination: Reviews()) {
+                                        Image("\(school.image)")
+                                            .resizable()
+                                            .cornerRadius(20)
+                                            .frame(width: 225, height: 200)
+                                            .clipped()
+                                    }
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text("\(school.name)")
+                                                .fontWeight(.heavy)
+                                                .font(.title3)
+                                            Text("\(school.city)")
+                                                .fontWeight(.light)
+                                        }
+                                    }
+                                }
+                                .padding()
+                            }
+                        }
+                        .padding()
+                    }
+                    
+                }
+                .onAppear {
+                    Task {
+                        await fetchDataFromFirestore()
+                    }
+                }
+            }
+        }
+    }
+
+    struct StyledButton: View {
+        let icon: String
+        let title: String
+
+        var body: some View {
+            Button(action: {}) {
+                HStack(alignment: .center) {
+                    Image(systemName: icon)
+                        .foregroundColor(.blue)
+                        .bold()
+                    Text(title)
+                        .foregroundColor(.blue)
+                        .padding(.leading, 5)
+                        .bold()
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading)
+            }
+            .frame(width: 170, height: 60)
+            .background(Color.white)
+            .cornerRadius(40)
+        }
+    }
+
+    struct FirestoreSchoolList: Identifiable, Codable {
+        @DocumentID var id: String?
+        var city: String
+        var image: String
+        var name: String
+    }
+
+    private func fetchDataFromFirestore() async {
+        let db = Firestore.firestore()
+
+        do {
+            let documentSnapshots = try await db.collection("Schools")
+                .whereField(FieldPath.documentID(), in: ["UVA", "JMU", "VT", "WandL", "GMU"])
+                .getDocuments()
+
+            firestoreSchools = try documentSnapshots.documents.compactMap { document in
+                try document.data(as: FirestoreSchoolList.self)
+            }
+
+            if firestoreSchools.isEmpty {
+                print("No documents found or could not be parsed.")
+            }
+        } catch {
+            print("Error getting documents: \(error)")
+        }
+    }
+}
+
+
+
+struct ExplorePage_Previews: PreviewProvider {
+    static var previews: some View {
+        ExplorePage()
+    }
+}

@@ -32,6 +32,7 @@
 		E6D2D3762B2BB9750093872A /* Schoolinfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3752B2BB9750093872A /* Schoolinfo.swift */; };
 		E6D2D3782B2BCE060093872A /* SchoolViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3772B2BCE060093872A /* SchoolViewer.swift */; };
 		E6D2D37E2B2CF5540093872A /* passwordReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D37D2B2CF5540093872A /* passwordReset.swift */; };
+		E6D2D3802B3BD3910093872A /* explorePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D37F2B3BD3910093872A /* explorePage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		E6D2D3752B2BB9750093872A /* Schoolinfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schoolinfo.swift; sourceTree = "<group>"; };
 		E6D2D3772B2BCE060093872A /* SchoolViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewer.swift; sourceTree = "<group>"; };
 		E6D2D37D2B2CF5540093872A /* passwordReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passwordReset.swift; sourceTree = "<group>"; };
+		E6D2D37F2B3BD3910093872A /* explorePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = explorePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 				A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */,
 				E670FAF92B26992600BB3692 /* LoginPage.swift */,
 				E6D2D37D2B2CF5540093872A /* passwordReset.swift */,
+				E6D2D37F2B3BD3910093872A /* explorePage.swift */,
 				E6D2D3582B2B84C50093872A /* SignUp.swift */,
 				E6D2D3732B2BB5BC0093872A /* SchoolSelect.swift */,
 				E6D2D3772B2BCE060093872A /* SchoolViewer.swift */,
@@ -364,6 +367,7 @@
 				A1CE22072B3B8B2E00A820E3 /* Map.swift in Sources */,
 				E6D2D3592B2B84C50093872A /* SignUp.swift in Sources */,
 				E670FAD12B268F6D00BB3692 /* ContentView.swift in Sources */,
+				E6D2D3802B3BD3910093872A /* explorePage.swift in Sources */,
 				A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */,
 				E670FAFA2B26992600BB3692 /* LoginPage.swift in Sources */,
 				E6D2D3742B2BB5BC0093872A /* SchoolSelect.swift in Sources */,
