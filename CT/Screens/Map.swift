@@ -20,7 +20,7 @@ struct FirestoreLocation: Identifiable, Codable {
 struct MapView: View {
     @State private var firestoreLocations: [FirestoreLocation] = []
 
-    private func fetchDataFromFirestore() async {
+    private func fetchMapDataFromFirestore() async {
         let db = Firestore.firestore()
         
         do {
@@ -76,7 +76,7 @@ struct MapView: View {
             }
             .onAppear {
                             Task {
-                                await fetchDataFromFirestore()
+                                await fetchMapDataFromFirestore()
                             }
                         }
             .mapStyle(.standard(pointsOfInterest: []))
