@@ -10,10 +10,12 @@ import FirebaseFirestore
 
 struct ExplorePage: View {
     @State private var firestoreSchools: [FirestoreSchoolList] = []
+    @State private var selectedSchool: String?
+
 
     var body: some View {
         NavigationView {
-            ScrollView(.vertical) {
+            ScrollView() {
                 VStack {
                     // Top Buttons Section
                     VStack {
@@ -79,16 +81,23 @@ struct ExplorePage: View {
                     .padding(.bottom, 50)
 
                     // Small Images Horizontal Section
+                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 16) {
                             ForEach(firestoreSchools) { school in
                                 VStack(alignment: .leading) {
-                                    NavigationLink(destination: Reviews()) {
-                                        Image("\(school.image)")
-                                            .resizable()
-                                            .cornerRadius(20)
-                                            .frame(width: 225, height: 200)
-                                            .clipped()
+                                    NavigationLink(
+                                        destination: SchoolView(selectedSchool: school.image),
+                                        label: {
+                                            Image("\(school.image)")
+                                                .resizable()
+                                                .cornerRadius(20)
+                                                .frame(width: 225, height: 200)
+                                                .clipped()
+                                        }
+                                    )
+                                    .onTapGesture {
+                                        selectedSchool = school.name
                                     }
                                     VStack(alignment: .leading, spacing: 8) {
                                         VStack(alignment: .leading, spacing: 4) {
@@ -105,6 +114,7 @@ struct ExplorePage: View {
                         }
                         .padding()
                     }
+
                     
                     // Large Image Section
                     ZStack {
@@ -138,16 +148,23 @@ struct ExplorePage: View {
                     .padding(.bottom, 50)
                     
                     // Small Images Horizontal Section
+                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 16) {
                             ForEach(firestoreSchools) { school in
                                 VStack(alignment: .leading) {
-                                    NavigationLink(destination: Reviews()) {
-                                        Image("\(school.image)")
-                                            .resizable()
-                                            .cornerRadius(20)
-                                            .frame(width: 225, height: 200)
-                                            .clipped()
+                                    NavigationLink(
+                                        destination: SchoolView(selectedSchool: school.image),
+                                        label: {
+                                            Image("\(school.image)")
+                                                .resizable()
+                                                .cornerRadius(20)
+                                                .frame(width: 225, height: 200)
+                                                .clipped()
+                                        }
+                                    )
+                                    .onTapGesture {
+                                        selectedSchool = school.name
                                     }
                                     VStack(alignment: .leading, spacing: 8) {
                                         VStack(alignment: .leading, spacing: 4) {
@@ -164,6 +181,9 @@ struct ExplorePage: View {
                         }
                         .padding()
                     }
+                    
+                    
+                    //break
                     
                 }
                 .onAppear {
@@ -225,6 +245,7 @@ struct ExplorePage: View {
             print("Error getting documents: \(error)")
         }
     }
+
 }
 
 
