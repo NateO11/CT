@@ -64,7 +64,7 @@ struct LoginPage: View {
                         .foregroundColor(.blue)
                         .padding()
                 }
-                NavigationLink(destination: SignUp()) {
+                NavigationLink(destination: passwordReset()) {
                     Text("Forgot Your Password? Reset Here")
                         .foregroundColor(.blue)
                     

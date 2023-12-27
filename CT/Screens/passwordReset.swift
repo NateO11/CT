@@ -58,6 +58,7 @@ struct passwordReset: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 
 func resetPass() {
