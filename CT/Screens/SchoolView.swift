@@ -19,34 +19,50 @@ struct SchoolView: View {
     }
 
     var body: some View {
-        VStack {
-            Image(selectedSchoolImage)
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-
-            Text(selectedSchoolName)
-                .font(.title)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding()
+        ScrollView{
             
-            Text(selectedSchoolCity)
-                .font(.title)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding()
-          
-        }
-        .navigationBarTitle(Text("Back")) 
-        
-        
-        .onAppear {
-            Task {
-                await fetchDataFromFirestore()
+            VStack {
+                Image(selectedSchool)
+                    .resizable()
+                    .frame(height: 250)
+                    .scaledToFill()
+                    .clipped()
+                    .padding(.top)
+                
+                HStack {
+                    Text(selectedSchoolName)
+                        .font(.title)
+                        .fontWeight(.heavy)
+                        .padding(.horizontal)
+                    Spacer() // Pushes the text to the leading edge
+                }
+                
+                HStack {
+                    Text(selectedSchoolCity)
+                        .font(.title)
+                        .fontWeight(.light)
+                        .padding(.horizontal)
+                    Spacer() // Pushes the text to the leading edge
+                }
+                HStack{
+                    Text(selectedSchoolDescription)
+                        .font(.headline)
+                        .fontWeight(.light)
+                        .padding(.all)
+                    Spacer()
+                }
             }
         }
-    }
+            .navigationBarTitle(" ")
+            
+            
+            .onAppear {
+                Task {
+                    await fetchDataFromFirestore()
+                }
+            }
+        }
+    
     
     var selectedSchoolName: String {
         return firestoreSchools.first?.name ?? "School Name Not Found"
@@ -57,12 +73,16 @@ struct SchoolView: View {
     var selectedSchoolImage: String {
         return firestoreSchools.first?.image ?? "Image Not Found"
     }
+    var selectedSchoolDescription: String {
+        return firestoreSchools.first?.description ?? "Description Not Found"
+    }
 
     struct FirestoreSchoolList: Identifiable, Codable {
         @DocumentID var id: String?
         var city: String
         var image: String
         var name: String
+        var description: String
     }
 
     private func fetchDataFromFirestore() async {

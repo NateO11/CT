@@ -1,84 +1,85 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct SchoolSelect: View {
-    
-    @State private var searchText: String = ""
-    @State private var selected: String = ""
-    
-    var filteredSchools: [School] {
-        if searchText.isEmpty {
-            return schools
-        } else {
-            return schools.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
-    
+    @State private var schools: [SchoolModel] = []
+
     var body: some View {
-        VStack {
-                Text("Select a School")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.leading, 10)
-                
-                TextField("Search", text: $searchText)
-                    .padding(10)
-                    .background(Color(.systemGray5))
-                    .cornerRadius(8)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                
-            //spotty here but can kinda figure it out
-                List {
-                    ForEach(filteredSchools) { school in
-                        NavigationLink(destination: SchoolViewer(selectedSchool: school)) {
-                            SchoolListItem(school: school)
+        NavigationView {
+            VStack {
+                HStack {
+                    Text("Search")
+                        .font(.largeTitle)
+                        .padding(.all)
+                        .foregroundColor(.black)
+                        .bold()
+                        .fontWeight(.heavy)
+
+                    Spacer()
+                }
+
+                List(schools, id: \.id) { school in
+                    NavigationLink(destination: SchoolView(selectedSchool: school.image)) {
+                        HStack {
+                            // Display the image
+                            Image(school.image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                .shadow(radius: 10)
+
+                            // Display the name and city
+                            VStack(alignment: .leading) {
+                                Text(school.name)
+                                    .font(.headline)
+                                    .bold()
+                                Text(school.city)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
                     }
                 }
+                .listRowInsets(EdgeInsets(top: 30, leading: 10, bottom: 10, trailing: 10))
+            }
+            .onAppear {
+                fetchDataFromFirestore()
             }
         }
     }
-}
 
+    func fetchDataFromFirestore() {
+        let db = Firestore.firestore()
 
-/// lets
-struct SchoolListItem: View {
-    var school: School
-       
-    var body: some View {
-            ZStack {
-                
-                Image(school.imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 100)
-                    .blur(radius: 2)
-                
-                HStack{
-                    VStack{
-                        Spacer()
-                 
-                Text(school.name)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .background(Color.gray)
-                    .cornerRadius(8)
-                    .padding(.bottom, 10)
-                    .padding(.leading, 10)
-            }
-                Spacer()
+        db.collection("Schools").getDocuments { snapshot, _ in
+            if let documents = snapshot?.documents {
+                self.schools = documents.compactMap { document in
+                    guard let name = document.data()["name"] as? String,
+                          let city = document.data()["city"] as? String,
+                          let image = document.data()["image"] as? String else {
+                        return nil
+                    }
+                    return SchoolModel(id: document.documentID, name: name, city: city, image: image)
                 }
+            } else {
+                // Placeholder data if error occurs
+                self.schools = [SchoolModel(id: "1", name: "Error fetching data", city: "Error", image: "Error")]
             }
-            .clipped()
-            .cornerRadius(8)
-        }
-
-}
-
-struct SchoolSelect_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            SchoolSelect()
         }
     }
+}
+
+struct SchoolModel: Identifiable {
+    var id: String
+    var name: String
+    var city: String
+    var image: String
+}
+
+
+
+#Preview {
+    SchoolSelect()
 }

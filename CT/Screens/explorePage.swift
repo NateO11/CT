@@ -182,6 +182,41 @@ struct ExplorePage: View {
                         .padding()
                     }
                     
+                    // Large Image Section
+                    ZStack {
+                        Image("stockimage3")
+                            .resizable()
+                            .scaledToFill()
+                            .edgesIgnoringSafeArea(.all)
+
+                        VStack(alignment: .leading, spacing: 10) {
+                            Spacer()
+                            Text("I get no bitches")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+
+                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            Button(action: { }) {
+                                Text("Reviews")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .bold()
+                                    .background(Color.white)
+                                    .cornerRadius(30)
+                            }
+                        }
+                        .padding()
+                    }
+                    .padding(.bottom, 50)
+                    
+                    
+                    
+                    
+                    
                     
                     //break
                     

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct ProfilePage: View {
     
     // Model to represent the user profile
     struct UserProfile {
@@ -77,5 +77,5 @@ struct SwiftUIView: View {
 }
 
 #Preview {
-    SwiftUIView()
+    ProfilePage()
 }
