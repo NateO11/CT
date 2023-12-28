@@ -12,6 +12,8 @@ import FirebaseFirestore
 struct SchoolView: View {
     let selectedSchool: String
     @State private var firestoreSchools: [FirestoreSchoolList] = []
+    @State private var isShowingReviews = false
+
 
 
     init(selectedSchool: String) {
@@ -19,92 +21,108 @@ struct SchoolView: View {
     }
 
     var body: some View {
-        ScrollView{
-            
-            VStack {
-                Image(selectedSchool)
-                    .resizable()
-                    .frame(height: 250)
-                    .scaledToFill()
-                    .clipped()
-                    .padding(.top)
-                
-                HStack {
-                    Text(selectedSchoolName)
-                        .font(.title)
-                        .fontWeight(.heavy)
-                        .padding(.horizontal)
-                    Spacer() // Pushes the text to the leading edge
+        NavigationView {
+                ScrollView{
+                    
+                    VStack {
+                        Image(selectedSchoolImage)
+                            .resizable()
+                            .frame(height: 250)
+                            .scaledToFill()
+                            .clipped()
+                            .padding(.top)
+                        
+                        HStack {
+                            Text(selectedSchoolName)
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .padding(.horizontal)
+                            Spacer() // Pushes the text to the leading edge
+                        }
+                        
+                        HStack {
+                            Text(selectedSchoolCity)
+                                .font(.title)
+                                .fontWeight(.light)
+                                .padding(.horizontal)
+                            Spacer() // Pushes the text to the leading edge
+                        }
+                        HStack{
+                            Text(selectedSchoolDescription)
+                                .font(.headline)
+                                .fontWeight(.light)
+                                .padding(.all)
+                            Spacer()
+                        }
+
+                        // Button to navigate to the "Write a Review" screen
+                        NavigationLink(
+                            destination: Reviews(selectedSchool: selectedSchoolImage),
+                            isActive: $isShowingReviews,
+                            label: {
+                                Text("Write a Review")
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .background(Color.black)
+                                    .cornerRadius(8)
+                                    .padding(.top, 10)
+                            }
+                        )
+                    }
                 }
-                
-                HStack {
-                    Text(selectedSchoolCity)
-                        .font(.title)
-                        .fontWeight(.light)
-                        .padding(.horizontal)
-                    Spacer() // Pushes the text to the leading edge
-                }
-                HStack{
-                    Text(selectedSchoolDescription)
-                        .font(.headline)
-                        .fontWeight(.light)
-                        .padding(.all)
-                    Spacer()
+                .navigationBarTitle(" ")
+                .onAppear {
+                    Task {
+                        await fetchDataFromFirestore()
+                    }
                 }
             }
         }
-            .navigationBarTitle(" ")
-            
-            
-            .onAppear {
-                Task {
-                    await fetchDataFromFirestore()
+        
+        var selectedSchoolName: String {
+            return firestoreSchools.first?.name ?? "School Name Not Found"
+        }
+        
+        var selectedSchoolCity: String {
+            return firestoreSchools.first?.city ?? "City Not Found"
+        }
+        
+        var selectedSchoolImage: String {
+            return firestoreSchools.first?.image ?? "Image Not Found"
+        }
+        
+        var selectedSchoolDescription: String {
+            return firestoreSchools.first?.description ?? "Description Not Found"
+        }
+
+        struct FirestoreSchoolList: Identifiable, Codable {
+            @DocumentID var id: String?
+            var city: String
+            var image: String
+            var name: String
+            var description: String
+        }
+
+        private func fetchDataFromFirestore() async {
+            let db = Firestore.firestore()
+
+            do {
+                let documentSnapshots = try await db.collection("Schools")
+                    .whereField(FieldPath.documentID(), in: [selectedSchool])
+                    .getDocuments()
+
+                firestoreSchools = try documentSnapshots.documents.compactMap { document in
+                    try document.data(as: FirestoreSchoolList.self)
                 }
+
+                if firestoreSchools.isEmpty {
+                    print("No documents found or could not be parsed.")
+                }
+            } catch {
+                print("Error getting documents: \(error)")
             }
         }
-    
-    
-    var selectedSchoolName: String {
-        return firestoreSchools.first?.name ?? "School Name Not Found"
     }
-    var selectedSchoolCity: String {
-        return firestoreSchools.first?.city ?? "City Not Found"
-    }
-    var selectedSchoolImage: String {
-        return firestoreSchools.first?.image ?? "Image Not Found"
-    }
-    var selectedSchoolDescription: String {
-        return firestoreSchools.first?.description ?? "Description Not Found"
-    }
-
-    struct FirestoreSchoolList: Identifiable, Codable {
-        @DocumentID var id: String?
-        var city: String
-        var image: String
-        var name: String
-        var description: String
-    }
-
-    private func fetchDataFromFirestore() async {
-        let db = Firestore.firestore()
-
-        do {
-            let documentSnapshots = try await db.collection("Schools")
-                .whereField(FieldPath.documentID(), in: [selectedSchool])
-                .getDocuments()
-
-            firestoreSchools = try documentSnapshots.documents.compactMap { document in
-                try document.data(as: FirestoreSchoolList.self)
-            }
-
-            if firestoreSchools.isEmpty {
-                print("No documents found or could not be parsed.")
-            }
-        } catch {
-            print("Error getting documents: \(error)")
-        }
-    }
-}
 
 #Preview {
     SchoolView(selectedSchool: "Image")

@@ -35,12 +35,12 @@ struct ExplorePage: View {
 
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        StyledButton(icon: "book", title: "Schools")
-                                        StyledButton(icon: "mappin", title: "Locations")
+                                        StyledButton(icon: "book", title: "Schools", destination: SchoolSelect())
+                                        StyledButton(icon: "mappin", title: "Locations", destination: LocationsSearch())
                                     }
                                     VStack(alignment: .leading) {
-                                        StyledButton(icon: "graduationcap", title: "Academics")
-                                        StyledButton(icon: "sportscourt", title: "Athletics")
+                                        StyledButton(icon: "graduationcap", title: "Academics", destination: SchoolSelect())
+                                        StyledButton(icon: "sportscourt", title: "Athletics", destination: SchoolSelect())
                                     }
                                 }
                             }
@@ -230,12 +230,13 @@ struct ExplorePage: View {
         }
     }
 
-    struct StyledButton: View {
+    struct StyledButton<Destination: View>: View {
         let icon: String
         let title: String
+        let destination: Destination
 
         var body: some View {
-            Button(action: {}) {
+            NavigationLink(destination: destination) {
                 HStack(alignment: .center) {
                     Image(systemName: icon)
                         .foregroundColor(.blue)

@@ -34,7 +34,9 @@ struct ContentView: View {
                             Text("Profile")
                         }
                 }
+        .navigationBarBackButtonHidden(true)
             }
+
         }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
