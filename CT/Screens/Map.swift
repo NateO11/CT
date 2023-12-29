@@ -170,12 +170,12 @@ extension MapView {
             let querySnapshot = try await uvaLocationsCollectionRef.getDocuments()
             var locations: [FirestoreLocation] = []
 
-            print("Fetched \(querySnapshot.documents.count) location documents.")
+            print("Fetched \(querySnapshot.documents.count) location documents. Yay")
 
             for document in querySnapshot.documents {
                 do {
                     var location = try document.data(as: FirestoreLocation.self)
-                    print("Processing location: \(location.name), ID: \(location.id ?? "unknown")")
+                    print("Processing location: \(location.name), Category: \(location.category)")
 
                     let reviewsCollectionRef = uvaLocationsCollectionRef.document(document.documentID).collection("reviews")
                     let reviewsSnapshot = try await reviewsCollectionRef.getDocuments()
@@ -183,7 +183,8 @@ extension MapView {
                     location.reviews = reviewsSnapshot.documents.compactMap { reviewDoc in
                         let review = try? reviewDoc.data(as: FirestoreReview.self)
                         if let review = review {
-                            print("Fetched review for \(location.name): \(review.reviewerName)")
+                            print("Fetched review for \(location.name): ")
+                            print("\(review.reviewerName): \(review.rating) stars - \(review.comments)")
                         }
                         return review
                     }
@@ -196,6 +197,7 @@ extension MapView {
 
             firestoreLocations = locations
             print("Finished fetching and processing Firestore data.")
+            print()
         } catch {
             print("Error fetching locations from Firestore: \(error)")
         }

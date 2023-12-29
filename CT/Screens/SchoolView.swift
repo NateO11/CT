@@ -21,7 +21,7 @@ struct SchoolView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack() {
                 ScrollView{
                     
                     VStack {
@@ -56,18 +56,19 @@ struct SchoolView: View {
                         }
 
                         // Button to navigate to the "Write a Review" screen
-                        NavigationLink(
-                            destination: Reviews(selectedSchool: selectedSchoolImage),
-                            isActive: $isShowingReviews,
-                            label: {
-                                Text("Write a Review")
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.black)
-                                    .cornerRadius(8)
-                                    .padding(.top, 10)
+                        Button("Write a Review") {
+                                isShowingReviews = true
                             }
-                        )
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black)
+                            .cornerRadius(8)
+                            .padding(.top, 10)
+
+                            // Define the navigation destination
+                            .navigationDestination(isPresented: $isShowingReviews) {
+                                Reviews(selectedSchool: selectedSchoolImage)
+                            }
                     }
                 }
                 .navigationBarTitle(" ")
