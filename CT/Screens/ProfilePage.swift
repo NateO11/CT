@@ -7,14 +7,16 @@
 
 import SwiftUI
 
+struct UserProfile {
+    var name: String
+    var school: String
+    var profilePicture: String
+}
+
 struct ProfilePage: View {
     
     // Model to represent the user profile
-    struct UserProfile {
-        var name: String
-        var school: String
-        var profilePicture: String
-    }
+    
     
     // Example user profile
     @State private var user = UserProfile(name: "Nate Owen", school: "Swift University", profilePicture: "UVA")

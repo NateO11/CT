@@ -115,10 +115,12 @@ struct MapView: View {
                                     showReviews.toggle()
                                 }) {
                                     Text("Add Review")
-                                        .padding()
-                                        .background(Color.blue)
                                         .foregroundColor(.white)
-                                        .cornerRadius(10)
+                                        .padding()
+                                        .background(Color.black)
+                                        .cornerRadius(8)
+                                        .padding(.trailing, 20)
+                                        .padding(.bottom, 20)
                                 }
                                 .padding()
                                 .sheet(isPresented: $showReviews) {
@@ -206,14 +208,28 @@ extension MapView {
 
 extension MapView {
     func addReview(firestoreLocation: FirestoreLocation, review: FirestoreReview) {
-        guard let index = firestoreLocations.firstIndex(where: { $0.id == firestoreLocation.id }) else {
-            return
-        }
+        // Correctly reference the Firestore path
+        let db = Firestore.firestore()
+        let locationRef = db.collection("Schools").document("UVA")
+                          .collection("uvaLocations").document(firestoreLocation.id ?? "")
 
-        firestoreLocations[index].reviews.append(review)
-        print(firestoreLocations[index].reviews)
+        locationRef.collection("reviews").addDocument(data: [
+            "reviewerName": review.reviewerName,
+            "rating": review.rating,
+            "comments": review.comments
+        ]) { error in
+            if let error = error {
+                print("Error adding review: \(error)")
+            } else {
+                // Update local state
+                if let index = firestoreLocations.firstIndex(where: { $0.id == firestoreLocation.id }) {
+                    firestoreLocations[index].reviews.append(review)
+                }
+            }
+        }
     }
 }
+
 
 
 #Preview {
