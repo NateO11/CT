@@ -11,12 +11,6 @@ import Foundation
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-struct Review {
-    var reviewerName: String
-    var rating: Int
-    var comments: String
-}
-
 struct ReviewSubmissionForm: View {
     var firestoreLocation: FirestoreLocation
     var onReviewSubmit: (FirestoreReview) -> Void

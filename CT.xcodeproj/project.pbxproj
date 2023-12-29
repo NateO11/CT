@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */; };
-		A1056CCA2B3E24CA0072E050 /* MapLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CC92B3E24CA0072E050 /* MapLocationManager.swift */; };
 		A1056CCC2B3E24EA0072E050 /* MapReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CCB2B3E24EA0072E050 /* MapReviewManager.swift */; };
 		A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */; };
 		A1CE22072B3B8B2E00A820E3 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CE22062B3B8B2E00A820E3 /* Map.swift */; };
@@ -60,7 +59,6 @@
 
 /* Begin PBXFileReference section */
 		A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryManager.swift; sourceTree = "<group>"; };
-		A1056CC92B3E24CA0072E050 /* MapLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationManager.swift; sourceTree = "<group>"; };
 		A1056CCB2B3E24EA0072E050 /* MapReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapReviewManager.swift; sourceTree = "<group>"; };
 		A1A0C2692B269A5B00C0F5C7 /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		A1CE22062B3B8B2E00A820E3 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */,
-				A1056CC92B3E24CA0072E050 /* MapLocationManager.swift */,
 				A1056CCB2B3E24EA0072E050 /* MapReviewManager.swift */,
 			);
 			path = MapFolder;
@@ -395,7 +392,6 @@
 				E6D2D3592B2B84C50093872A /* SignUp.swift in Sources */,
 				E670FAD12B268F6D00BB3692 /* ContentView.swift in Sources */,
 				E60F7C772B3E0A1600468BCC /* LocationsSearch.swift in Sources */,
-				A1056CCA2B3E24CA0072E050 /* MapLocationManager.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
 				E6D2D3802B3BD3910093872A /* explorePage.swift in Sources */,
 				A1A0C26A2B269A5B00C0F5C7 /* Reviews.swift in Sources */,

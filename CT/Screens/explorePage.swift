@@ -36,7 +36,7 @@ struct ExplorePage: View {
                                 HStack {
                                     VStack(alignment: .leading) {
                                         StyledButton(icon: "book", title: "Schools", destination: SchoolSelect())
-                                        StyledButton(icon: "mappin", title: "Locations", destination: LocationsSearch())
+                                        StyledButton(icon: "mappin", title: "Locations", destination: MapView())
                                     }
                                     VStack(alignment: .leading) {
                                         StyledButton(icon: "graduationcap", title: "Academics", destination: SchoolSelect())
