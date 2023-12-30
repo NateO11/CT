@@ -1,9 +1,4 @@
-//
-//  Reviews.swift
-//  CT
-//
-//  Created by Griffin Harrison on 12/10/23.
-//
+
 //
 //  Reviews.swift
 //  CT

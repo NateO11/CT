@@ -21,16 +21,17 @@ struct SchoolView: View {
     }
 
     var body: some View {
-        NavigationStack() {
+        NavigationStack{
                 ScrollView{
-                    
                     VStack {
+                        
                         Image(selectedSchoolImage)
                             .resizable()
                             .frame(height: 250)
                             .scaledToFill()
                             .clipped()
-                            .padding(.top)
+                            .padding()
+                        
                         
                         HStack {
                             Text(selectedSchoolName)
@@ -69,6 +70,7 @@ struct SchoolView: View {
                             .navigationDestination(isPresented: $isShowingReviews) {
                                 Reviews(selectedSchool: selectedSchoolImage)
                             }
+                       
                     }
                 }
                 .navigationBarTitle(" ")
@@ -80,6 +82,11 @@ struct SchoolView: View {
             }
         }
         
+//    
+//    All of these are returning the firestore name/city/image and then text not found as a placeholder
+//
+//
+    
         var selectedSchoolName: String {
             return firestoreSchools.first?.name ?? "School Name Not Found"
         }
@@ -96,6 +103,11 @@ struct SchoolView: View {
             return firestoreSchools.first?.description ?? "Description Not Found"
         }
 
+//
+//    I beleive this is acting as an enumerated data structure
+//
+//
+//
         struct FirestoreSchoolList: Identifiable, Codable {
             @DocumentID var id: String?
             var city: String

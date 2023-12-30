@@ -12,6 +12,8 @@ struct SignUp: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var email: String = ""
+    @State private var name: String = ""
+    @State private var ID: String = ""
     @State private var confirmPassword: String = ""
     @State private var errorLogin: Bool = false
     
@@ -33,7 +35,14 @@ struct SignUp: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 100, height: 100)
-                    .padding(.bottom, 30)
+                    
+                
+                TextField("First Name", text: $name)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .padding()
+                    .shadow(radius: 10)
 
                 TextField("Username", text: $username)
                     .padding()
@@ -78,7 +87,7 @@ struct SignUp: View {
 
                 // Conditional NavigationLink based on AuthState
                 NavigationLink(
-                    destination: LoginPage(),
+                    destination: ExplorePage(ID: ID),
                     isActive: $authState.signedIn,
                     label: { EmptyView()}
                    
@@ -108,24 +117,27 @@ struct SignUp: View {
     }
 
     func createUser() {
-        if email != "" && password != "" && username != "" && confirmPassword != "" {
-            if confirmPassword == password {
-                    Auth.auth().createUser(withEmail: email, password: password) { (res, err) in
-                        if err != nil {
-                            errorLogin = true
-                            print("\(String(describing: err))")
-                            return
-                        } else {
-                            errorLogin = false
-                            createUserInfo()
-                        }
-                    
+        Task {
+            if name != "" && email != "" && password != "" && username != "" && confirmPassword != "" {
+                if confirmPassword == password {
+                    do {
+                        try await Auth.auth().createUser(withEmail: email, password: password)
+                        errorLogin = false
+                        createUserInfo()
+                        await getID(forEmail: email)
+                    } catch {
+                        errorLogin = true
+                        print("Error creating user:", error.localizedDescription)
+                    }
+                } else {
+                    errorLogin = true
                 }
+            } else {
+                errorLogin = true
             }
-            errorLogin = true
         }
-        errorLogin = true
     }
+
     
 
     func createUserInfo() {
@@ -135,7 +147,7 @@ struct SignUp: View {
 
         let userRef = db.collection("Users").document(userID!)
 
-        userRef.setData(["UserEmail": userEmail, "Username": username, "Password": password, "UserID": userID!]) { error in
+        userRef.setData(["Name": userEmail, "UserEmail": userEmail, "Username": username, "Password": password, "UserID": userID!]) { error in
             if error != nil {
                 print("Error updating document")
             } else {
@@ -146,6 +158,33 @@ struct SignUp: View {
             }
         }
     }
+    
+    func getID(forEmail email: String) async {
+        let db = Firestore.firestore()
+
+        do {
+            let querySnapshot = try await db.collection("Users").getDocuments()
+
+            for document in querySnapshot.documents {
+                if let userEmail = (document.data()["UserEmail"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
+                   userEmail.caseInsensitiveCompare(email.trimmingCharacters(in: .whitespacesAndNewlines)) == .orderedSame {
+                    let documentID = document.documentID
+                    print("ID found: \(documentID)")
+                    // Save the document ID to the variable ID
+                    self.ID = documentID
+
+                    return // Break the loop once a match is found
+                }
+            }
+
+            // If no match is found
+            print("No document found with the specified email.")
+            print("Email to search: \(email)")
+        } catch {
+            print("Error getting documents: \(error)")
+        }
+    }
+    
 }
 
 #Preview {

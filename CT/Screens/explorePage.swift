@@ -9,29 +9,33 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 struct ExplorePage: View {
+    
+    // this is an array list from the schools that are chosen to be displayed
     @State private var firestoreSchools: [FirestoreSchoolList] = []
     @State private var selectedSchool: String?
+    
+    // string to hold the ID name
+    let ID: String
 
+
+    init(ID: String) {
+        self.ID = ID
+    }
 
     var body: some View {
         NavigationView {
-            ScrollView() {
+            ScrollView {
                 VStack {
+                    
                     // Top Buttons Section
                     VStack {
                         ZStack {
-                            Rectangle()
-                                .fill(Color.blue)
-                                .frame(height: 300)
-                                .edgesIgnoringSafeArea(.all)
+                            BlueRectangleView()
 
                             VStack(alignment: .leading) {
-                                Text("Explore Schools")
-                                    .font(.largeTitle)
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .bold()
-                                    .fontWeight(.heavy)
+                                welcomeNameText(username: ID)
+                                underlineRectangle()
+                                explorePageTitleText()
 
                                 HStack {
                                     VStack(alignment: .leading) {
@@ -48,42 +52,26 @@ struct ExplorePage: View {
                         }
                     }
                     .padding(.bottom, 10)
-
+                    
                     // Large Image Section
                     ZStack {
-                        Image("stockimage1")
-                            .resizable()
-                            .scaledToFill()
-                            .edgesIgnoringSafeArea(.all)
+                        largeImageBackground(imageName: "stockimage1")
 
                         VStack(alignment: .leading, spacing: 10) {
                             Spacer()
-                            Text("Discover Your Future")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundColor(.white)
-
-                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            Button(action: { }) {
-                                Text("Reviews")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .bold()
-                                    .background(Color.white)
-                                    .cornerRadius(30)
-                            }
+                            largeImageTitleText(text: "Discover Your Future")
+                            largeImageSmallText(text: "Read reviews from current students to help you learn information about what you want in a dream school")
+                            largeReviewsButton()
                         }
                         .padding()
                     }
                     .padding(.bottom, 50)
-
-                    // Small Images Horizontal Section
                     
+                    // Small Images Horizontal Section
                     ScrollView(.horizontal) {
                         HStack(spacing: 16) {
+                            
+                            //display list for each school defined
                             ForEach(firestoreSchools) { school in
                                 VStack(alignment: .leading) {
                                     NavigationLink(
@@ -114,41 +102,22 @@ struct ExplorePage: View {
                         }
                         .padding()
                     }
-
                     
                     // Large Image Section
                     ZStack {
-                        Image("stockimage2")
-                            .resizable()
-                            .scaledToFill()
-                            .edgesIgnoringSafeArea(.all)
+                        largeImageBackground(imageName: "stockimage2")
 
                         VStack(alignment: .leading, spacing: 10) {
                             Spacer()
-                            Text("Find Your Next Step")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundColor(.white)
-
-                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            Button(action: { }) {
-                                Text("Reviews")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .bold()
-                                    .background(Color.white)
-                                    .cornerRadius(30)
-                            }
+                            largeImageTitleText(text: "Find Your Next Step")
+                            largeImageSmallText(text: "Read reviews from current students to help you learn information about what you want in a dream school")
+                            largeMapsButton()
                         }
                         .padding()
                     }
                     .padding(.bottom, 50)
                     
                     // Small Images Horizontal Section
-                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 16) {
                             ForEach(firestoreSchools) { school in
@@ -184,41 +153,19 @@ struct ExplorePage: View {
                     
                     // Large Image Section
                     ZStack {
-                        Image("stockimage3")
-                            .resizable()
-                            .scaledToFill()
-                            .edgesIgnoringSafeArea(.all)
+                        largeImageBackground(imageName: "stockimage3")
 
                         VStack(alignment: .leading, spacing: 10) {
                             Spacer()
-                            Text("I get no bitches")
-                                .font(.largeTitle)
-                                .fontWeight(.heavy)
-                                .foregroundColor(.white)
-
-                            Text("Read reviews from current students to help you learn information about what you want in a dream school ")
-                                .font(.headline)
-                                .foregroundColor(.white)
-
-                            Button(action: { }) {
-                                Text("Reviews")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .bold()
-                                    .background(Color.white)
-                                    .cornerRadius(30)
-                            }
+                            largeImageTitleText(text: "Find Your Next Step")
+                            largeImageSmallText(text: "Read reviews from current students to help you learn information about what you want in a dream school")
+                            largeReviewsButton()
                         }
                         .padding()
                     }
                     .padding(.bottom, 50)
                     
-                    
-                    
-                    
-                    
-                    
-                    //break
+                    bottomText(text: "Contact us at CollegeTour@gmail.com")
                     
                 }
                 .onAppear {
@@ -227,9 +174,84 @@ struct ExplorePage: View {
                     }
                 }
             }
+           
+        }
+        .navigationBarBackButtonHidden(true)
+    }
+
+    
+//    
+//    
+//    TOP SECTION
+//
+    
+    struct BlueRectangleView: View {
+        var body: some View {
+            Rectangle()
+                .fill(Color.blue)
+                .frame(height: 300)
+                .edgesIgnoringSafeArea(.all)
+        }
+    }
+    
+    
+    struct explorePageTitleText: View {
+        var body: some View {
+            Text("Explore Schools")
+                .font(.largeTitle)
+                .padding(.bottom)
+                .foregroundColor(.white)
+                .bold()
+                .fontWeight(.heavy)
+        }
+    }
+    
+    struct welcomeNameText: View {
+        let username: String
+        
+        @State private var name: String = "'placeholdername'"
+
+        var body: some View {
+            Text("Welcome \(name)")
+                .font(.title)
+                .padding(.bottom, 1)
+                .foregroundColor(.white)
+                .onAppear {
+                    Task {
+                        await getUsername(forID: username)
+                    }
+                }
+        }
+
+        func getUsername(forID documentID: String) async {
+            let db = Firestore.firestore()
+
+            do {
+                let documentSnapshot = try await db.collection("Users").document(documentID).getDocument()
+
+                if let username = documentSnapshot.data()?["Username"] as? String {
+                    // Save the username to the variable name
+                    self.name = username
+                    print("Username found: \(username)")
+                } else {
+                    print("No Username field found in the document with ID: \(documentID)")
+                }
+            } catch {
+                print("Error getting document: \(error)")
+            }
         }
     }
 
+    
+    struct underlineRectangle: View {
+        var body: some View {
+            Rectangle()
+                .fill(Color.white)
+                .frame(width: 250,height: 1)
+                .edgesIgnoringSafeArea(.all)
+        }
+    }
+    
     struct StyledButton<Destination: View>: View {
         let icon: String
         let title: String
@@ -249,12 +271,113 @@ struct ExplorePage: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading)
             }
-            .frame(width: 170, height: 60)
+            .frame(width: 160, height: 60)
             .background(Color.white)
             .cornerRadius(40)
         }
     }
+    
+//    
+//    LARGE IMAGE SECTION
+//
+//    
+    
+    struct largeImageBackground: View {
+        
+        let imageName: String
+        
+        var body: some View {
+            
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+        }
+    }
+    
+    struct largeImageTitleText: View {
+        
+        let text: String
+        
+        var body: some View {
+            Text(text)
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .foregroundColor(.white)
+        }
+    }
+    
+    struct largeImageSmallText: View {
+        
+        let text: String
 
+        var body: some View {
+            
+            Text(text)
+                .font(.headline)
+                .foregroundColor(.white)
+
+        }
+    }
+    
+    struct largeReviewsButton: View {
+        var body: some View {
+            
+            Button(action: { }) {
+                Text("Reviews")
+                    .foregroundColor(.black)
+                    .padding()
+                    .bold()
+                    .background(Color.white)
+                    .cornerRadius(30)
+            }
+        }
+    }
+    
+    struct largeMapsButton: View {
+        var body: some View {
+            
+            HStack{
+                Spacer()
+                Button(action: { }) {
+                    Text("View Maps")
+                        .foregroundColor(.black)
+                        .padding()
+                        .bold()
+                        .background(Color.white)
+                        .cornerRadius(30)
+                }
+            }
+        }
+    }
+    
+//    
+//    
+//    FOOTER TEXT
+//
+    
+    struct bottomText: View {
+      
+        let text: String
+        
+        var body: some View {
+            
+            Text(text)
+                .font(.caption2)
+                .fontWeight(.thin)
+                
+        }
+    }
+ 
+//    
+//    FIREBASE
+//
+    
+    
+
+    
+    
     struct FirestoreSchoolList: Identifiable, Codable {
         @DocumentID var id: String?
         var city: String
@@ -288,6 +411,6 @@ struct ExplorePage: View {
 
 struct ExplorePage_Previews: PreviewProvider {
     static var previews: some View {
-        ExplorePage()
+        ExplorePage(ID: "text")
     }
 }
