@@ -87,7 +87,7 @@ struct SignUp: View {
 
                 // Conditional NavigationLink based on AuthState
                 NavigationLink(
-                    destination: ExplorePage(ID: ID),
+                    destination: ProfilePage(),
                     isActive: $authState.signedIn,
                     label: { EmptyView()}
                    

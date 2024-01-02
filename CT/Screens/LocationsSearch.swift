@@ -8,7 +8,7 @@
 import SwiftUI
 import FirebaseFirestore
 
-struct LocationsSearch: View {
+/* struct LocationsSearch: View {
     
     @State private var schools: [SchoolModel] = []
 
@@ -100,3 +100,4 @@ struct SchoolModels: Identifiable {
 #Preview {
     LocationsSearch()
 }
+*/

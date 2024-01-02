@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseFirestoreSwift
 import FirebaseFirestore
 
-struct SchoolView: View {
+struct OldSchoolView: View {
     let selectedSchool: String
     @State private var firestoreSchools: [FirestoreSchoolList] = []
     @State private var isShowingReviews = false
@@ -82,7 +82,7 @@ struct SchoolView: View {
             }
         }
         
-//    
+//
 //    All of these are returning the firestore name/city/image and then text not found as a placeholder
 //
 //
@@ -137,6 +137,3 @@ struct SchoolView: View {
         }
     }
 
-#Preview {
-    SchoolView(selectedSchool: "Image")
-}

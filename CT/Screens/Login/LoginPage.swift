@@ -43,7 +43,7 @@ struct LoginPage: View {
                     .padding()
                     .shadow(radius: 10)
 
-                Button {
+                Button() {
                     Task {
                         await validateUser()
                     }
@@ -60,7 +60,7 @@ struct LoginPage: View {
 
                 if authState.signedIn {
                     NavigationLink(" "
-                                   , destination: ExplorePage(ID: ID),
+                                   , destination: ExploreView(viewModel: ExploreViewModel()),
                         isActive: $authState.signedIn
                        
                     )

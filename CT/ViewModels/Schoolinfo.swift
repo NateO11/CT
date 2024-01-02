@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct School: Identifiable, Hashable {
+/* struct School: Identifiable, Hashable {
     var id = UUID()
     var name: String
     var imageName: String
@@ -25,3 +25,4 @@ let schools = [
 
 
 
+*/

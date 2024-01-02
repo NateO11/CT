@@ -1,6 +1,6 @@
 import SwiftUI
 import FirebaseFirestore
-
+/*
 struct SchoolSelect: View {
     @State private var schools: [SchoolModel] = []
 
@@ -83,3 +83,4 @@ struct SchoolModel: Identifiable {
 #Preview {
     SchoolSelect()
 }
+*/

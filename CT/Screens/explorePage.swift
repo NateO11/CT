@@ -7,7 +7,7 @@
 import SwiftUI
 import FirebaseFirestoreSwift
 import FirebaseFirestore
-
+/*
 struct ExplorePage: View {
     
     // this is an array list from the schools that are chosen to be displayed
@@ -40,7 +40,7 @@ struct ExplorePage: View {
                                 HStack {
                                     VStack(alignment: .leading) {
                                         StyledButton(icon: "book", title: "Schools", destination: SchoolSelect())
-                                        StyledButton(icon: "mappin", title: "Locations", destination: MapView())
+                                        StyledButton(icon: "mappin", title: "Locations", destination: SchoolSelect())
                                     }
                                     VStack(alignment: .leading) {
                                         StyledButton(icon: "graduationcap", title: "Academics", destination: SchoolSelect())
@@ -75,7 +75,7 @@ struct ExplorePage: View {
                             ForEach(firestoreSchools) { school in
                                 VStack(alignment: .leading) {
                                     NavigationLink(
-                                        destination: SchoolView(selectedSchool: school.image),
+                                        destination: OldSchoolView(selectedSchool: school.image),
                                         label: {
                                             Image("\(school.image)")
                                                 .resizable()
@@ -123,7 +123,7 @@ struct ExplorePage: View {
                             ForEach(firestoreSchools) { school in
                                 VStack(alignment: .leading) {
                                     NavigationLink(
-                                        destination: SchoolView(selectedSchool: school.image),
+                                        destination: OldSchoolView(selectedSchool: school.image),
                                         label: {
                                             Image("\(school.image)")
                                                 .resizable()
@@ -414,3 +414,4 @@ struct ExplorePage_Previews: PreviewProvider {
         ExplorePage(ID: "text")
     }
 }
+*/

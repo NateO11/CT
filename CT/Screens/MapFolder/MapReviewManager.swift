@@ -4,7 +4,7 @@
 //
 //  Created by Griffin Harrison on 12/28/23.
 //
-
+/*
 import SwiftUI
 import MapKit
 import Foundation
@@ -77,12 +77,12 @@ struct ReviewSubmissionForm: View {
 }
 
 struct ReviewDisplayView: View {
-    var firestoreLocation: FirestoreLocation?
+    var location: Location?
 
     var body: some View {
-        if let firestoreLocation = firestoreLocation {
+        if let location = Location {
             VStack(spacing: 20) {
-                Text("Student reviews - \(firestoreLocation.name)")
+                Text("Student reviews - \(location.name)")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.top, 10)
@@ -129,3 +129,4 @@ struct ReviewDisplayView: View {
     }
 }
 
+*/
