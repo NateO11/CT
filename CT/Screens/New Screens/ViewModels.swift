@@ -66,9 +66,8 @@ class CollegeDetailViewModel: ObservableObject {
                     print("Invalid or missing coordinate for location \(name)")
                     return nil
                 }
-                let coordinate = CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
 
-                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
+                return Location(id: id, name: name, description: description, coordinate: geoPoint, category: category)
             }
         }
     }
@@ -133,6 +132,7 @@ class MapViewModel: ObservableObject {
 
     // Call this method to fetch locations
     func fetchLocations() {
+        print(currentCollegeName)
         db.collection("Schools").document(currentCollegeName).collection("uvaLocations")
           .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
@@ -143,7 +143,7 @@ class MapViewModel: ObservableObject {
             self.locations = documents.compactMap { doc -> Location? in
                 // Parse the document into a Location object
                 let data = doc.data()
-                let id = doc.documentID
+                let id = data["id"] as? String ?? ""
                 let name = data["name"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let category = data["category"] as? String ?? ""
@@ -153,10 +153,9 @@ class MapViewModel: ObservableObject {
                     print("Invalid or missing coordinate for location \(name)")
                     return nil // Return nil if GeoPoint is invalid
                 }
-                let coordinate = CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
 
                 // Return a Location object or nil
-                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
+                return Location(id: id, name: name, description: description, coordinate: geoPoint, category: category)
             }
             print("Fetched locations: \(self.locations)")
 

@@ -24,7 +24,7 @@ struct Location: Identifiable {
     let id: String
     let name: String
     let description: String
-    let coordinate: CLLocationCoordinate2D
+    let coordinate: GeoPoint
     let category: String
     // Other location properties
 }

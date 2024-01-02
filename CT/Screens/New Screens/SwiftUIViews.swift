@@ -120,11 +120,12 @@ struct MapView: View {
         CategorySelectView(selectedCategory: $selectedCategory, showCategorySelect: $showCategorySelect)
     }
     
+    
     var body: some View {
         NavigationStack() {
-            Map(initialPosition: defaultPosition, selection: $viewModel.mapSelectionName) {
-                ForEach(viewModel.locations, id: \.id) { location in
-                    Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
+            Map(initialPosition: defaultPosition) {
+                ForEach(viewModel.filteredLocations, id: \.id) { location in
+                    Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -78))
                         .tint(colorForCategory(location.category))
                 }
             }
