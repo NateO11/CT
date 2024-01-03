@@ -19,7 +19,7 @@ struct ProfilePage: View {
     
     
     // Example user profile
-    @State private var user = UserProfile(name: "Nate Owen", school: "Swift University", profilePicture: "UVA")
+    @State private var user = UserProfile(name: "Nate  Owen", school: "Swift University", profilePicture: "UVA")
     
     
     var body: some View {
