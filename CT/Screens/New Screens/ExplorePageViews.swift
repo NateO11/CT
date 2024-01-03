@@ -68,9 +68,10 @@ struct HorizontalSchoolsScrollView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 ForEach(colleges, id: \.id) { college in
-                    NavigationLink(destination: MapView(viewModel: MapViewModel(currentCollegeName: college.name))) {
+                    NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
                         SchoolCard(college: college)
                     }
+                    // MapView(viewModel: MapViewModel(currentCollegeName: college.name))
                 }
             }
             .padding(.horizontal)
@@ -93,6 +94,7 @@ struct SchoolCard: View {
                 Text(college.name)
                     .fontWeight(.heavy)
                     .font(.title3)
+                    .foregroundColor(.black)
                 // Include other college details if needed
             }
         }
