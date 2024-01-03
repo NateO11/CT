@@ -15,6 +15,7 @@ class ExploreViewModel: ObservableObject {
     @Published var colleges: [College] = []
 
     private var db = Firestore.firestore()
+    
 
     func fetchColleges() {
         db.collection("Schools").addSnapshotListener { querySnapshot, error in
@@ -46,6 +47,10 @@ class CollegeDetailViewModel: ObservableObject {
     init(college: College) {
         self.college = college
     }
+    
+    func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+    }
 
     func fetchLocations() {
         db.collection("Schools").document(college.id).collection("uvaLocations").addSnapshotListener { querySnapshot, error in
@@ -66,8 +71,10 @@ class CollegeDetailViewModel: ObservableObject {
                     print("Invalid or missing coordinate for location \(name)")
                     return nil
                 }
+                
+                let coordinate = self.convertGeoPointToCoordinate(geoPoint)
 
-                return Location(id: id, name: name, description: description, coordinate: geoPoint, category: category)
+                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
             }
         }
     }
@@ -129,6 +136,11 @@ class MapViewModel: ObservableObject {
             self.currentCollegeName = currentCollegeName
             // ... other initializations ...
         }
+    
+    func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+    }
+
 
     // Call this method to fetch locations
     func fetchLocations() {
@@ -153,9 +165,11 @@ class MapViewModel: ObservableObject {
                     print("Invalid or missing coordinate for location \(name)")
                     return nil // Return nil if GeoPoint is invalid
                 }
+                
+                let coordinate = self.convertGeoPointToCoordinate(geoPoint)
 
                 // Return a Location object or nil
-                return Location(id: id, name: name, description: description, coordinate: geoPoint, category: category)
+                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
             }
             print("Fetched locations: \(self.locations)")
 

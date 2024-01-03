@@ -68,7 +68,7 @@ struct HorizontalSchoolsScrollView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 ForEach(colleges, id: \.id) { college in
-                    NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
+                    NavigationLink(destination: MapView(viewModel: MapViewModel(currentCollegeName: college.name))) {
                         SchoolCard(college: college)
                     }
                 }

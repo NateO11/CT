@@ -125,7 +125,7 @@ struct MapView: View {
         NavigationStack() {
             Map(initialPosition: defaultPosition) {
                 ForEach(viewModel.filteredLocations, id: \.id) { location in
-                    Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -78))
+                    Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
                         .tint(colorForCategory(location.category))
                 }
             }
