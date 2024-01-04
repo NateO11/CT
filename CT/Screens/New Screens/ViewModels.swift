@@ -53,7 +53,7 @@ class CollegeDetailViewModel: ObservableObject {
     }
 
     func fetchLocations() {
-        db.collection("Schools").document(college.id).collection("uvaLocations").addSnapshotListener { querySnapshot, error in
+        db.collection("Schools").document(college.id).collection("Locations").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No locations found for college \(self.college.name)")
                 return
@@ -86,7 +86,7 @@ class LocationViewModel: ObservableObject {
     private var db = Firestore.firestore()
 
     func fetchReviews(forLocation locationID: String) {
-        db.collection("uvaLocations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
+        db.collection("Locations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No reviews found for location")
                 return
@@ -145,7 +145,7 @@ class MapViewModel: ObservableObject {
     // Call this method to fetch locations
     func fetchLocations() {
         print(currentCollegeName)
-        db.collection("Schools").document(currentCollegeName).collection("uvaLocations")
+        db.collection("Schools").document(currentCollegeName).collection("Locations")
           .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No locations found for college \(self.currentCollegeName): \(error?.localizedDescription ?? "")")

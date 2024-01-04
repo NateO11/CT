@@ -46,62 +46,53 @@ struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                // Horizontal Scroll of Photos
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        ForEach(1..<5) { _ in
-                            Image(viewModel.college.image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 300, height: 200)
-                                .clipped()
-                                .cornerRadius(10)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    // Horizontal Scroll of Photos
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(1..<5) { _ in
+                                Image(viewModel.college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 300, height: 200)
+                                    .clipped()
+                                    .cornerRadius(10)
+                            }
                         }
                     }
-                }
-                .frame(height: 200)
+                    .frame(height: 200)
 
-                // School Information
-                Text(viewModel.college.name)
-                    .font(.largeTitle)
-                    .fontWeight(.medium)
-                    
+                    // School Information
+                    Text(viewModel.college.name)
+                        .font(.largeTitle)
+                        .fontWeight(.medium)
+                        
 
-                Text(viewModel.college.city)
-                    .font(.title3)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 5)
+                    Text(viewModel.college.city)
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 5)
 
-                Text(viewModel.college.description)
-                    .padding(.bottom, 10)
+                    Text(viewModel.college.description)
+                        .padding(.bottom, 10)
 
-                // Reviews Section
-                // Assuming you have a View for displaying reviews
-                // ReviewsView(reviews: viewModel.reviews)
+                    // Reviews Section
+                    // Assuming you have a View for displaying reviews
+                    // ReviewsView(reviews: viewModel.reviews)
 
-                // Navigation Buttons
-                HStack {
-                    Button("View Map") {
-                        // Navigate to MapView
+                    // Navigation Buttons
+                    HStack(alignment: .top) {
+                        StyledButtonDark(icon: "mappin", title: "Locations", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
+                        StyledButtonDark(icon: "mappin", title: "Locations", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
                     }
-                    .buttonStyle(.borderedProminent)
-
-                    Button("Write a Review") {
-                        // Trigger action to write a review
-                    }
-                    .buttonStyle(.bordered)
                 }
-
-                // Map Preview (Optional)
-                MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name))
-                    .frame(height: 300)
+                .padding()
             }
-            .padding()
+            .onAppear {
+                viewModel.fetchLocations()
         }
-        .onAppear {
-            viewModel.fetchLocations()
         }
     }
 }
@@ -159,7 +150,11 @@ struct MapView: View {
     @ObservedObject var viewModel: MapViewModel
 
     @State private var showCategorySelect = false
-    @State private var selectedCategory = "All"
+    @State private var selectedCategory = "All" {
+            didSet {
+                viewModel.updateFilteredLocations(forCategory: selectedCategory)
+            }
+        }
     @State private var mapSelectionName: String? = nil
     @State private var selectedLocation: Location? = nil
     @State private var showReviews: Bool = false
@@ -206,6 +201,9 @@ struct MapView: View {
                 viewModel.fetchLocations()
         }
         }
+        .onChange(of: selectedCategory) { oldCategory, newCategory in
+                    viewModel.updateFilteredLocations(forCategory: newCategory)
+                }
         // ... rest of your view
     }
 }

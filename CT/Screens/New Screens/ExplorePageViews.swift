@@ -74,6 +74,7 @@ struct HorizontalSchoolsScrollView: View {
                         SchoolCard(college: college)
                     }
                     // MapView(viewModel: MapViewModel(currentCollegeName: college.name))
+                    // SchoolView(viewModel: CollegeDetailViewModel(college: college))
                 }
             }
             .padding(.horizontal)
@@ -182,6 +183,32 @@ struct StyledButton<Destination: View>: View {
         .cornerRadius(40)
     }
 }
+
+struct StyledButtonDark<Destination: View>: View {
+    let icon: String
+    let title: String
+    let destination: Destination
+
+    var body: some View {
+        NavigationLink(destination: destination) {
+            HStack(alignment: .center) {
+                Image(systemName: icon)
+                    .foregroundColor(.white)
+                    .bold()
+                Text(title)
+                    .foregroundColor(.white)
+                    .padding(.leading, 5)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
+        }
+        .frame(width: 160, height: 60)
+        .background(Color.blue)
+        .cornerRadius(40)
+    }
+}
+
 
 
 struct largeImageBackground: View {
