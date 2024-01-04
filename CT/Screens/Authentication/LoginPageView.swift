@@ -63,7 +63,7 @@ struct LoginPageView: View {
                 if authState.signedIn {
                     NavigationLink(
                         "Loading...",
-                        destination: ExploreView(viewModel: ExploreViewModel()),
+                        destination: ExploreView(viewModel: ExploreViewModel(),ID: ID),
                         isActive: $authState.signedIn
                     )
                     .navigationBarHidden(true)

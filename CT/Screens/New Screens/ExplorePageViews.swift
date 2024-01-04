@@ -11,13 +11,15 @@ import MapKit
 
 struct TopButtonsSection: View {
     let userID: String
-    @State private var userName: String = "Loading..."
+    @State private var userName: String = "Loading..."    
+    
     var body: some View {
         VStack {
             ZStack {
                 BlueRectangleView()
 
                 VStack(alignment: .leading) {
+                
                     WelcomeNameText(userID: userID)
                     underlineRectangle()
                     explorePageTitleText()
@@ -90,12 +92,16 @@ struct SchoolCard: View {
                 .frame(width: 225, height: 200)
                 .clipped()
             
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(college.name)
                     .fontWeight(.heavy)
                     .font(.title3)
                     .foregroundColor(.black)
-                // Include other college details if needed
+                Text(college.city)
+                    .fontWeight(.regular)
+                    .font(.caption)
+                    .foregroundColor(.black)
+               
             }
         }
         .padding()
@@ -106,10 +112,10 @@ struct SchoolCard: View {
 
 struct WelcomeNameText: View {
     let userID: String
-    @State private var name: String = "'placeholdername'"
+    @State private var name: String = "placeholdername"
 
     var body: some View {
-        Text("Welcome \(name)")
+        Text("Welcome \(userID)")
             .font(.title)
             .padding(.bottom, 1)
             .foregroundColor(.white)

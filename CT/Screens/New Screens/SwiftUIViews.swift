@@ -11,12 +11,13 @@ import MapKit
 
 struct ExploreView: View {
     @ObservedObject var viewModel: ExploreViewModel
+    var ID: String
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    TopButtonsSection(userID: "User ID") // Pass the actual user ID
+                    TopButtonsSection(userID: ID) // Pass the actual user ID
 
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
 
@@ -36,6 +37,7 @@ struct ExploreView: View {
             }
             .navigationBarBackButtonHidden(true)
         }
+       .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -64,7 +66,8 @@ struct SchoolView: View {
                 // School Information
                 Text(viewModel.college.name)
                     .font(.largeTitle)
-                    .padding(.bottom, 2)
+                    .fontWeight(.medium)
+                    
 
                 Text(viewModel.college.city)
                     .font(.title3)
@@ -241,5 +244,5 @@ struct WriteReviewView: View {
 
 
 #Preview {
-    ExploreView(viewModel: ExploreViewModel())
+    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
 }

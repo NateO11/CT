@@ -122,24 +122,27 @@ class UserManager {
         }
     }
 
-    func resetPassword(email: String, completion: @escaping (Bool) -> Void) {
+    func resetPassword(email: String, completion: @escaping (Bool, String?) -> Void) {
         checkIfEmailExists(emailToCheck: email) { exists in
             if exists {
                 Auth.auth().sendPasswordReset(withEmail: email) { error in
                     if let error = error {
-                        print("Error resetting password: \(error.localizedDescription)")
-                        completion(false)
+                        let errorMessage = "Error resetting password: \(error.localizedDescription)"
+                        print(errorMessage)
+                        completion(false, errorMessage)
                     } else {
                         print("Password reset email sent successfully.")
-                        completion(true)
+                        completion(true, nil)
                     }
                 }
             } else {
-                print("Email does not exist in the database.")
-                completion(false)
+                let errorMessage = "That email is not connected to an account"
+                print(errorMessage)
+                completion(false, errorMessage)
             }
         }
     }
+
 
  
 }

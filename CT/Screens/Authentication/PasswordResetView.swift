@@ -69,10 +69,11 @@ struct PasswordResetView: View {
             if success {
                 resetSuccessMessage = true
             } else {
-                errorMessage = message
+                errorMessage = message ?? "An unknown error occurred."
             }
         }
     }
+
 }
 
 #Preview {
