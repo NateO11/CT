@@ -15,10 +15,6 @@ struct UserProfile {
 
 struct ProfilePage: View {
     
-    // Model to represent the user profile
-    
-    
-    // Example user profile
     @State private var user = UserProfile(name: "Nate  Owen", school: "Swift University", profilePicture: "UVA")
     
     

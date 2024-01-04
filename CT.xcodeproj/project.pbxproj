@@ -13,14 +13,17 @@
 		A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */; };
 		A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9912B40ABA900B0514A /* ExplorePageViews.swift */; };
 		E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60F7C742B3CD43300468BCC /* ProfilePage.swift */; };
+		E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */; };
+		E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */; };
+		E61CE1DC2B45FA29009EB5D6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */; };
+		E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */; };
+		E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E12B460093009EB5D6 /* SignUpView.swift */; };
 		E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FACE2B268F6D00BB3692 /* CTApp.swift */; };
 		E670FAD32B268F6F00BB3692 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD22B268F6F00BB3692 /* Assets.xcassets */; };
 		E670FAD72B268F6F00BB3692 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD62B268F6F00BB3692 /* Preview Assets.xcassets */; };
 		E670FAE12B268F6F00BB3692 /* CTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FAE02B268F6F00BB3692 /* CTTests.swift */; };
 		E670FAEB2B268F6F00BB3692 /* CTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FAEA2B268F6F00BB3692 /* CTUITests.swift */; };
 		E670FAED2B268F6F00BB3692 /* CTUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FAEC2B268F6F00BB3692 /* CTUITestsLaunchTests.swift */; };
-		E670FAFA2B26992600BB3692 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FAF92B26992600BB3692 /* LoginPage.swift */; };
-		E6D2D3592B2B84C50093872A /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D3582B2B84C50093872A /* SignUp.swift */; };
 		E6D2D35E2B2B8BC90093872A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D35D2B2B8BC90093872A /* FirebaseAnalytics */; };
 		E6D2D3602B2B8BC90093872A /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D35F2B2B8BC90093872A /* FirebaseAnalyticsOnDeviceConversion */; };
 		E6D2D3622B2B8BC90093872A /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D3612B2B8BC90093872A /* FirebaseAnalyticsSwift */; };
@@ -31,7 +34,6 @@
 		E6D2D36C2B2B8BC90093872A /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36B2B2B8BC90093872A /* FirebaseFirestoreCombine-Community */; };
 		E6D2D36E2B2B8BC90093872A /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36D2B2B8BC90093872A /* FirebaseFirestoreSwift */; };
 		E6D2D3722B2B94460093872A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6D2D3712B2B94460093872A /* GoogleService-Info.plist */; };
-		E6D2D37E2B2CF5540093872A /* passwordReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D2D37D2B2CF5540093872A /* passwordReset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,11 @@
 		A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews.swift; sourceTree = "<group>"; };
 		A180E9912B40ABA900B0514A /* ExplorePageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageViews.swift; sourceTree = "<group>"; };
 		E60F7C742B3CD43300468BCC /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
+		E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
+		E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
+		E61CE1E12B460093009EB5D6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		E670FACB2B268F6D00BB3692 /* CT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E670FACE2B268F6D00BB3692 /* CTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTApp.swift; sourceTree = "<group>"; };
 		E670FAD22B268F6F00BB3692 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,11 +75,8 @@
 		E670FAE62B268F6F00BB3692 /* CTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CTUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E670FAEA2B268F6F00BB3692 /* CTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTUITests.swift; sourceTree = "<group>"; };
 		E670FAEC2B268F6F00BB3692 /* CTUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		E670FAF92B26992600BB3692 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
-		E6D2D3582B2B84C50093872A /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		E6D2D3702B2B93DF0093872A /* GoogleService-Info (1).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info (1).plist"; path = "../../Downloads/GoogleService-Info (1).plist"; sourceTree = "<group>"; };
 		E6D2D3712B2B94460093872A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E6D2D37D2B2CF5540093872A /* passwordReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = passwordReset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,15 +132,17 @@
 			path = "New Screens";
 			sourceTree = "<group>";
 		};
-		A180E9932B44988D00B0514A /* Login */ = {
+		A180E9932B44988D00B0514A /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				E670FAF92B26992600BB3692 /* LoginPage.swift */,
-				E6D2D37D2B2CF5540093872A /* passwordReset.swift */,
+				E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */,
+				E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */,
+				E61CE1E12B460093009EB5D6 /* SignUpView.swift */,
+				E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */,
+				E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */,
 				E60F7C742B3CD43300468BCC /* ProfilePage.swift */,
-				E6D2D3582B2B84C50093872A /* SignUp.swift */,
 			);
-			path = Login;
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		E66DB8542B26D1C8009F9359 /* Models */ = {
@@ -156,7 +162,7 @@
 		E66DB8572B26D1FA009F9359 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				A180E9932B44988D00B0514A /* Login */,
+				A180E9932B44988D00B0514A /* Authentication */,
 				A180E9842B407F3800B0514A /* New Screens */,
 				A1056CCD2B3E24F30072E050 /* MapFolder */,
 			);
@@ -386,15 +392,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */,
+				E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */,
 				A180E9862B407F5200B0514A /* DataModels.swift in Sources */,
-				E6D2D3592B2B84C50093872A /* SignUp.swift in Sources */,
+				E61CE1DC2B45FA29009EB5D6 /* UserManager.swift in Sources */,
 				A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */,
+				E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
-				E670FAFA2B26992600BB3692 /* LoginPage.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
 				A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */,
+				E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */,
+				E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
-				E6D2D37E2B2CF5540093872A /* passwordReset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
