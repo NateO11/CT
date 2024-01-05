@@ -17,7 +17,9 @@ struct ExploreView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    TopButtonsSection(userID: ID) // Pass the actual user ID
+                    TopButtonsSection(userID: ID) 
+                    
+                    
 
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
 
@@ -44,11 +46,13 @@ struct ExploreView: View {
 
 struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
+                    Spacer().frame(height: 90)
+                   
                     // Horizontal Scroll of Photos
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
@@ -63,37 +67,49 @@ struct SchoolView: View {
                         }
                     }
                     .frame(height: 200)
-
+                    .padding(.bottom, 5) // Adjust spacing as needed
+                    
                     // School Information
                     Text(viewModel.college.name)
                         .font(.largeTitle)
-                        .fontWeight(.medium)
+                        .fontWeight(.heavy)
+                        .padding(.bottom, 10)
                         
-
+                    
                     Text(viewModel.college.city)
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .padding(.bottom, 5)
-
+                    
                     Text(viewModel.college.description)
                         .padding(.bottom, 10)
-
+                    
                     // Reviews Section
                     // Assuming you have a View for displaying reviews
                     // ReviewsView(reviews: viewModel.reviews)
-
+                    
                     // Navigation Buttons
-                    HStack(alignment: .top) {
-                        StyledButtonDark(icon: "mappin", title: "Locations", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
-                        StyledButtonDark(icon: "mappin", title: "Locations", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
+                    HStack{
+                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
                     }
+                    
+                    LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [viewModel.college.image])
+                    
+        
                 }
                 .padding()
             }
+           
+            .ignoresSafeArea()
+            
+            
             .onAppear {
                 viewModel.fetchLocations()
+            }
         }
-        }
+       // .navigationBarTitle(viewModel.college.name, displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+ 
     }
 }
 
@@ -130,6 +146,40 @@ struct LocationDetailView: View {
         }
         .onAppear {
             locationViewModel.fetchReviews(forLocation: location.id)
+        }
+    }
+}
+
+struct LocationHorizontalScrollView: View {
+    let title: String
+    let description: String
+    let images: [String]
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.bottom, 5)
+                .padding(.top, 40)
+                .bold()
+
+            Text(description)
+                .padding(.bottom, 30)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(images, id: \.self) { imageName in
+                        Image(imageName)
+                            .resizable()
+                            .cornerRadius(10)
+                            .frame(width: 250, height: 225)
+                            .clipped()
+                    }
+                }
+            }
+            .frame(height: 200)
+            .padding(.bottom, 10)
         }
     }
 }

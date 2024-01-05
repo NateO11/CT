@@ -17,6 +17,7 @@ struct TopButtonsSection: View {
         VStack {
             ZStack {
                 BlueRectangleView()
+                   
 
                 VStack(alignment: .leading) {
                 
@@ -90,12 +91,12 @@ struct SchoolCard: View {
             Image(college.image) // Assuming imageName is the name of the image in the assets
                 .resizable()
                 .cornerRadius(20)
-                .frame(width: 225, height: 200)
+                .frame(width: 250, height: 225)
                 .clipped()
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(college.name)
-                    .fontWeight(.heavy)
+                    .fontWeight(.bold)
                     .font(.title3)
                     .foregroundColor(.black)
                 Text(college.city)
@@ -135,6 +136,7 @@ struct BlueRectangleView: View {
             .frame(height: 300)
             .edgesIgnoringSafeArea(.all)
     }
+      
 }
 
 
@@ -199,12 +201,13 @@ struct StyledButtonDark<Destination: View>: View {
                     .foregroundColor(.white)
                     .padding(.leading, 5)
                     .bold()
+                    .fontWeight(.heavy)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading)
         }
         .frame(width: 160, height: 60)
-        .background(Color.blue)
+        .background(Color.black)
         .cornerRadius(40)
     }
 }
@@ -293,4 +296,9 @@ struct bottomText: View {
             .fontWeight(.thin)
             
     }
+}
+
+
+#Preview {
+    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
 }
