@@ -82,11 +82,17 @@ class CollegeDetailViewModel: ObservableObject {
 
 class LocationViewModel: ObservableObject {
     @Published var reviews: [Review] = []
+    @Published var currentCollegeName: String
 
     private var db = Firestore.firestore()
+    
+    init(currentCollegeName: String) {
+            self.currentCollegeName = currentCollegeName
+            // ... other initializations ...
+        }
 
     func fetchReviews(forLocation locationID: String) {
-        db.collection("Locations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
+        db.collection("Schools").document(currentCollegeName).collection("Locations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No reviews found for location")
                 return
@@ -113,7 +119,7 @@ class LocationViewModel: ObservableObject {
             "timestamp": Timestamp(date: Date())
         ]
 
-        db.collection("locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
+        db.collection("Schools").document(currentCollegeName).collection("Locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
             if let error = error {
                 print("Error adding review: \(error.localizedDescription)")
             } else {

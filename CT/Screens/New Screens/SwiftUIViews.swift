@@ -292,7 +292,7 @@ struct MapView: View {
                     }
             // ... rest of your view
             .sheet(item: $selectedLocation) { location in
-                LocationDetailView(locationViewModel: LocationViewModel(), location: location)
+                LocationDetailView(locationViewModel: LocationViewModel(currentCollegeName: viewModel.currentCollegeName), location: location)
                     .presentationDetents([.medium, .large])
             }
             
