@@ -132,18 +132,42 @@ struct LocationDetailView: View {
     var body: some View {
         VStack {
             // Location details
+            Text(location.name)
+                .font(.title2)
+                .fontWeight(.bold)
+                .padding(.top, 20)
+                .foregroundColor(.white)
+            
+            Text(location.category)
+                .font(.title2)
+                .fontWeight(.medium)
+                .padding(.top, 10)
+                .foregroundColor(.white)
+            
             List(locationViewModel.reviews) { review in
                 ReviewView(review: review)
             }
+            .listStyle(PlainListStyle())
+            .padding(.horizontal, -20)
             Button("Write a Review") {
                 showingReviewSheet = true
             }
+            .frame(width: 160, height: 60)
+            .background(Color.blue.opacity(0.5))
+            .foregroundColor(.white)
+            .cornerRadius(40)
+            .padding()
             .sheet(isPresented: $showingReviewSheet) {
                 WriteReviewView(isPresented: $showingReviewSheet) { rating, text in
                     locationViewModel.submitReview(rating: rating, text: text, forLocation: location.id)
                 }
             }
         }
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .opacity(0.8)
+        )
         .onAppear {
             locationViewModel.fetchReviews(forLocation: location.id)
         }
@@ -189,10 +213,23 @@ struct ReviewView: View {
 
     var body: some View {
         // Layout for displaying the review
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack {
+                Text("\(review.userID)")
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                Spacer()
+                Text("\(review.rating) stars")
+                    .font(.subheadline)
+                    .foregroundColor(.yellow)
+            }
             Text(review.text)
-            // Add more details here, like rating and user
+                .font(.body)
+                .foregroundColor(.black)
         }
+        .padding(10)
+        .background(Color.clear)
+        .padding(.vertical, 5)
     }
 }
 
@@ -215,7 +252,7 @@ struct MapView: View {
     
     var body: some View {
         NavigationStack() {
-            Map(initialPosition: defaultPosition) {
+            Map(initialPosition: defaultPosition, selection: $mapSelectionName) {
                 ForEach(viewModel.filteredLocations, id: \.id) { location in
                     Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
                         .tint(colorForCategory(location.category))
@@ -250,11 +287,24 @@ struct MapView: View {
             .onAppear {
                 viewModel.fetchLocations()
         }
+            .onChange(of: selectedCategory) { oldCategory, newCategory in
+                        viewModel.updateFilteredLocations(forCategory: newCategory)
+                    }
+            // ... rest of your view
+            .sheet(item: $selectedLocation) { location in
+                LocationDetailView(locationViewModel: LocationViewModel(), location: location)
+                    .presentationDetents([.medium, .large])
+            }
+            
         }
-        .onChange(of: selectedCategory) { oldCategory, newCategory in
-                    viewModel.updateFilteredLocations(forCategory: newCategory)
-                }
-        // ... rest of your view
+        
+        .onChange(of: mapSelectionName) { oldValue, newValue in
+            if let selected = viewModel.locations.first(where: { $0.name == newValue }) {
+                selectedLocation = selected
+            } else {
+                selectedLocation = nil
+            }
+        }
     }
 }
 
