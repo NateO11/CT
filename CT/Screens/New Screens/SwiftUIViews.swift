@@ -90,7 +90,7 @@ struct SchoolView: View {
                     
                     // Navigation Buttons
                     HStack{
-                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(currentCollegeName: viewModel.college.name)))
+                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: viewModel.college)))
                     }
                     
                     LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [viewModel.college.image])
@@ -135,20 +135,16 @@ struct LocationDetailView: View {
             Text(location.name)
                 .font(.title2)
                 .fontWeight(.bold)
-                .padding(.top, 20)
                 .foregroundColor(.white)
-            
-            Text(location.category)
-                .font(.title2)
-                .fontWeight(.medium)
-                .padding(.top, 10)
-                .foregroundColor(.white)
+                .padding(.top, 30)
+                .padding(.leading, 30)
             
             List(locationViewModel.reviews) { review in
                 ReviewView(review: review)
             }
             .listStyle(PlainListStyle())
             .padding(.horizontal, -20)
+            .padding(.top, 20)
             Button("Write a Review") {
                 showingReviewSheet = true
             }
@@ -161,8 +157,15 @@ struct LocationDetailView: View {
                 WriteReviewView(isPresented: $showingReviewSheet) { rating, text in
                     locationViewModel.submitReview(rating: rating, text: text, forLocation: location.id)
                 }
+                .presentationDetents([.medium])
             }
         }
+        .overlay(alignment: .topLeading, content: {
+            Button("") {
+            }
+            .buttonStyle(CategoryButton(category: location.category))
+            .padding()
+        })
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -275,12 +278,12 @@ struct MapView: View {
                 .padding(30)
                 .sheet(isPresented: $showCategorySelect) {
                     categorySelect
-                        .presentationDetents([.fraction(0.25)])
+                        .presentationDetents([.fraction(0.55)])
                         .presentationDragIndicator(.visible)
                         .presentationCornerRadius(25)
                 }
             }
-            .navigationTitle("\(viewModel.currentCollegeName) - \(selectedCategory)")
+            .navigationTitle("\(viewModel.college.name) - \(selectedCategory)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
             
@@ -292,7 +295,7 @@ struct MapView: View {
                     }
             // ... rest of your view
             .sheet(item: $selectedLocation) { location in
-                LocationDetailView(locationViewModel: LocationViewModel(currentCollegeName: viewModel.currentCollegeName), location: location)
+                LocationDetailView(locationViewModel: LocationViewModel(college: viewModel.college), location: location)
                     .presentationDetents([.medium, .large])
             }
             

@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 struct CategoryButton: ButtonStyle {
     let category: String
+    let showTextBelow: Bool = false
     func makeBody(configuration: Configuration) -> some View {
         Image(systemName: symbolForCategory(category))
             .resizable()
@@ -21,6 +22,9 @@ struct CategoryButton: ButtonStyle {
             .padding()
             .background(colorForCategory(category))
             .clipShape(Circle())
+        if showTextBelow == true {
+            Text(category)
+        }
     }
 }
 
@@ -30,13 +34,33 @@ func colorForCategory(_ category: String) -> Color {
     case "Landmarks":
         return Color.orange
     case "Dining":
-        return Color.gray
-    case "Athletics":
-        return Color.blue
-    case "Study Spots":
         return Color.black
-    default:
+    case "Athletics":
+        return Color.red
+    case "Study Spots":
+        return Color.blue
+    case "Engineering":
         return Color.pink
+    case "Law":
+        return Color.blue
+    case "Business":
+        return Color.blue
+    case "Living":
+        return Color.blue
+    case "Restaurants":
+        return Color.blue
+    case "Nature":
+        return Color.green
+    case "Parking":
+        return Color.blue
+    case "Local Area":
+        return Color.blue
+    case "Stadiums":
+        return Color.blue
+    case "Health":
+        return Color.blue
+    default:
+        return Color.gray
     }
 }
 
@@ -48,9 +72,29 @@ func symbolForCategory(_ category: String) -> String {
     case "Dining":
         return "fork.knife"
     case "Athletics":
-        return "figure.run"
+        return "figure.tennis"
     case "Study Spots":
         return "book.fill"
+    case "Engineering":
+        return "brain.filled.head.profile"
+    case "Law":
+        return "books.vertical.fill"
+    case "Business":
+        return "briefcase.fill"
+    case "Living":
+        return "house.fill"
+    case "Restaurants":
+        return "cup.and.saucer.fill"
+    case "Nature":
+        return "figure.hiking"
+    case "Parking":
+        return "p.square.fill"
+    case "Local Area":
+        return "globe"
+    case "Stadiums":
+        return "trophy.fill"
+    case "Health":
+        return "stethoscope"
     default:
         return "gearshape.fill"
     }
@@ -87,6 +131,68 @@ struct CategorySelectView: View {
                     showCategorySelect.toggle()
                 }
                 .buttonStyle(CategoryButton(category: "Study Spots"))
+                
+                Button("") {
+                    selectedCategory = "Restaurants"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Restaurants"))
+            }
+            HStack(spacing: 12) {
+                Button("") {
+                    selectedCategory = "Engineering"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Engineering"))
+                
+                Button("") {
+                    selectedCategory = "Law"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Law"))
+                
+                Button("") {
+                    selectedCategory = "Business"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Business"))
+                
+                Button("") {
+                    selectedCategory = "Living"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Living"))
+                
+                Button("") {
+                    selectedCategory = "Nature"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Nature"))
+            }
+            HStack(spacing: 12) {
+                Button("") {
+                    selectedCategory = "Parking"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Parking"))
+                
+                Button("") {
+                    selectedCategory = "Local Area"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Local Area"))
+                
+                Button("") {
+                    selectedCategory = "Stadiums"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Stadiums"))
+                
+                Button("") {
+                    selectedCategory = "Health"
+                    showCategorySelect.toggle()
+                }
+                .buttonStyle(CategoryButton(category: "Health"))
                 
                 Button("") {
                     selectedCategory = "All"

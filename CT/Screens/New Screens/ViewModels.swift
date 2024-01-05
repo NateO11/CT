@@ -82,17 +82,16 @@ class CollegeDetailViewModel: ObservableObject {
 
 class LocationViewModel: ObservableObject {
     @Published var reviews: [Review] = []
-    @Published var currentCollegeName: String
+    @Published var college: College
 
     private var db = Firestore.firestore()
     
-    init(currentCollegeName: String) {
-            self.currentCollegeName = currentCollegeName
-            // ... other initializations ...
-        }
+    init(college: College) {
+        self.college = college
+    }
 
     func fetchReviews(forLocation locationID: String) {
-        db.collection("Schools").document(currentCollegeName).collection("Locations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
+        db.collection("Schools").document(college.id).collection("Locations").document(locationID).collection("reviews").order(by: "timestamp", descending: true).addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No reviews found for location")
                 return
@@ -119,7 +118,7 @@ class LocationViewModel: ObservableObject {
             "timestamp": Timestamp(date: Date())
         ]
 
-        db.collection("Schools").document(currentCollegeName).collection("Locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
+        db.collection("Schools").document(college.id).collection("Locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
             if let error = error {
                 print("Error adding review: \(error.localizedDescription)")
             } else {
@@ -134,14 +133,13 @@ class MapViewModel: ObservableObject {
     @Published var locations: [Location] = []
     @Published var filteredLocations: [Location] = []
     @Published var mapSelectionName: String?
-    @Published var currentCollegeName: String
+    @Published var college: College
 
     private var db = Firestore.firestore()
     
-    init(currentCollegeName: String) {
-            self.currentCollegeName = currentCollegeName
-            // ... other initializations ...
-        }
+    init(college: College) {
+        self.college = college
+    }
     
     func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
@@ -150,11 +148,11 @@ class MapViewModel: ObservableObject {
 
     // Call this method to fetch locations
     func fetchLocations() {
-        print(currentCollegeName)
-        db.collection("Schools").document(currentCollegeName).collection("Locations")
+        print(college.name)
+        db.collection("Schools").document(college.name).collection("Locations")
           .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
-                print("No locations found for college \(self.currentCollegeName): \(error?.localizedDescription ?? "")")
+                print("No locations found for college \(self.college.name): \(error?.localizedDescription ?? "")")
                 return
             }
 
