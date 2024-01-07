@@ -19,7 +19,6 @@ struct ExploreView: View {
                 VStack {
                     TopButtonsSection(userID: ID) 
                     
-                    
 
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
 
@@ -46,6 +45,7 @@ struct ExploreView: View {
 
 struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
+    
     
     var body: some View {
         NavigationStack {
@@ -95,6 +95,38 @@ struct SchoolView: View {
                     
                     LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [viewModel.college.image])
                     
+                    subTitleText(text: "Categories", subtext: "Hear what students have to say about...")
+                    
+                    ZStack{
+                        Rectangle()
+                            .frame(width: 330, height: 250)
+                            .foregroundColor(Color.blue.opacity(0.3)) // Adjust the opacity value as needed
+                            .cornerRadius(10)
+                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2) // Adjust the shadow properties as needed
+
+
+                        VStack(alignment: .leading){
+                            HStack{
+                                SubCategoryButton(icon: "g.square", title: "Greek Life", forum: "Greek", viewModel: viewModel)
+                                
+                                                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", viewModel: viewModel)
+                                
+                                                            }
+                                                            HStack{
+                                                                SubCategoryButton(icon: "book", title: "Buisness", forum: "Engineering", viewModel: viewModel)
+                                                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Engineering", viewModel: viewModel)
+                                
+                                                            }
+                                                            HStack{
+                                                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Engineering", viewModel: viewModel)
+                                                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Engineering", viewModel: viewModel)
+                                
+                            }
+                        }
+                    }
+                    
+                    .padding(.horizontal)
+                    
         
                 }
                 .padding()
@@ -108,7 +140,7 @@ struct SchoolView: View {
             }
         }
        // .navigationBarTitle(viewModel.college.name, displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden(false)
  
     }
 }
@@ -120,6 +152,26 @@ struct CollegeInfoView: View {
         VStack(alignment: .leading) {
             Text(college.name).font(.title)
             // Other college details
+        }
+    }
+}
+
+struct subTitleText: View {
+    let text: String
+    let subtext: String
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(text)
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.bottom, 5)
+                .padding(.top, 40)
+                .bold()
+            
+            Text(subtext)
+                .padding(.bottom, 30)
+
         }
     }
 }
@@ -210,6 +262,48 @@ struct LocationHorizontalScrollView: View {
         }
     }
 }
+
+struct SubCategoryButton: View {
+    var icon: String
+    var title: String
+    var forum: String
+    var viewModel: CollegeDetailViewModel // Add this line
+
+    @State private var isLinkActive: Bool = false
+
+    var body: some View {
+        NavigationLink(destination: FourmsTemplate(college: viewModel.college.name, forum: forum), isActive: $isLinkActive) {
+            Button(action: {
+                isLinkActive = true
+            }) {
+                HStack {
+                    Image(systemName: icon)
+                        .resizable()
+                        .foregroundColor(.white)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20) // Set a fixed size for the image
+
+                    Text(title)
+                        .foregroundColor(.white)
+                        .font(.headline)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take remaining space
+                }
+                .padding()
+                .background(Color.black)
+                .cornerRadius(30)
+                .frame(width: 150, height: 60) // Set a fixed size for the entire button
+            }
+            .buttonStyle(PlainButtonStyle()) // Remove the default button style
+        }
+    }
+}
+
+
+
+
+
 
 struct ReviewView: View {
     let review: Review
@@ -341,6 +435,58 @@ struct WriteReviewView: View {
             })
         }
     }
+}
+
+struct ForumReviewListView: View {
+    var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)]
+    
+    @State private var expandedReviews: Set<String> = []
+
+
+    var body: some View {
+        List {
+            ForEach(reviews, id: \.review) { review in
+                VStack(alignment: .leading, spacing: 10) { // Add spacing between VStack items
+                    Text("\(review.user)")
+                        .font(.subheadline)
+                        .foregroundColor(.black)
+                        .padding(.bottom, 10)
+                    
+                    HStack {
+                        ForEach(0..<review.rating, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                        }
+                    }
+                    .padding(.vertical, 1)
+                    
+                    Text("\(review.reviewTitle)")
+                        .font(.headline)
+                        .bold()
+                        .foregroundColor(.black)
+                    
+                    Text("\(formattedDate(review.time))")
+                        .font(.caption2)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, 5)
+                        .padding(.top, 1)
+                    
+                    Text("\(review.review)")
+                }
+                .padding()
+            }
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)) // Adjust the bottom inset as needed
+            
+            // Add a Spacer view between each VStack
+            Spacer().frame(height: 10)
+        }
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+          let formatter = DateFormatter()
+          formatter.dateFormat = "MMM d, yyyy"
+          return formatter.string(from: date)
+      }
 }
 
 

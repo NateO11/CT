@@ -191,3 +191,65 @@ class MapViewModel: ObservableObject {
         }
     }
 }
+
+class ForumViewModel: ObservableObject {
+    @Published var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)] = []
+
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: date)
+    }
+
+    func fetchReviews(forCollege collegeName: String, forumName: String) {
+        let db = Firestore.firestore()
+
+        let schoolsRef = db.collection("Schools")
+        let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
+
+        collegeQuery.getDocuments { [weak self] (querySnapshot, error) in
+            guard let self = self, error == nil else {
+                print("Error fetching college: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            guard let document = querySnapshot?.documents.first else {
+                print("College not found")
+                return
+            }
+
+            let categoriesRef = document.reference.collection("categories")
+            let forumDocumentRef = categoriesRef.document(forumName)
+            let reviewsCollectionRef = forumDocumentRef.collection("Reviews")
+
+            reviewsCollectionRef.getDocuments { (reviewsSnapshot, reviewsError) in
+                guard reviewsError == nil else {
+                    print("Error fetching reviews: \(reviewsError!.localizedDescription)")
+                    return
+                }
+
+                guard let reviewsDocuments = reviewsSnapshot?.documents else {
+                    print("No reviews found for the forum")
+                    return
+                }
+
+                self.reviews = reviewsDocuments.compactMap { reviewDocument in
+                    if let user = reviewDocument["User"] as? String,
+                       let time = reviewDocument["Time"] as? Timestamp,
+                       let rating = reviewDocument["Rating"] as? Int,
+                       let reviewTitle = reviewDocument["ReviewTitle"] as? String,
+                       let review = reviewDocument["Review"] as? String {
+                        return (user: user, time: time.dateValue(), reviewTitle: reviewTitle, review: review, rating: rating)
+                    }
+                    return nil
+                }
+
+                DispatchQueue.main.async {
+                    // Handle the fetched reviews as needed
+                    print("Fetched reviews: \(self.reviews)")
+                }
+            }
+        }
+    }
+}
+
