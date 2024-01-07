@@ -163,7 +163,9 @@ struct subTitleText: View {
     }
 }
 
-struct LocationDetailView: View {
+
+// Old version of locationDetailView ... please keep for reference
+/* struct LocationDetailView: View {
     @ObservedObject var locationViewModel: LocationViewModel
     let location: Location
     @State private var showingReviewSheet = false
@@ -231,6 +233,72 @@ struct LocationDetailView: View {
         )
         .onAppear {
             locationViewModel.fetchReviews(forLocation: location.id)
+        }
+    }
+}
+ 
+ */
+
+struct LocationDetailView: View {
+    @ObservedObject var locationViewModel: LocationViewModel
+    let location: Location
+    @State private var showingReviewSheet = false
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isNavigationLinkActive = false
+
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                HStack {
+                    VStack {
+                        Image(locationViewModel.college.image) // Assuming imageName is the name of the image in the assets
+                            .resizable()
+                            .cornerRadius(20)
+                            .frame(width: 150, height: 200)
+                            .clipped()
+                            .padding()
+                    }
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.white)
+                            VStack {
+                                Text(location.name)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.black)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 10)
+                                Text("\(location.name) is a super cool place at \(locationViewModel.college.name)")
+                                    .foregroundColor(.black)
+                                    .padding(.horizontal, 5)
+                                NavigationLink(destination: LocationCardView(viewModel: LocationCardViewModel(), college: locationViewModel.college, location: location), isActive: $isNavigationLinkActive) {
+                                    Button("Read Reviews!") {
+                                        isNavigationLinkActive = true
+                                    }
+                                    .frame(width: 160, height: 60)
+                                    .background(Color.black.opacity(0.8))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(40)
+                                    .padding(10)
+                                }
+                            }
+                        
+                        .padding([.vertical], 30)
+                    .padding(.trailing, 20)
+                    }
+                }
+            }
+            .overlay(alignment: .topTrailing) {
+                Button("") {
+                    self.presentationMode.wrappedValue.dismiss()
+                    // this should dismiss the sheet
+                }
+                .buttonStyle(xButton())
+                .shadow(radius: 10)
+                .padding(10)
+        }
         }
     }
 }
@@ -396,7 +464,7 @@ struct MapView: View {
             // ... rest of your view
             .sheet(item: $selectedLocation) { location in
                 LocationDetailView(locationViewModel: LocationViewModel(college: viewModel.college), location: location)
-                    .presentationDetents([.medium, .large])
+                    .presentationDetents([.fraction(0.4)])
             }
             
         }

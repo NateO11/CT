@@ -10,8 +10,8 @@ import SwiftUI
 
 struct LocationCardView: View {
     @StateObject var viewModel = LocationCardViewModel()
-    let collegeName = "University of Virginia"
-    let locationName = "Clark Library"
+    var college: College
+    var location: Location
 
     var body: some View {
         
@@ -25,10 +25,10 @@ struct LocationCardView: View {
                     
                     VStack{
                         
-                        Text(locationName)
+                        Text(location.name)
                             .font(.title)
                         
-                        Text(collegeName)
+                        Text(college.name)
                             .font(.headline)
                     }
                     .padding()
@@ -50,7 +50,7 @@ struct LocationCardView: View {
  
             }
             .onAppear {
-                viewModel.fetchReviewsForLocation(collegeName: collegeName, locationName: locationName)
+                viewModel.fetchReviewsForLocation(collegeName: college.name, locationName: location.name)
             }
         }
     }
@@ -61,8 +61,3 @@ struct LocationCardView: View {
         return formatter.string(from: date)
     }
    }
-
-
-#Preview{
-    LocationCardView()
-}

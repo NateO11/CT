@@ -304,10 +304,10 @@ struct xButton: ButtonStyle {
         Image(systemName: "xmark")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .frame(width: 12,height: 12)
             .padding()
-            .background(Color.blue)
+            .background(Color.white)
             .clipShape(Circle())
         }
     }
