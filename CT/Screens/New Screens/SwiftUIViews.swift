@@ -164,7 +164,7 @@ struct subTitleText: View {
 }
 
 
-// Old version of locationDetailView ... please keep for reference
+// Old version of locationDetailView ...  please keep for reference
 /* struct LocationDetailView: View {
     @ObservedObject var locationViewModel: LocationViewModel
     let location: Location
