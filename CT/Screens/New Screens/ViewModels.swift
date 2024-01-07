@@ -253,48 +253,77 @@ class ForumViewModel: ObservableObject {
     }
 }
 
+struct LocationReview {
+    let text: String
+    let rating: Int
+    let userID: String
+    let timestamp: Date
+}
 
 class LocationCardViewModel: ObservableObject {
-    @Published var locationName: String?
+    @Published var reviews: [LocationReview] = []
 
-    func fetchLocationName(forCollege collegeName: String, locationName: String) {
+    func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: date)
+    }
+
+    func fetchReviewsForLocation(collegeName: String, locationName: String) {
         let db = Firestore.firestore()
         let schoolsRef = db.collection("Schools")
-        
+
         let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
-        
-        collegeQuery.getDocuments { [weak self] (querySnapshot, error) in
-            guard let self = self, error == nil else {
-                print("Error fetching college: \(error?.localizedDescription ?? "Unknown error")")
+
+        collegeQuery.getDocuments { [weak self] (collegeQuerySnapshot, collegeError) in
+            guard let self = self, collegeError == nil else {
+                print("Error fetching college: \(collegeError?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            guard let document = querySnapshot?.documents.first else {
+
+            guard let collegeDocument = collegeQuerySnapshot?.documents.first else {
                 print("College not found")
                 return
             }
-            
-            let locationsRef = document.reference.collection("Locations")
-            let locationQuery = locationsRef.whereField("name", isEqualTo: locationName)
-            
-            locationQuery.getDocuments { (locationSnapshot, locationError) in
+
+            let locationsRef = collegeDocument.reference.collection("Locations")
+            let locationQuery = locationsRef.document(locationName)
+
+            locationQuery.getDocument { (locationDocument, locationError) in
                 guard locationError == nil else {
                     print("Error fetching location: \(locationError!.localizedDescription)")
                     return
                 }
-                
-                guard let locationDocument = locationSnapshot?.documents.first else {
+
+                guard let locationDocument = locationDocument else {
                     print("Location not found")
                     return
                 }
-                
-                if let name = locationDocument["category"] as? String {
-                    self.locationName = name
-                }
-                
-                DispatchQueue.main.async {
-                    // Handle the fetched location name as needed
-                    print("Fetched location category: \(self.locationName ?? "N/A")")
+
+                // Query for the reviews subcollection within the location
+                let reviewsRef = locationDocument.reference.collection("reviews")
+
+                reviewsRef.getDocuments { (reviewsQuerySnapshot, reviewsError) in
+                    guard reviewsError == nil else {
+                        print("Error fetching reviews: \(reviewsError!.localizedDescription)")
+                        return
+                    }
+
+                    self.reviews = reviewsQuerySnapshot?.documents.compactMap { reviewDocument in
+                        guard let text = reviewDocument["text"] as? String,
+                              let rating = reviewDocument["rating"] as? Int,
+                              let userID = reviewDocument["userID"] as? String,
+                              let timestamp = reviewDocument["timestamp"] as? Timestamp else {
+                            return nil
+                        }
+
+                        return LocationReview(text: text, rating: rating, userID: userID, timestamp: timestamp.dateValue())
+                    } ?? []
+
+                    DispatchQueue.main.async {
+                        // Handle the fetched reviews as needed
+                        print("Fetched reviews: \(self.reviews)")
+                    }
                 }
             }
         }

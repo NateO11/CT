@@ -38,4 +38,5 @@ struct Review: Identifiable {
     // Other review properties
 }
 
+
 let defaultPosition = MapCameraPosition.region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 38.04272231323672, longitude: -78.50961596590895), span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.022)))
