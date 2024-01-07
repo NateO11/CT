@@ -45,14 +45,13 @@ struct ExploreView: View {
 
 struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
-    
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     Spacer().frame(height: 90)
-                   
+                    
                     // Horizontal Scroll of Photos
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
@@ -74,7 +73,6 @@ struct SchoolView: View {
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                         .padding(.bottom, 10)
-                        
                     
                     Text(viewModel.college.city)
                         .font(.title3)
@@ -84,12 +82,8 @@ struct SchoolView: View {
                     Text(viewModel.college.description)
                         .padding(.bottom, 10)
                     
-                    // Reviews Section
-                    // Assuming you have a View for displaying reviews
-                    // ReviewsView(reviews: viewModel.reviews)
-                    
                     // Navigation Buttons
-                    HStack{
+                    HStack {
                         StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: viewModel.college)))
                     }
                     
@@ -97,53 +91,46 @@ struct SchoolView: View {
                     
                     subTitleText(text: "Categories", subtext: "Hear what students have to say about...")
                     
-                    ZStack{
+                    ZStack {
                         Rectangle()
                             .frame(width: 330, height: 250)
                             .foregroundColor(Color.blue.opacity(0.3)) // Adjust the opacity value as needed
                             .cornerRadius(10)
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2) // Adjust the shadow properties as needed
-
-
-                        VStack(alignment: .leading){
-                            HStack{
+                        
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
                                 SubCategoryButton(icon: "g.square", title: "Greek Life", forum: "Greek", viewModel: viewModel)
-                                
-                                                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", viewModel: viewModel)
-                                
-                                                            }
-                                                            HStack{
-                                                                SubCategoryButton(icon: "book", title: "Buisness", forum: "Engineering", viewModel: viewModel)
-                                                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Engineering", viewModel: viewModel)
-                                
-                                                            }
-                                                            HStack{
-                                                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Engineering", viewModel: viewModel)
-                                                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Engineering", viewModel: viewModel)
-                                
+                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", viewModel: viewModel)
+                            }
+                            HStack {
+                                SubCategoryButton(icon: "book", title: "Business", forum: "Business", viewModel: viewModel)
+                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Dining", viewModel: viewModel)
+                            }
+                            HStack {
+                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Athletics", viewModel: viewModel)
+                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Other", viewModel: viewModel)
                             }
                         }
                     }
-                    
                     .padding(.horizontal)
                     
-        
+                    SchoolCardReviews(college: viewModel.college.name)
+                    
+                    LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [viewModel.college.image])
                 }
                 .padding()
             }
-           
             .ignoresSafeArea()
-            
-            
             .onAppear {
                 viewModel.fetchLocations()
             }
         }
-       // .navigationBarTitle(viewModel.college.name, displayMode: .inline)
-        .navigationBarBackButtonHidden(false)
- 
+        .navigationBarTitle("")  // To hide the default "Back" button text
+        .navigationBarHidden(true) // To hide the navigation bar when transitioning
     }
 }
+
 
 struct CollegeInfoView: View {
     let college: College
@@ -469,19 +456,18 @@ struct WriteReviewView: View {
 
 struct ForumReviewListView: View {
     var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)]
-    
-    @State private var expandedReviews: Set<String> = []
 
+    @State private var expandedReviews: Set<String> = []
 
     var body: some View {
         List {
             ForEach(reviews, id: \.review) { review in
-                VStack(alignment: .leading, spacing: 10) { // Add spacing between VStack items
+                VStack(alignment: .leading, spacing: 10) {
                     Text("\(review.user)")
                         .font(.subheadline)
                         .foregroundColor(.black)
                         .padding(.bottom, 10)
-                    
+
                     HStack {
                         ForEach(0..<review.rating, id: \.self) { _ in
                             Image(systemName: "star.fill")
@@ -489,35 +475,82 @@ struct ForumReviewListView: View {
                         }
                     }
                     .padding(.vertical, 1)
-                    
+
                     Text("\(review.reviewTitle)")
                         .font(.headline)
                         .bold()
                         .foregroundColor(.black)
-                    
+
                     Text("\(formattedDate(review.time))")
                         .font(.caption2)
                         .foregroundColor(.gray)
                         .padding(.bottom, 5)
                         .padding(.top, 1)
-                    
-                    Text("\(review.review)")
+
+                    Text(review.review)
+                        .lineLimit(expandedReviews.contains(review.user) ? nil : 4) // Show all lines if expanded
+                        .font(.body)
+                        .foregroundColor(.black)
+
+                    Button(action: {
+                        toggleReadMore(review.user)
+                    }) {
+                        Text(expandedReviews.contains(review.user) ? "Read Less" : "Read More")
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                            .padding(.top, 5)
+                    }
                 }
                 .padding()
             }
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)) // Adjust the bottom inset as needed
-            
+
             // Add a Spacer view between each VStack
             Spacer().frame(height: 10)
         }
     }
-    
+
     private func formattedDate(_ date: Date) -> String {
-          let formatter = DateFormatter()
-          formatter.dateFormat = "MMM d, yyyy"
-          return formatter.string(from: date)
-      }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: date)
+    }
+
+    private func toggleReadMore(_ user: String) {
+        if expandedReviews.contains(user) {
+            expandedReviews.remove(user)
+        } else {
+            expandedReviews.insert(user)
+        }
+    }
 }
+
+struct SchoolCardReviews: View {
+    var college: String
+
+    var body: some View {
+        
+        subTitleText(text: "Reviews", subtext: "Where current students voice their opinons")
+
+        
+        NavigationLink(destination: ForumsTemplate(college: college, forum: "General")) {
+            VStack {
+                
+                Text("Read Reviews")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.black)
+                    .cornerRadius(20)
+
+                Spacer()
+            }
+        }
+        .navigationBarTitle("")  // To hide the default "Back" button text
+        .navigationBarHidden(true) // To hide the navigation bar when transitioning
+    }
+}
+
 
 
 #Preview {

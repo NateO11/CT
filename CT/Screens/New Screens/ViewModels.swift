@@ -253,3 +253,50 @@ class ForumViewModel: ObservableObject {
     }
 }
 
+
+class LocationCardViewModel: ObservableObject {
+    @Published var locationName: String?
+
+    func fetchLocationName(forCollege collegeName: String, locationName: String) {
+        let db = Firestore.firestore()
+        let schoolsRef = db.collection("Schools")
+        
+        let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
+        
+        collegeQuery.getDocuments { [weak self] (querySnapshot, error) in
+            guard let self = self, error == nil else {
+                print("Error fetching college: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            guard let document = querySnapshot?.documents.first else {
+                print("College not found")
+                return
+            }
+            
+            let locationsRef = document.reference.collection("Locations")
+            let locationQuery = locationsRef.whereField("name", isEqualTo: locationName)
+            
+            locationQuery.getDocuments { (locationSnapshot, locationError) in
+                guard locationError == nil else {
+                    print("Error fetching location: \(locationError!.localizedDescription)")
+                    return
+                }
+                
+                guard let locationDocument = locationSnapshot?.documents.first else {
+                    print("Location not found")
+                    return
+                }
+                
+                if let name = locationDocument["category"] as? String {
+                    self.locationName = name
+                }
+                
+                DispatchQueue.main.async {
+                    // Handle the fetched location name as needed
+                    print("Fetched location category: \(self.locationName ?? "N/A")")
+                }
+            }
+        }
+    }
+}

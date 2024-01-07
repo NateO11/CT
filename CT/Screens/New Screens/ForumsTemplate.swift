@@ -20,26 +20,49 @@ struct ForumsTemplate: View {
     @State private var forumName: String = "Greek"
     
     init(college: String, forum: String) {
-          _collegeName = State(initialValue: college)
-          _forumName = State(initialValue: forum)
-      }
-
+        _collegeName = State(initialValue: college)
+        _forumName = State(initialValue: forum)
+    }
+    
     
     var body: some View {
-        VStack {
-            Text(collegeName)
-                .font(.headline)
-
-            Text(forumName)
-                .font(.caption)
+        NavigationStack{
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack{
+                        Text(collegeName)
+                            .font(.title)
+                        
+                        Text(forumName)
+                            .font(.headline)
+                    }
+                }
+                .padding(.horizontal, 40)
                 
-
-            ForumReviewListView(reviews: viewModel.reviews)
-                .padding()
+                Spacer() // Push the VStack to the left
+                
+                ForumReviewListView(reviews: viewModel.reviews)
+                    .padding(.bottom)
+                
+                
+            }
+            
+            NavigationLink(destination: ProfilePage()) {
+                VStack {
+                    
+                    Text("Write a Review")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.black)
+                        .cornerRadius(20)
+                }
+            }
+            .onAppear {
+                viewModel.fetchReviews(forCollege: collegeName, forumName: forumName)
+            }
         }
-        .onAppear {
-            viewModel.fetchReviews(forCollege: collegeName, forumName: forumName)
-        }
+        
     }
 }
 
