@@ -167,15 +167,41 @@ struct LocationDetailView: View {
     @ObservedObject var locationViewModel: LocationViewModel
     let location: Location
     @State private var showingReviewSheet = false
+    @Environment(\.presentationMode) var presentationMode
+
 
     var body: some View {
         VStack {
-            // Location details
-            Text(location.name)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
-                .padding(.top, 30)
+            ZStack {
+                HStack {
+                    /* Button("") {
+                    }
+                    .buttonStyle(CategoryButton(category: location.category, dimensions: 12))
+                    .padding(.trailing, 10)
+                    Spacer()
+                     */
+                    Text(location.name)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                }
+                HStack {
+                    
+                }
+                HStack {
+                    Spacer()
+                    Button("") {
+                        self.presentationMode.wrappedValue.dismiss()
+                        // this should dismiss the sheet
+                    }
+                        .buttonStyle(xButton())
+                        .padding(.leading, 10)
+                    
+                }
+            }
+            .padding()
+                
             
             List(locationViewModel.reviews) { review in
                 ReviewView(review: review)
@@ -198,12 +224,6 @@ struct LocationDetailView: View {
                 .presentationDetents([.medium])
             }
         }
-        .overlay(alignment: .topLeading, content: {
-            Button("") {
-            }
-            .buttonStyle(CategoryButton(category: location.category))
-            .padding()
-        })
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -335,7 +355,7 @@ struct MapView: View {
     
     var body: some View {
         NavigationStack() {
-            Map(initialPosition: defaultPosition, selection: $mapSelectionName) {
+            Map(selection: $mapSelectionName) {
                 ForEach(viewModel.filteredLocations, id: \.id) { location in
                     Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
                         .tint(colorForCategory(location.category))
@@ -441,7 +461,7 @@ struct WriteReviewView: View {
                    
                 
                 Button("Submit") {
-                    onSubmit(rating, reviewText)
+                    onSubmit(rating + 1, reviewText)
                     isPresented = false
                 }
                 .frame(width: 160, height: 60)

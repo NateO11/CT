@@ -13,12 +13,13 @@ import FirebaseFirestore
 struct CategoryButton: ButtonStyle {
     let category: String
     let showTextBelow: Bool = false
+    var dimensions: CGFloat = 33
     func makeBody(configuration: Configuration) -> some View {
         Image(systemName: symbolForCategory(category))
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.white)
-            .frame(width: 33,height: 33)
+            .frame(width: dimensions,height: dimensions)
             .padding()
             .background(colorForCategory(category))
             .clipShape(Circle())
