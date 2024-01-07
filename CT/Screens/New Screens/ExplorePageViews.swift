@@ -299,6 +299,20 @@ struct bottomText: View {
 }
 
 
+struct xButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Image(systemName: "xmark")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.white)
+            .frame(width: 12,height: 12)
+            .padding()
+            .background(Color.blue)
+            .clipShape(Circle())
+        }
+    }
+
+
 #Preview {
     ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
 }

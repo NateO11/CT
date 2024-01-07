@@ -189,7 +189,6 @@ struct LocationDetailView: View {
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding(.top, 30)
-                .padding(.leading, 30)
             
             List(locationViewModel.reviews) { review in
                 ReviewView(review: review)
@@ -272,7 +271,7 @@ struct SubCategoryButton: View {
     @State private var isLinkActive: Bool = false
 
     var body: some View {
-        NavigationLink(destination: FourmsTemplate(college: viewModel.college.name, forum: forum), isActive: $isLinkActive) {
+        NavigationLink(destination: ForumsTemplate(college: viewModel.college.name, forum: forum), isActive: $isLinkActive) {
             Button(action: {
                 isLinkActive = true
             }) {
@@ -417,22 +416,53 @@ struct WriteReviewView: View {
 
     var body: some View {
         NavigationView {
-            Form {
-                Picker("Rating", selection: $rating) {
-                    ForEach(1...5, id: \.self) {
-                        Text("\($0) Stars")
+            VStack {
+                ZStack {
+                    HStack {
+                        Spacer()
+                    }
+                    HStack {
+                        Text("Write review")
+                            .font(.title
+                                .bold())
+                    }
+                    HStack {
+                        Spacer()
+                        Button("") {
+                            isPresented = false
+                        }
+                            .buttonStyle(xButton())
+                        
+                    }
+                }
+                .padding()
+                HStack {
+                    ForEach(0..<5) {value in
+                        Image(systemName: "star.fill")
+                            .resizable()
+                            .frame(width: 30,height: 30)
+                            .foregroundColor(self.rating >= value ? .yellow : .gray)
+                            .onTapGesture {
+                                self.rating = value
+                            }
                     }
                 }
                 TextEditor(text: $reviewText)
                     .frame(minHeight: 200)
+                    .border(Color.black)
+                    .padding()
+                   
+                
+                Button("Submit") {
+                    onSubmit(rating, reviewText)
+                    isPresented = false
+                }
+                .frame(width: 160, height: 60)
+                .background(Color.blue.opacity(0.5))
+                .foregroundColor(.white)
+                .cornerRadius(40)
+                .padding()
             }
-            .navigationTitle("Write Review")
-            .navigationBarItems(leading: Button("Cancel") {
-                isPresented = false
-            }, trailing: Button("Submit") {
-                onSubmit(rating, reviewText)
-                isPresented = false
-            })
         }
     }
 }

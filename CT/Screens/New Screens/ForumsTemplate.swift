@@ -14,7 +14,7 @@
 
 import SwiftUI
 
-struct FourmsTemplate: View {
+struct ForumsTemplate: View {
     @StateObject private var viewModel = ForumViewModel()
     @State private var collegeName: String = "Virginia Tech"
     @State private var forumName: String = "Greek"
@@ -45,5 +45,5 @@ struct FourmsTemplate: View {
 
 
 #Preview {
-    FourmsTemplate(college: "college name", forum: "forum name")
+    ForumsTemplate(college: "college name", forum: "forum name")
 }
