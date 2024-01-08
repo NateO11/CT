@@ -246,7 +246,6 @@ struct LocationDetailView: View {
     let location: Location
     @State private var showingReviewSheet = false
     @Environment(\.presentationMode) var presentationMode
-    @State private var isNavigationLinkActive = false
 
 
     var body: some View {
@@ -264,7 +263,7 @@ struct LocationDetailView: View {
                             .padding()
                     }
                         ZStack {
-                            Rectangle()
+                            RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white)
                             VStack {
                                 Text(location.name)
@@ -276,15 +275,14 @@ struct LocationDetailView: View {
                                 Text("\(location.name) is a super cool place at \(locationViewModel.college.name)")
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 10)
-                                NavigationLink(destination: LocationCardView(viewModel: LocationCardViewModel(), college: locationViewModel.college, location: location), isActive: $isNavigationLinkActive) {
-                                    Button("Read Reviews!") {
-                                        isNavigationLinkActive = true
-                                    }
-                                    .frame(width: 160, height: 60)
-                                    .background(Color.black.opacity(0.8))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(40)
-                                    .padding(10)
+                                Button("Read Reviews!") {
+                                    showingReviewSheet = true
+                                }
+                                .frame(width: 160, height: 60)
+                                .background(Color.black.opacity(0.8))
+                                .foregroundColor(.white)
+                                .cornerRadius(40)
+                                .padding(10)
                                 }
                             }
                         
@@ -301,8 +299,15 @@ struct LocationDetailView: View {
                 .buttonStyle(xButton())
                 .shadow(radius: 10)
                 .padding(10)
+        
         }
-        }
+            .sheet(isPresented: $showingReviewSheet) {
+                // This is the sheet presentation
+                LocationCardView(viewModel: LocationCardViewModel(), college: locationViewModel.college, location: location)
+                    .presentationDetents([.fraction(1)])
+                    .presentationDragIndicator(.hidden)
+                    .interactiveDismissDisabled()
+            }
     }
 }
 
@@ -407,6 +412,106 @@ struct ReviewView: View {
     }
 }
 
+struct NewReviewView: View {
+    let review: LocationReview
+
+    var body: some View {
+        // Layout for displaying the review
+        VStack(alignment: .leading, spacing: 5) {
+            HStack {
+                Text("\(review.userID)")
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                Spacer()
+                Text("\(review.rating) stars")
+                    .font(.subheadline)
+                    .foregroundColor(.yellow)
+            }
+            Text(review.title)
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundStyle(Color.black)
+            Text(review.text)
+                .font(.body)
+                .foregroundColor(.black)
+        }
+        .padding(.horizontal, 25)
+        .background(Color.clear)
+        .padding(.vertical, 5)
+    }
+}
+
+struct LocationCardView: View {
+    @StateObject var viewModel = LocationCardViewModel()
+    var college: College
+    var location: Location
+    @Environment(\.presentationMode) var presentationMode
+    var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            VStack {
+                Image(college.image)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.top, 20)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.white)
+                        .padding(.horizontal, 20)
+                        .frame(height: 100)
+                    VStack(alignment: .leading, spacing: 8) {
+                        VStack{
+                            Text(location.name)
+                                .font(.title)
+                            Text(college.name)
+                                .font(.headline)
+                        }
+                        .padding()
+                        
+                    }
+                    .padding(.horizontal, 40)
+                }
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.white)
+                        .padding(.horizontal, 20)
+                        .frame(maxHeight: .infinity)
+                    VStack {
+                        if viewModel.reviews.isEmpty {
+                            Text("Be the first to review this location")
+                        } else {
+                            ForEach(viewModel.reviews, id: \.text) { review in
+                                NewReviewView(review: review)
+                            }
+                        }
+                    }
+                }
+                Spacer()
+            }
+            .onAppear {
+                viewModel.fetchReviewsForLocation(collegeName: college.name, locationName: location.name)
+            }
+        }
+        .overlay(alignment: .topTrailing) {
+            Button("") {
+                self.presentationMode.wrappedValue.dismiss()
+                // this should dismiss the sheet
+            }
+            .buttonStyle(xButton())
+            .shadow(radius: 10)
+            .padding(10)
+        
+        }
+            
+    }
+    
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: date)
+    }
+}
+
+
 struct MapView: View {
     @ObservedObject var viewModel: MapViewModel
 
@@ -449,9 +554,9 @@ struct MapView: View {
                 .padding(30)
                 .sheet(isPresented: $showCategorySelect) {
                     categorySelect
-                        .presentationDetents([.fraction(0.55)])
-                        .presentationDragIndicator(.visible)
-                        .presentationCornerRadius(25)
+                        .presentationDetents([.fraction(0.45)])
+                        .presentationDragIndicator(.hidden)
+                        .interactiveDismissDisabled()
                 }
             }
             .navigationTitle("\(viewModel.college.name) - \(selectedCategory)")

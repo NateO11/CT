@@ -104,10 +104,12 @@ func symbolForCategory(_ category: String) -> String {
 struct CategorySelectView: View {
     @Binding var selectedCategory: String
     @Binding var showCategorySelect: Bool
+    @Environment(\.presentationMode) var presentationMode
+
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Select which type of locations you want!")
+            Text("Select a category")
             HStack(spacing: 12) {
                 Button("") {
                     selectedCategory = "Landmarks"
@@ -201,6 +203,16 @@ struct CategorySelectView: View {
                 }
                 .buttonStyle(CategoryButton(category: "All"))
             }
+        }
+        .overlay(alignment: .topTrailing) {
+            Button("") {
+                self.presentationMode.wrappedValue.dismiss()
+                // this should dismiss the sheet
+            }
+            .buttonStyle(xButton())
+            .shadow(radius: 10)
+            .padding(.top, -15)
+        
         }
     }
 }
