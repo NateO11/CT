@@ -257,6 +257,7 @@ struct LocationReview {
     let text: String
     let rating: Int
     let userID: String
+    let title: String
     let timestamp: Date
 }
 
@@ -313,11 +314,12 @@ class LocationCardViewModel: ObservableObject {
                         guard let text = reviewDocument["text"] as? String,
                               let rating = reviewDocument["rating"] as? Int,
                               let userID = reviewDocument["userID"] as? String,
+                              let title = reviewDocument["title"] as? String,
                               let timestamp = reviewDocument["timestamp"] as? Timestamp else {
                             return nil
                         }
 
-                        return LocationReview(text: text, rating: rating, userID: userID, timestamp: timestamp.dateValue())
+                        return LocationReview(text: text, rating: rating, userID: userID, title: title, timestamp: timestamp.dateValue())
                     } ?? []
 
                     DispatchQueue.main.async {

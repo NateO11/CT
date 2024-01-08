@@ -126,9 +126,11 @@ struct SchoolView: View {
                 viewModel.fetchLocations()
             }
         }
-        .navigationBarTitle("")  // To hide the default "Back" button text
-        .navigationBarHidden(true) // To hide the navigation bar when transitioning
+        .navigationBarTitle(viewModel.college.name)
+        .navigationBarHidden(false)
+        .navigationBarBackButtonHidden(false)
     }
+     
 }
 
 

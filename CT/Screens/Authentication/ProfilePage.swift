@@ -16,6 +16,7 @@ struct UserProfile {
 struct ProfilePage: View {
     
     @State private var user = UserProfile(name: "Nate  Owen", school: "Swift University", profilePicture: "UVA")
+    // add in the list of schools they like and the list of reviews
     
     
     var body: some View {
@@ -31,7 +32,7 @@ struct ProfilePage: View {
                     
                     // Edit Button
                     Button(action: {}) {
-                        Text("Edit")
+                        Text("Settings")
                             .padding()
                             .foregroundColor(.white)
                             .background(Color.gray)
@@ -66,7 +67,27 @@ struct ProfilePage: View {
                             .padding(.top, 5)
                     }
                 }
-                Spacer()
+                VStack(alignment: .leading){
+                    Text("Your Schools")
+                        .font(.title2)
+                        .padding(.top, 10)
+                        .bold()
+                    
+                    List{
+                        //list of schools they have favorited
+                    }
+                    
+                    Text("Your Reviews")
+                        .font(.title2)
+                        .padding(.top, 10)
+                        .bold()
+                    
+                    List{
+                        // list of reviews written
+                    }
+                    
+                    Spacer()
+                }
             }
             .padding()
         }

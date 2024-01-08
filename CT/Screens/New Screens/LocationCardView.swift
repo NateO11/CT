@@ -61,3 +61,4 @@ struct LocationCardView: View {
         return formatter.string(from: date)
     }
    }
+
