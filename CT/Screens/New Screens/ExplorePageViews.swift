@@ -90,9 +90,11 @@ struct SchoolCard: View {
         VStack(alignment: .leading) {
             Image(college.image) // Assuming imageName is the name of the image in the assets
                 .resizable()
-                .cornerRadius(20)
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 250, height: 225)
+                .cornerRadius(20)
                 .clipped()
+                .padding()
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(college.name)

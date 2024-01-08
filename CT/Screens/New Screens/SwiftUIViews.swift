@@ -257,13 +257,14 @@ struct LocationDetailView: View {
                     VStack {
                         Image(locationViewModel.college.image) // Assuming imageName is the name of the image in the assets
                             .resizable()
-                            .cornerRadius(20)
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: 150, height: 200)
+                            .cornerRadius(20)
                             .clipped()
                             .padding()
                     }
                         ZStack {
-                            RoundedRectangle(cornerRadius: 15)
+                            Rectangle()
                                 .fill(Color.white)
                             VStack {
                                 Text(location.name)
@@ -274,7 +275,7 @@ struct LocationDetailView: View {
                                     .padding(.top, 10)
                                 Text("\(location.name) is a super cool place at \(locationViewModel.college.name)")
                                     .foregroundColor(.black)
-                                    .padding(.horizontal, 5)
+                                    .padding(.horizontal, 10)
                                 NavigationLink(destination: LocationCardView(viewModel: LocationCardViewModel(), college: locationViewModel.college, location: location), isActive: $isNavigationLinkActive) {
                                     Button("Read Reviews!") {
                                         isNavigationLinkActive = true
@@ -467,6 +468,8 @@ struct MapView: View {
             .sheet(item: $selectedLocation) { location in
                 LocationDetailView(locationViewModel: LocationViewModel(college: viewModel.college), location: location)
                     .presentationDetents([.fraction(0.4)])
+                    .presentationDragIndicator(.hidden)
+                    .interactiveDismissDisabled()
             }
             
         }
