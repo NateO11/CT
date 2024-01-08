@@ -35,7 +35,6 @@
 		E6D2D36C2B2B8BC90093872A /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36B2B2B8BC90093872A /* FirebaseFirestoreCombine-Community */; };
 		E6D2D36E2B2B8BC90093872A /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D36D2B2B8BC90093872A /* FirebaseFirestoreSwift */; };
 		E6D2D3722B2B94460093872A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E6D2D3712B2B94460093872A /* GoogleService-Info.plist */; };
-		E6FAA6A62B4B1BDC004E0818 /* LocationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6FAA6A52B4B1BDC004E0818 /* LocationCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,7 +79,6 @@
 		E670FAEC2B268F6F00BB3692 /* CTUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E6D2D3702B2B93DF0093872A /* GoogleService-Info (1).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info (1).plist"; path = "../../Downloads/GoogleService-Info (1).plist"; sourceTree = "<group>"; };
 		E6D2D3712B2B94460093872A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		E6FAA6A52B4B1BDC004E0818 /* LocationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +129,6 @@
 				A180E9852B407F5200B0514A /* DataModels.swift */,
 				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
 				A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */,
-				E6FAA6A52B4B1BDC004E0818 /* LocationCardView.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
 			);
@@ -404,7 +401,6 @@
 				A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */,
 				E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
-				E6FAA6A62B4B1BDC004E0818 /* LocationCardView.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
 				E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */,
 				A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */,
