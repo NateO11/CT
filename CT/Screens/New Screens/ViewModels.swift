@@ -128,7 +128,6 @@ class LocationViewModel: ObservableObject {
     }
 }
 
-
 class MapViewModel: ObservableObject {
     @Published var locations: [Location] = []
     @Published var filteredLocations: [Location] = []
@@ -251,14 +250,6 @@ class ForumViewModel: ObservableObject {
             }
         }
     }
-}
-
-struct LocationReview {
-    let text: String
-    let rating: Int
-    let userID: String
-    let title: String
-    let timestamp: Date
 }
 
 class LocationCardViewModel: ObservableObject {

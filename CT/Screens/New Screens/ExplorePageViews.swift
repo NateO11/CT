@@ -94,7 +94,6 @@ struct SchoolCard: View {
                 .frame(width: 250, height: 225)
                 .cornerRadius(20)
                 .clipped()
-                .padding()
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(college.name)

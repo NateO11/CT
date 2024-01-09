@@ -134,17 +134,6 @@ struct SchoolView: View {
 }
 
 
-struct CollegeInfoView: View {
-    let college: College
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(college.name).font(.title)
-            // Other college details
-        }
-    }
-}
-
 struct subTitleText: View {
     let text: String
     let subtext: String
@@ -333,9 +322,10 @@ struct LocationHorizontalScrollView: View {
                     ForEach(images, id: \.self) { imageName in
                         Image(imageName)
                             .resizable()
-                            .cornerRadius(10)
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: 250, height: 225)
                             .clipped()
+                            .cornerRadius(10)
                     }
                 }
             }
@@ -383,11 +373,8 @@ struct SubCategoryButton: View {
 }
 
 
-
-
-
-
-struct ReviewView: View {
+/* Old review view version ... keep for reference
+struct OldReviewView: View {
     let review: Review
 
     var body: some View {
@@ -411,6 +398,7 @@ struct ReviewView: View {
         .padding(.vertical, 5)
     }
 }
+*/
 
 struct NewReviewView: View {
     let review: LocationReview
@@ -438,6 +426,64 @@ struct NewReviewView: View {
         .padding(.horizontal, 25)
         .background(Color.clear)
         .padding(.vertical, 5)
+    }
+}
+
+struct EvenNewerReviewView: View {
+    let review: LocationReview
+    let firstChar: String
+    @State private var expandedReviews: Set<String> = []
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                ZStack {
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: 25, height: 25)
+                    Text(String(firstChar).uppercased())
+                        .foregroundStyle(Color.white)
+                }
+                Text("\(review.userID)")
+                    .font(.subheadline)
+                    .foregroundColor(.black)
+
+            }
+            
+            HStack {
+                ForEach(0..<review.rating, id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                }
+                ForEach(review.rating..<5, id: \.self) { _ in
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.gray)
+                }
+            }
+            .padding(.vertical, 1)
+
+            Text("\(review.title)")
+                .font(.headline)
+                .bold()
+                .foregroundColor(.black)
+
+            Text("\(formattedDate(review.timestamp))")
+                .font(.caption2)
+                .foregroundColor(.gray)
+                .padding(.bottom, 5)
+                .padding(.top, 1)
+
+            Text(review.text)
+                .lineLimit(expandedReviews.contains(review.userID) ? nil : 4) // Show all lines if expanded
+                .font(.body)
+                .foregroundColor(.black)
+
+        }
+        .padding()
+    }
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: date)
     }
 }
 
@@ -479,9 +525,12 @@ struct LocationCardView: View {
                         if viewModel.reviews.isEmpty {
                             Text("Be the first to review this location")
                         } else {
-                            ForEach(viewModel.reviews, id: \.text) { review in
-                                NewReviewView(review: review)
-                            }
+                            List {
+                                ForEach(viewModel.reviews, id: \.text) { review in
+                                    let firstChar = Array(review.userID)[0]
+                                    EvenNewerReviewView(review: review, firstChar: String(firstChar).uppercased())
+                                }
+                            }.scrollContentBackground(.hidden)
                         }
                     }
                 }
@@ -656,20 +705,35 @@ struct ForumReviewListView: View {
     var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)]
 
     @State private var expandedReviews: Set<String> = []
+    
 
     var body: some View {
         List {
             ForEach(reviews, id: \.review) { review in
+                let firstChar = Array(review.user)[0]
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("\(review.user)")
-                        .font(.subheadline)
-                        .foregroundColor(.black)
-                        .padding(.bottom, 10)
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(Color.black)
+                                .frame(width: 25, height: 25)
+                            Text(String(firstChar).uppercased())
+                                .foregroundStyle(Color.white)
+                        }
+                        Text("\(review.user)")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
 
+                    }
+                    
                     HStack {
                         ForEach(0..<review.rating, id: \.self) { _ in
                             Image(systemName: "star.fill")
                                 .foregroundColor(.yellow)
+                        }
+                        ForEach(review.rating..<5, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.gray)
                         }
                     }
                     .padding(.vertical, 1)

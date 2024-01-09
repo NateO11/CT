@@ -27,14 +27,11 @@ struct ForumsTemplate: View {
     
     var body: some View {
         NavigationStack{
-            VStack(alignment: .leading) {
+            VStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack{
-                        Text(collegeName)
-                            .font(.title)
-                        
-                        Text(forumName)
-                            .font(.headline)
+                        Text("\(collegeName) - \(forumName)")
+                            .font(.title2)
                     }
                 }
                 .padding(.horizontal, 40)
