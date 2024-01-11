@@ -254,6 +254,15 @@ class ForumViewModel: ObservableObject {
 
 class LocationCardViewModel: ObservableObject {
     @Published var reviews: [LocationReview] = []
+    @Published var college: College
+    @Published var location: Location
+    private var db = Firestore.firestore()
+
+    
+    init(college: College, location: Location) {
+        self.college = college
+        self.location = location
+    }
 
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -261,6 +270,24 @@ class LocationCardViewModel: ObservableObject {
         return formatter.string(from: date)
     }
 
+    func submitReview(rating: Int, title: String, text: String, forLocation locationID: String) {
+        let reviewData: [String: Any] = [
+            "userID": "currentUserID",
+            "rating": rating,
+            "title": title,
+            "text": text,
+            "timestamp": Timestamp(date: Date())
+        ]
+
+        db.collection("Schools").document(college.id).collection("Locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
+            if let error = error {
+                print("Error adding review: \(error.localizedDescription)")
+            } else {
+                print("Review successfully added!")
+            }
+        }
+    }
+    
     func fetchReviewsForLocation(collegeName: String, locationName: String) {
         let db = Firestore.firestore()
         let schoolsRef = db.collection("Schools")

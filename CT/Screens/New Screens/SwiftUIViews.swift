@@ -42,7 +42,6 @@ struct ExploreView: View {
     }
 }
 
-
 struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
 
@@ -133,7 +132,6 @@ struct SchoolView: View {
      
 }
 
-
 struct subTitleText: View {
     let text: String
     let subtext: String
@@ -153,7 +151,6 @@ struct subTitleText: View {
         }
     }
 }
-
 
 // Old version of locationDetailView ...  please keep for reference
 /* struct LocationDetailView: View {
@@ -268,9 +265,10 @@ struct LocationDetailView: View {
                                     showingReviewSheet = true
                                 }
                                 .frame(width: 160, height: 60)
-                                .background(Color.black.opacity(0.8))
+                                .background(Color.black)
                                 .foregroundColor(.white)
                                 .cornerRadius(40)
+                                .shadow(radius: 10)
                                 .padding(10)
                                 }
                             }
@@ -292,7 +290,7 @@ struct LocationDetailView: View {
         }
             .sheet(isPresented: $showingReviewSheet) {
                 // This is the sheet presentation
-                LocationCardView(viewModel: LocationCardViewModel(), college: locationViewModel.college, location: location)
+                LocationCardView(viewModel: LocationCardViewModel(college: locationViewModel.college, location: location))
                     .presentationDetents([.fraction(1)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()
@@ -398,7 +396,7 @@ struct OldReviewView: View {
         .padding(.vertical, 5)
     }
 }
-*/
+
 
 struct NewReviewView: View {
     let review: LocationReview
@@ -428,6 +426,7 @@ struct NewReviewView: View {
         .padding(.vertical, 5)
     }
 }
+*/
 
 struct EvenNewerReviewView: View {
     let review: LocationReview
@@ -488,15 +487,14 @@ struct EvenNewerReviewView: View {
 }
 
 struct LocationCardView: View {
-    @StateObject var viewModel = LocationCardViewModel()
-    var college: College
-    var location: Location
+    @StateObject var viewModel: LocationCardViewModel
+    @State private var showingWriteReviewSheet = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
             VStack {
-                Image(college.image)
+                Image(viewModel.college.image)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .padding(.top, 20)
                 ZStack {
@@ -506,9 +504,9 @@ struct LocationCardView: View {
                         .frame(height: 100)
                     VStack(alignment: .leading, spacing: 8) {
                         VStack{
-                            Text(location.name)
+                            Text(viewModel.location.name)
                                 .font(.title)
-                            Text(college.name)
+                            Text(viewModel.college.name)
                                 .font(.headline)
                         }
                         .padding()
@@ -531,13 +529,15 @@ struct LocationCardView: View {
                                     EvenNewerReviewView(review: review, firstChar: String(firstChar).uppercased())
                                 }
                             }.scrollContentBackground(.hidden)
+                            Spacer()
+                            Spacer()
                         }
                     }
                 }
                 Spacer()
             }
             .onAppear {
-                viewModel.fetchReviewsForLocation(collegeName: college.name, locationName: location.name)
+                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
             }
         }
         .overlay(alignment: .topTrailing) {
@@ -548,7 +548,25 @@ struct LocationCardView: View {
             .buttonStyle(xButton())
             .shadow(radius: 10)
             .padding(10)
-        
+        }
+        .overlay(alignment: .bottom) {
+            Button("Write a Review") {
+                showingWriteReviewSheet = true
+            }
+            .frame(width: 160, height: 60)
+            .background(Color.black)
+            .foregroundColor(.white)
+            .cornerRadius(40)
+            .shadow(radius: 10)
+            .padding()
+            .sheet(isPresented: $showingWriteReviewSheet) {
+                WriteReviewView(isPresented: $showingWriteReviewSheet) { rating, title, text in
+                    viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+                }
+                .presentationDetents([.fraction(1)])
+                .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled()
+            }
         }
             
     }
@@ -645,8 +663,9 @@ struct MapView: View {
 struct WriteReviewView: View {
     @Binding var isPresented: Bool
     @State private var rating: Int = 0
+    @State private var titleText: String = ""
     @State private var reviewText: String = ""
-    var onSubmit: (Int, String) -> Void
+    var onSubmit: (Int, String, String) -> Void
 
     var body: some View {
         NavigationView {
@@ -666,6 +685,7 @@ struct WriteReviewView: View {
                             isPresented = false
                         }
                             .buttonStyle(xButton())
+                            .shadow(radius: 10)
                         
                     }
                 }
@@ -681,6 +701,11 @@ struct WriteReviewView: View {
                             }
                     }
                 }
+                TextEditor(text: $titleText)
+                    .frame(minHeight: 20)
+                    .border(Color.black)
+                    .padding()
+                
                 TextEditor(text: $reviewText)
                     .frame(minHeight: 200)
                     .border(Color.black)
@@ -688,7 +713,7 @@ struct WriteReviewView: View {
                    
                 
                 Button("Submit") {
-                    onSubmit(rating + 1, reviewText)
+                    onSubmit(rating + 1, titleText, reviewText)
                     isPresented = false
                 }
                 .frame(width: 160, height: 60)
