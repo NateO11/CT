@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */; };
+		A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */; };
 		A180E9862B407F5200B0514A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9852B407F5200B0514A /* DataModels.swift */; };
 		A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98D2B4081DB00B0514A /* ViewModels.swift */; };
 		A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryManager.swift; sourceTree = "<group>"; };
+		A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVersionsOfScreens.swift; sourceTree = "<group>"; };
 		A180E9852B407F5200B0514A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		A180E98D2B4081DB00B0514A /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				A180E9852B407F5200B0514A /* DataModels.swift */,
+				A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */,
 				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
 				A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
@@ -401,6 +404,7 @@
 				A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */,
 				E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
+				A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
 				E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */,
 				A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */,
