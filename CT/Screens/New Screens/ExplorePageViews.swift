@@ -60,7 +60,7 @@ struct LargeImageSection: View {
             }
             .padding()
         }
-        .padding(.bottom, 50)
+        .padding(.bottom, 30)
     }
 }
 
@@ -69,17 +69,18 @@ struct HorizontalSchoolsScrollView: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
+            HStack(spacing: 5) {
                 ForEach(colleges, id: \.id) { college in
                     NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
                         SchoolCard(college: college)
                     }
-                    // MapView(viewModel: MapViewModel(currentCollegeName: college.name))
-                    // SchoolView(viewModel: CollegeDetailViewModel(college: college))
                 }
             }
             .padding(.horizontal)
+            .scrollTargetLayout()
         }
+        .scrollTargetBehavior(.viewAligned)
+        
     }
 }
 
@@ -91,7 +92,7 @@ struct SchoolCard: View {
             Image(college.image) // Assuming imageName is the name of the image in the assets
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 250, height: 225)
+                .frame(width: 250, height: 200)
                 .cornerRadius(20)
                 .clipped()
             
