@@ -174,7 +174,7 @@ struct LocationDetailView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
                 HStack {
                     VStack {
                         Image(locationViewModel.college.image) // Assuming imageName is the name of the image in the assets
@@ -372,10 +372,14 @@ struct LocationCardView: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
             VStack {
                 Image(viewModel.college.image)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 200, height: 150)
+                    .clipped()
+                    .cornerRadius(10)
                     .padding(.top, 20)
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -554,7 +558,7 @@ struct WriteReviewView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
             VStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
