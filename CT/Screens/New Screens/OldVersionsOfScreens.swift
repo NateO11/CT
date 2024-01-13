@@ -210,4 +210,51 @@ struct OldWriteReviewView: View {
         }
     }
 }
+ 
+ struct HorizontalSchoolsScrollView: View {
+     var colleges: [College]
+
+     var body: some View {
+         ScrollView(.horizontal, showsIndicators: false) {
+             LazyHStack(spacing: 5) {
+                 ForEach(colleges, id: \.id) { college in
+                     NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
+                         SchoolCard(college: college)
+                     }
+                 }
+             }
+             .padding(.horizontal)
+             .scrollTargetLayout()
+         }
+         .scrollTargetBehavior(.viewAligned)
+         
+     }
+ }
+ 
+ struct SchoolView: View {
+     @ObservedObject var viewModel: CollegeDetailViewModel
+
+     var body: some View {
+         NavigationStack {
+             ScrollView {
+                 VStack(alignment: .leading, spacing: 10) {
+                     Spacer().frame(height: 90)
+                     
+                     // Horizontal Scroll of Photos
+                     ScrollView(.horizontal, showsIndicators: false) {
+                         HStack(spacing: 10) {
+                             ForEach(1..<5) { _ in
+                                 Image(viewModel.college.image)
+                                     .resizable()
+                                     .aspectRatio(contentMode: .fill)
+                                     .frame(width: 300, height: 200)
+                                     .clipped()
+                                     .cornerRadius(10)
+                             }
+                         }
+                     }
+                     .frame(height: 200)
+                     .padding(.bottom, 5) // Adjust spacing as needed
+ 
+ 
  */

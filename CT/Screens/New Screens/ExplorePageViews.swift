@@ -60,7 +60,7 @@ struct LargeImageSection: View {
             }
             .padding()
         }
-        .padding(.bottom, 30)
+        .padding(.vertical, 20)
     }
 }
 
@@ -69,46 +69,70 @@ struct HorizontalSchoolsScrollView: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 5) {
+            LazyHStack(spacing: 10) {
                 ForEach(colleges, id: \.id) { college in
-                    NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
-                        SchoolCard(college: college)
+                    GeometryReader { geometry in
+                        NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
+                            SchoolCard(college: college)
+                                .rotation3DEffect(
+                                    .degrees(-Double(geometry.frame(in: .global).minX) / 20),
+                                    axis: (x: 0, y: 1, z: 0)
+                                )
+                                .scaleEffect(scaleValue(geometry: geometry))
+                        }
                     }
+                    .frame(width: 250, height: 300)
                 }
             }
             .padding(.horizontal)
-            .scrollTargetLayout()
         }
-        .scrollTargetBehavior(.viewAligned)
-        
+    }
+
+    private func scaleValue(geometry: GeometryProxy) -> CGFloat {
+        var scale: CGFloat = 1.0
+        let offset = geometry.frame(in: .global).minX
+
+        // Adjust these values to control the scale
+        let threshold: CGFloat = 100
+        if abs(offset) < threshold {
+            scale = 1 + (threshold - abs(offset)) / 500
+        }
+
+        return scale
     }
 }
 
+
+
 struct SchoolCard: View {
     let college: College
-
     var body: some View {
-        VStack(alignment: .leading) {
-            Image(college.image) // Assuming imageName is the name of the image in the assets
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 250, height: 200)
-                .cornerRadius(20)
-                .clipped()
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(college.name)
-                    .fontWeight(.bold)
-                    .font(.title3)
-                    .foregroundColor(.black)
-                Text(college.city)
-                    .fontWeight(.regular)
-                    .font(.caption)
-                    .foregroundColor(.black)
-               
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white)
+            VStack(alignment: .leading) {
+                Image(college.image) // Assuming imageName is the name of the image in the assets
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 200, height: 200)
+                    .cornerRadius(20)
+                    .clipped()
+                    .shadow(radius: 10)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(college.name)
+                        .fontWeight(.bold)
+                        .font(.title3)
+                        .foregroundColor(.black)
+                    Text(college.city)
+                        .fontWeight(.regular)
+                        .font(.caption)
+                        .foregroundColor(.black)
+                   
+                }
             }
+            .padding(30)
         }
-        .padding()
     }
 }
 

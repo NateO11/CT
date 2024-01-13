@@ -19,7 +19,6 @@ struct ExploreView: View {
                 VStack {
                     TopButtonsSection(userID: ID) 
                     
-
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
 
                     HorizontalSchoolsScrollView(colleges: viewModel.colleges)
@@ -53,19 +52,28 @@ struct SchoolView: View {
                     
                     // Horizontal Scroll of Photos
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 20) {
                             ForEach(1..<5) { _ in
-                                Image(viewModel.college.image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 300, height: 200)
-                                    .clipped()
-                                    .cornerRadius(10)
+                                GeometryReader { geometry in
+                                    Image(viewModel.college.image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 300, height: 200)
+                                        .clipped()
+                                        .cornerRadius(10)
+                                        .rotation3DEffect(
+                                            .degrees(-Double(geometry.frame(in: .global).minX) / 20),
+                                            axis: (x: 0, y: 1, z: 0)
+                                        )
+                                        .scaleEffect(photoScaleValue(geometry: geometry))
+                                        .padding(20)
+                                }
+                                .frame(width: 300, height: 200)
                             }
                         }
                     }
-                    .frame(height: 200)
-                    .padding(.bottom, 5) // Adjust spacing as needed
+                    .frame(height: 220) // Adjusted to accommodate scaling
+                    .padding(.bottom, 5)// Adjust spacing as needed
                     
                     // School Information
                     Text(viewModel.college.name)
@@ -129,6 +137,18 @@ struct SchoolView: View {
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
     }
+    private func photoScaleValue(geometry: GeometryProxy) -> CGFloat {
+            var scale: CGFloat = 1.0
+            let offset = geometry.frame(in: .global).minX
+
+            // Adjust these values to control the scale
+            let threshold: CGFloat = 100
+            if abs(offset) < threshold {
+                scale = 1 + (threshold - abs(offset)) / 500
+            }
+
+            return scale
+        }
      
 }
 
