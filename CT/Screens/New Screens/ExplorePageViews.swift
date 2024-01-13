@@ -64,79 +64,82 @@ struct LargeImageSection: View {
     }
 }
 
-struct HorizontalSchoolsScrollView: View {
+struct SchoolScrollView: View {
     var colleges: [College]
-
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 10) {
-                ForEach(colleges, id: \.id) { college in
-                    GeometryReader { geometry in
+        GeometryReader(content: { geometry in
+            let size = geometry.size
+            
+            ScrollView(.horizontal) {
+                HStack(spacing: 5) {
+                    ForEach(colleges) { college in
                         NavigationLink(destination: SchoolView(viewModel: CollegeDetailViewModel(college: college))) {
-                            SchoolCard(college: college)
-                                .rotation3DEffect(
-                                    .degrees(-Double(geometry.frame(in: .global).minX) / 20),
-                                    axis: (x: 0, y: 1, z: 0)
-                                )
-                                .scaleEffect(scaleValue(geometry: geometry))
+                            GeometryReader(content: { proxy in
+                                let cardSize = proxy.size
+                                let minX = proxy.frame(in: .scrollView).minX - 60
+                                // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
+                                    
+                                Image(college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .offset(x: -minX)
+                                    .frame(width: proxy.size.width * 1.5)
+                                    .frame(width: cardSize.width, height: cardSize.height)
+                                    .overlay {
+                                        OverlayView(college)
+                                    }
+                                    .clipShape(.rect(cornerRadius: 15))
+                                    .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                
+                            })
+                            .frame(width: size.width - 120, height: size.height - 30)
+                            .scrollTransition(.interactive, axis: .horizontal) {
+                                view, phase in
+                                view
+                                    .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                        }
                         }
                     }
-                    .frame(width: 250, height: 300)
                 }
-            }
-            .padding(.horizontal)
-        }
-    }
-
-    private func scaleValue(geometry: GeometryProxy) -> CGFloat {
-        var scale: CGFloat = 1.0
-        let offset = geometry.frame(in: .global).minX
-
-        // Adjust these values to control the scale
-        let threshold: CGFloat = 100
-        if abs(offset) < threshold {
-            scale = 1 + (threshold - abs(offset)) / 500
-        }
-
-        return scale
-    }
-}
-
-
-
-struct SchoolCard: View {
-    let college: College
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
-            VStack(alignment: .leading) {
-                Image(college.image) // Assuming imageName is the name of the image in the assets
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 200, height: 200)
-                    .cornerRadius(20)
-                    .clipped()
-                    .shadow(radius: 10)
+                .padding(.horizontal, 60)
+                .scrollTargetLayout()
+                .frame(height: size.height, alignment: .top)
                 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(college.name)
-                        .fontWeight(.bold)
-                        .font(.title3)
-                        .foregroundColor(.black)
-                    Text(college.city)
-                        .fontWeight(.regular)
-                        .font(.caption)
-                        .foregroundColor(.black)
-                   
-                }
             }
-            .padding(30)
-        }
+            .scrollTargetBehavior(.viewAligned)
+            .scrollIndicators(.hidden)
+        })
+        .frame(height: 300)
+        .padding(.horizontal, -15)
+        .padding(.top, 10)
+            
+        
+    }
+    @ViewBuilder
+    func OverlayView(_ college: College) -> some View {
+        ZStack(alignment: .bottomLeading, content: {
+            LinearGradient(colors: [
+                .clear,
+                .clear,
+                .clear,
+                .black.opacity(0.1),
+                .black.opacity(0.5),
+                .black
+            ], startPoint: .top, endPoint: .bottom)
+            
+            VStack(alignment: .leading, spacing: 4, content: {
+                Text(college.name)
+                    .font(.title2)
+                    .fontWeight(.black)
+                    .foregroundStyle(.white)
+                Text(college.city)
+                    .font(.callout)
+                    .foregroundStyle(.white.opacity(0.8))
+            })
+            .padding(20)
+        })
     }
 }
-
-
 
 struct WelcomeNameText: View {
     let userID: String
@@ -154,7 +157,6 @@ struct WelcomeNameText: View {
     }
 }
 
-
 struct BlueRectangleView: View {
     var body: some View {
         Rectangle()
@@ -164,7 +166,6 @@ struct BlueRectangleView: View {
     }
       
 }
-
 
 struct explorePageTitleText: View {
     var body: some View {
@@ -176,7 +177,6 @@ struct explorePageTitleText: View {
             .fontWeight(.heavy)
     }
 }
-
 
 struct underlineRectangle: View {
     var body: some View {
@@ -237,8 +237,6 @@ struct StyledButtonDark<Destination: View>: View {
         .cornerRadius(40)
     }
 }
-
-
 
 struct largeImageBackground: View {
     
@@ -310,7 +308,6 @@ struct largeMapsButton: View {
     }
 }
 
-
 struct bottomText: View {
   
     let text: String
@@ -323,7 +320,6 @@ struct bottomText: View {
             
     }
 }
-
 
 struct xButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -338,7 +334,19 @@ struct xButton: ButtonStyle {
         }
     }
 
+var sampleColleges: [College] = [
+    .init(id: "UVA", name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA"),
+    .init(id: "VT", name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT"),
+    .init(id: "JMU", name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU"),
+    .init(id: "GMU", name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU"),
+    .init(id: "W&M", name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
+]
 
+/*
 #Preview {
     ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
+}
+*/
+#Preview {
+    SchoolScrollView(colleges: sampleColleges)
 }

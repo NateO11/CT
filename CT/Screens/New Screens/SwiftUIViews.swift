@@ -21,11 +21,11 @@ struct ExploreView: View {
                     
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
 
-                    HorizontalSchoolsScrollView(colleges: viewModel.colleges)
+                    SchoolScrollView(colleges: viewModel.colleges)
 
                     LargeImageSection(imageName: "stockimage2", title: "Find Your Next Step", description: "Read reviews from current students...")
                     
-                    HorizontalSchoolsScrollView(colleges: viewModel.colleges)
+                    SchoolScrollView(colleges: viewModel.colleges)
                     
                     LargeImageSection(imageName: "stockimage3", title: "I'm going to end it all", description: "The voices are growing louder...")
 
@@ -52,28 +52,19 @@ struct SchoolView: View {
                     
                     // Horizontal Scroll of Photos
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 10) {
                             ForEach(1..<5) { _ in
-                                GeometryReader { geometry in
-                                    Image(viewModel.college.image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 300, height: 200)
-                                        .clipped()
-                                        .cornerRadius(10)
-                                        .rotation3DEffect(
-                                            .degrees(-Double(geometry.frame(in: .global).minX) / 20),
-                                            axis: (x: 0, y: 1, z: 0)
-                                        )
-                                        .scaleEffect(photoScaleValue(geometry: geometry))
-                                        .padding(20)
-                                }
-                                .frame(width: 300, height: 200)
+                                Image(viewModel.college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 300, height: 200)
+                                    .clipped()
+                                    .cornerRadius(10)
                             }
                         }
                     }
-                    .frame(height: 220) // Adjusted to accommodate scaling
-                    .padding(.bottom, 5)// Adjust spacing as needed
+                    .frame(height: 200)
+                    .padding(.bottom, 5) // Adjust spacing as needed
                     
                     // School Information
                     Text(viewModel.college.name)
