@@ -510,8 +510,9 @@ struct MapView: View {
                 .padding(30)
                 .sheet(isPresented: $showCategorySelect) {
                     categorySelect
-                        .presentationDetents([.fraction(0.45)])
+                        .presentationDetents([.fraction(0.35)])
                         .presentationDragIndicator(.hidden)
+                        .presentationBackground(.ultraThinMaterial)
                         .interactiveDismissDisabled()
                 }
             }
@@ -550,7 +551,11 @@ struct MapView: View {
 // Map annotation view goes here (if using MapKit)
 struct WriteReviewView: View {
     @StateObject var viewModel: LocationCardViewModel
-    @Binding var isPresented: Bool
+    @Binding var isPresented: Bool {
+        didSet {
+            viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
+        }
+    }
     @State private var rating: Int = 0
     @State private var titleText: String = ""
     @State private var reviewText: String = ""

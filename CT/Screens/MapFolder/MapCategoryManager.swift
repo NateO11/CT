@@ -108,101 +108,45 @@ struct CategorySelectView: View {
 
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Select a category")
-            HStack(spacing: 12) {
-                Button("") {
-                    selectedCategory = "Landmarks"
-                    showCategorySelect.toggle()
+        ZStack {
+            Rectangle()
+                .fill(Color.clear)
+            VStack(spacing: 20) {
+                Text("Select a category")
+                HStack(spacing: 12) {
+                    Button("") {
+                        selectedCategory = "Landmarks"
+                        showCategorySelect.toggle()
+                    }
+                    .buttonStyle(CategoryButton(category: "Landmarks"))
+                    
+                    Button("") {
+                        selectedCategory = "Athletics"
+                        showCategorySelect.toggle()
+                    }
+                    .buttonStyle(CategoryButton(category: "Athletics"))
+                    
+                    Button("") {
+                        selectedCategory = "Dining"
+                        showCategorySelect.toggle()
+                    }
+                    .buttonStyle(CategoryButton(category: "Dining"))
                 }
-                .buttonStyle(CategoryButton(category: "Landmarks"))
-                
-                Button("") {
-                    selectedCategory = "Athletics"
-                    showCategorySelect.toggle()
+                HStack {
+                    Button("") {
+                        selectedCategory = "Study Spots"
+                        showCategorySelect.toggle()
+                    }
+                    .buttonStyle(CategoryButton(category: "Study Spots"))
+                    
+                    Button("") {
+                        selectedCategory = "All"
+                        showCategorySelect.toggle()
+                    }
+                    .buttonStyle(CategoryButton(category: "All"))
                 }
-                .buttonStyle(CategoryButton(category: "Athletics"))
-                
-                Button("") {
-                    selectedCategory = "Dining"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Dining"))
-                
-                Button("") {
-                    selectedCategory = "Study Spots"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Study Spots"))
-                
-                Button("") {
-                    selectedCategory = "Restaurants"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Restaurants"))
             }
-            HStack(spacing: 12) {
-                Button("") {
-                    selectedCategory = "Engineering"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Engineering"))
-                
-                Button("") {
-                    selectedCategory = "Law"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Law"))
-                
-                Button("") {
-                    selectedCategory = "Business"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Business"))
-                
-                Button("") {
-                    selectedCategory = "Living"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Living"))
-                
-                Button("") {
-                    selectedCategory = "Nature"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Nature"))
-            }
-            HStack(spacing: 12) {
-                Button("") {
-                    selectedCategory = "Parking"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Parking"))
-                
-                Button("") {
-                    selectedCategory = "Local Area"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Local Area"))
-                
-                Button("") {
-                    selectedCategory = "Stadiums"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Stadiums"))
-                
-                Button("") {
-                    selectedCategory = "Health"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "Health"))
-                
-                Button("") {
-                    selectedCategory = "All"
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: "All"))
-            }
+            
         }
         .overlay(alignment: .topTrailing) {
             Button("") {
@@ -211,8 +155,8 @@ struct CategorySelectView: View {
             }
             .buttonStyle(xButton())
             .shadow(radius: 10)
-            .padding(.top, -15)
-        
+            .padding(20)
+            
         }
     }
 }
