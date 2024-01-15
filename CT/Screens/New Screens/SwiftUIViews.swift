@@ -195,6 +195,7 @@ struct LocationDetailView: View {
                                     .foregroundColor(.black)
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 10)
+                                    .padding(.horizontal, 5)
                                 Text("\(location.name) is a super cool place at \(locationViewModel.college.name)")
                                     .foregroundColor(.black)
                                     .padding(.horizontal, 10)
@@ -228,7 +229,7 @@ struct LocationDetailView: View {
             .sheet(isPresented: $showingReviewSheet) {
                 // This is the sheet presentation
                 LocationCardView(viewModel: LocationCardViewModel(college: locationViewModel.college, location: location))
-                    .presentationDetents([.fraction(1)])
+                    .presentationDetents([.fraction(0.99)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()
             }
@@ -390,6 +391,7 @@ struct LocationCardView: View {
                         VStack{
                             Text(viewModel.location.name)
                                 .font(.title)
+                                .multilineTextAlignment(.center)
                             Text(viewModel.college.name)
                                 .font(.headline)
                         }
@@ -447,7 +449,7 @@ struct LocationCardView: View {
                 WriteReviewView(viewModel: LocationCardViewModel(college: viewModel.college, location: viewModel.location), isPresented: $showingWriteReviewSheet) { rating, title, text in
                     viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
                 }
-                .presentationDetents([.fraction(1)])
+                .presentationDetents([.fraction(0.99)])
                 .presentationDragIndicator(.hidden)
                 .interactiveDismissDisabled()
             }
@@ -527,6 +529,9 @@ struct MapView: View {
                     .presentationDetents([.fraction(0.4)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()
+                    .onDisappear(perform: {
+                        mapSelectionName = nil
+                    })
             }
             
         }
@@ -554,6 +559,7 @@ struct WriteReviewView: View {
     @State private var rating: Int = 0
     @State private var titleText: String = ""
     @State private var reviewText: String = ""
+    @State private var showAlert: Bool = false
     var onSubmit: (Int, String, String) -> Void
 
     var body: some View {
@@ -578,7 +584,7 @@ struct WriteReviewView: View {
                             Text("\(viewModel.college.name) - \(viewModel.college.city)")
                                 .font(.headline)
                         }
-                    }
+                    }.padding(.horizontal, 25)
                 }
                 .padding(.top, 20)
                 ZStack {
@@ -597,24 +603,39 @@ struct WriteReviewView: View {
                                     }
                             }
                         }
+                        .padding(.bottom, 10)
                         VStack(alignment: .leading) {
                             Text("Title your review")
                                 .font(.headline)
                             TextField("Title", text: $titleText)
-                                .border(Color.black)
-                            Text("Tell us your thoughts")
+                                .padding(5)
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black))
+                            Text("Write your review")
                                 .font(.headline)
-                            TextEditor(text: $reviewText)
-                                .border(Color.black)
+                            ZStack(alignment: .topLeading) {
+                                TextEditor(text: $reviewText)
+                                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black))
+                                if reviewText == "" {
+                                    Text("Tell us what you think!")
+                                        .foregroundStyle(Color.gray.opacity(0.6))
+                                        .padding(.horizontal, 4)
+                                        .padding(.vertical, 8)
+                                }
+                            }
                         }
                         Button("Submit") {
-                            onSubmit(rating + 1, titleText, reviewText)
-                            isPresented = false
-                        }
+                            if titleText != "" && reviewText != "" {
+                                onSubmit(rating + 1, titleText, reviewText)
+                                isPresented = false
+                            } else {
+                                showAlert = true
+                            }
+                        }.alert("Must fill out all fields! \nGet a clue lil bro", isPresented: $showAlert, actions: {})
                         .frame(width: 160, height: 60)
                         .background(Color.black)
                         .foregroundColor(.white)
                         .cornerRadius(40)
+                        .shadow(radius: 10)
                         .padding()
                     }
                     .padding(30)
