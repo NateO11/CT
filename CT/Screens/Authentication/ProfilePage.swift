@@ -15,10 +15,10 @@ struct UserProfile {
 
 struct ProfilePage: View {
     
-    @State private var user = UserProfile(name: "Nate  Owen", school: "Swift University", profilePicture: "UVA")
+    @State private var user = UserProfile(name: "Nate Owen", school: "Swift University", profilePicture: "UVA")
     // add in the list of schools they like and the list of reviews
-    
-    
+    @EnvironmentObject var authState: AuthState
+        
     var body: some View {
         ScrollView{
             VStack {
@@ -45,7 +45,7 @@ struct ProfilePage: View {
                     // Profile Picture
                     Image(user.profilePicture)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
@@ -68,7 +68,13 @@ struct ProfilePage: View {
                     }
                 }
                 VStack(alignment: .leading){
+                    let supposedID = authState.currentUserId ?? "ratio"
+
                     Text("Your Schools")
+                        .font(.title2)
+                        .padding(.top, 10)
+                        .bold()
+                    Text(supposedID)
                         .font(.title2)
                         .padding(.top, 10)
                         .bold()

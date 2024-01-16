@@ -10,6 +10,8 @@ import Combine
 
 class AuthState: ObservableObject {
     @Published var signedIn: Bool = false
+    @Published var currentUserEmail: String?
+    @Published var currentUserId: String?
     private var cancellables: Set<AnyCancellable> = []
 
     init() {

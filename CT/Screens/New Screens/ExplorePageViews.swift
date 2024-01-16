@@ -60,6 +60,7 @@ struct LargeImageSection: View {
             }
             .padding()
         }
+        // .clipShape(.rect(topLeadingRadius: 10))
         .padding(.vertical, 20)
     }
 }
@@ -130,6 +131,7 @@ struct SchoolScrollView: View {
             VStack(alignment: .leading, spacing: 4, content: {
                 Text(college.name)
                     .font(.title2)
+                    .multilineTextAlignment(.leading)
                     .fontWeight(.black)
                     .foregroundStyle(.white)
                 Text(college.city)

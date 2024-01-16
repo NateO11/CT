@@ -256,6 +256,7 @@ class LocationCardViewModel: ObservableObject {
     @Published var reviews: [LocationReview] = []
     @Published var college: College
     @Published var location: Location
+    @EnvironmentObject var authState: AuthState
     private var db = Firestore.firestore()
 
     
@@ -286,6 +287,14 @@ class LocationCardViewModel: ObservableObject {
                 print("Review successfully added!")
             }
         }
+        db.collection("Users").document("OK").collection("reviews").addDocument(data: reviewData) { error in
+            if let error = error {
+                print("Error adding review: \(error.localizedDescription)")
+            } else {
+                print("Review successfully added!")
+            }
+        }
+        
     }
     
     func fetchReviewsForLocation(collegeName: String, locationName: String) {

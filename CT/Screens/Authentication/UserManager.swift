@@ -14,13 +14,14 @@ class UserManager {
 
     func validateUser(email: String, password: String, authState: AuthState, completion: @escaping (Bool) -> Void) async {
         do {
-            _ = try await Auth.auth().signIn(withEmail: email, password: password)
+            let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
 
             // Successfully signed in
-            await getID(forEmail: email) { documentID in
-                authState.signedIn = true
-                completion(true)
-            }
+            authState.currentUserEmail = email
+            authState.currentUserId = authResult.user.uid // Set the user ID
+            authState.signedIn = true
+
+            completion(true)
         } catch {
             // Error signing in
             authState.signedIn = false
@@ -29,15 +30,18 @@ class UserManager {
         }
     }
 
+
     func createUser(name: String, email: String, password: String, username: String, confirmPassword: String, authState: AuthState, completion: @escaping (Bool) -> Void) {
         Task {
             if name != "" && email != "" && password != "" && username != "" && confirmPassword != "" {
                 if confirmPassword == password {
                     do {
-                        try await Auth.auth().createUser(withEmail: email, password: password)
-                        await getID(forEmail: email) { documentID in
-                            completion(true)
-                        }
+                        let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+                        authState.currentUserEmail = email
+                        authState.currentUserId = authResult.user.uid // Set the user ID
+                        authState.signedIn = true
+
+                        completion(true)
                     } catch {
                         completion(false)
                         print("Error creating user:", error.localizedDescription)
@@ -50,6 +54,7 @@ class UserManager {
             }
         }
     }
+
 
     func createUserInfo(name: String, email: String, username: String, password: String, authState: AuthState) {
         let db = Firestore.firestore()
