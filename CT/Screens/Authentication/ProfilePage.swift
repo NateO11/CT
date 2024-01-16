@@ -17,7 +17,7 @@ struct ProfilePage: View {
     
     @State private var user = UserProfile(name: "Nate Owen", school: "Swift University", profilePicture: "UVA")
     // add in the list of schools they like and the list of reviews
-    @EnvironmentObject var authState: AuthState
+//    @EnvironmentObject var authState: AuthState
         
     var body: some View {
         ScrollView{
@@ -68,13 +68,13 @@ struct ProfilePage: View {
                     }
                 }
                 VStack(alignment: .leading){
-                    let supposedID = authState.currentUserId ?? "ratio"
+             //       let supposedID = authState.currentUserId ?? "ratio"
 
                     Text("Your Schools")
                         .font(.title2)
                         .padding(.top, 10)
                         .bold()
-                    Text(supposedID)
+              //      Text(supposedID)
                         .font(.title2)
                         .padding(.top, 10)
                         .bold()

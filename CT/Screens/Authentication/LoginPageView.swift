@@ -63,7 +63,7 @@ struct LoginPageView: View {
                 if authState.signedIn {
                     NavigationLink(
                         "Loading...",
-                        destination: ExploreView(viewModel: ExploreViewModel(),ID: ID),
+                        destination: ExploreView(viewModel: ExploreViewModel(), ID: ID),
                         isActive: $authState.signedIn
                     )
                     .navigationBarHidden(true)
@@ -97,6 +97,9 @@ struct LoginPageView: View {
     func validateUser() async {
         await UserManager.shared.validateUser(email: email, password: password, authState: authState) { success in
             errorSignIN = !success
+            if success {
+                authState.signedIn = true
+            }
         }
     }
 }

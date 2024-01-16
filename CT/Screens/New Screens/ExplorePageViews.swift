@@ -56,7 +56,7 @@ struct LargeImageSection: View {
                 Spacer()
                 largeImageTitleText(text: title)
                 largeImageSmallText(text: description)
-                largeMapsButton() // Customize this as needed
+                largeMapsButton(colleges: sampleColleges) // Customize this as needed
             }
             .padding()
         }
@@ -148,7 +148,7 @@ struct WelcomeNameText: View {
     @State private var name: String = "placeholdername"
 
     var body: some View {
-        Text("Welcome \(userID)")
+        Text("Welcome!")
             .font(.title)
             .padding(.bottom, 1)
             .foregroundColor(.white)
@@ -294,21 +294,24 @@ struct largeReviewsButton: View {
 }
 
 struct largeMapsButton: View {
+    
+    var colleges: [College]
+
     var body: some View {
         
-        HStack{
-            Spacer()
-            Button(action: { }) {
-                Text("View Maps")
-                    .foregroundColor(.black)
-                    .padding()
-                    .bold()
-                    .background(Color.white)
-                    .cornerRadius(30)
+        HStack {
+                    Spacer()
+            NavigationLink(destination: SearchView(colleges: sampleColleges)) {
+                        Text("View Schools")
+                            .foregroundColor(.black)
+                            .padding()
+                            .bold()
+                            .background(Color.white)
+                            .cornerRadius(30)
+                    }
+                }
             }
         }
-    }
-}
 
 struct bottomText: View {
   
@@ -344,11 +347,11 @@ var sampleColleges: [College] = [
     .init(id: "W&M", name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
 ]
 
-/*
+
 #Preview {
-    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
+    ExploreView(viewModel: ExploreViewModel(), ID: "placeholdr")
 }
-*/
-#Preview {
-    SchoolScrollView(colleges: sampleColleges)
-}
+//
+//#Preview {
+//    SchoolScrollView(colleges: sampleColleges)
+//}

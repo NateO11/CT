@@ -38,6 +38,13 @@ class ExploreViewModel: ObservableObject {
     }
 }
 
+
+
+
+
+
+
+
 class CollegeDetailViewModel: ObservableObject {
     @Published var college: College
     @Published var locations: [Location] = []
@@ -79,6 +86,13 @@ class CollegeDetailViewModel: ObservableObject {
         }
     }
 }
+
+
+
+
+
+
+
 
 class LocationViewModel: ObservableObject {
     @Published var reviews: [Review] = []
@@ -127,6 +141,12 @@ class LocationViewModel: ObservableObject {
         }
     }
 }
+
+
+
+
+
+
 
 class MapViewModel: ObservableObject {
     @Published var locations: [Location] = []
@@ -191,6 +211,13 @@ class MapViewModel: ObservableObject {
     }
 }
 
+
+
+
+
+
+
+
 class ForumViewModel: ObservableObject {
     @Published var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)] = []
 
@@ -251,6 +278,12 @@ class ForumViewModel: ObservableObject {
         }
     }
 }
+
+
+
+
+
+
 
 class LocationCardViewModel: ObservableObject {
     @Published var reviews: [LocationReview] = []
