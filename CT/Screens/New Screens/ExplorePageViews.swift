@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import Firebase
 
 struct TopButtonsSection: View {
     let userID: String
@@ -27,12 +28,12 @@ struct TopButtonsSection: View {
 
                     HStack {
                         VStack(alignment: .leading) {
-                            StyledButton(icon: "book", title: "Schools", destination: ProfilePage())
-                            StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage())
+                            StyledButton(icon: "book", title: "Schools", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                            StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
                         }
                         VStack(alignment: .leading) {
-                            StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage())
-                            StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage())
+                            StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                            StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
                         }
                     }
                 }
@@ -144,19 +145,42 @@ struct SchoolScrollView: View {
 }
 
 struct WelcomeNameText: View {
-    let userID: String
-    @State private var name: String = "placeholdername"
+    var userID: String
+    @State private var username: String = "Default Username"
 
     var body: some View {
-        Text("Welcome!")
+        Text("Welcome, \(username)!")
             .font(.title)
             .padding(.bottom, 1)
             .foregroundColor(.white)
             .onAppear {
-                // Fetch the username based on userID
-                // Example: self.name = fetchUsername(forID: userID)
+                fetchUserData()
             }
     }
+    
+    private func fetchUserData() {
+        let db = Firestore.firestore()
+
+        // Query the Users collection for the provided UserID
+        db.collection("Users").document(userID).getDocument { document, error in
+            if let error = error {
+                print("Error fetching document: \(error)")
+                return
+            }
+
+            if let userDoc = document {
+                let username = userDoc["Username"] as? String ?? "Default Username"
+                DispatchQueue.main.async {
+                    self.username = username
+                }
+            } else {
+                print("User not found")
+            }
+        }
+    }
+
+
+
 }
 
 struct BlueRectangleView: View {

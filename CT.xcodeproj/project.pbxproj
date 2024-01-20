@@ -20,6 +20,7 @@
 		E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */; };
 		E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E12B460093009EB5D6 /* SignUpView.swift */; };
 		E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */; };
+		E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646D0D82B5B3B5900805CE5 /* MainView.swift */; };
 		E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FACE2B268F6D00BB3692 /* CTApp.swift */; };
 		E670FAD32B268F6F00BB3692 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD22B268F6F00BB3692 /* Assets.xcassets */; };
 		E670FAD72B268F6F00BB3692 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD62B268F6F00BB3692 /* Preview Assets.xcassets */; };
@@ -69,6 +70,7 @@
 		E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		E61CE1E12B460093009EB5D6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumsTemplate.swift; sourceTree = "<group>"; };
+		E646D0D82B5B3B5900805CE5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		E670FACB2B268F6D00BB3692 /* CT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E670FACE2B268F6D00BB3692 /* CTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTApp.swift; sourceTree = "<group>"; };
 		E670FAD22B268F6F00BB3692 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */,
 				E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */,
 				E61CE1E12B460093009EB5D6 /* SignUpView.swift */,
+				E646D0D82B5B3B5900805CE5 /* MainView.swift */,
 				E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */,
 				E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */,
 				E60F7C742B3CD43300468BCC /* ProfilePage.swift */,
@@ -410,6 +413,7 @@
 				A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */,
 				E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */,
 				E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */,
+				E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

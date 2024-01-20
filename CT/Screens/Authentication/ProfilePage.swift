@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct UserProfile {
     var name: String
-    var school: String
-    var profilePicture: String
 }
 
 struct ProfilePage: View {
     
-    @State private var user = UserProfile(name: "Nate Owen", school: "Swift University", profilePicture: "UVA")
-    // add in the list of schools they like and the list of reviews
-//    @EnvironmentObject var authState: AuthState
-        
+    @State private var user: UserProfile?
+    var userID: String
+    
     var body: some View {
         ScrollView{
             VStack {
@@ -28,7 +26,7 @@ struct ProfilePage: View {
                         .padding(.top, 10)
                         .bold()
                     
-                   Spacer()
+                    Spacer()
                     
                     // Edit Button
                     Button(action: {}) {
@@ -41,9 +39,10 @@ struct ProfilePage: View {
                     .padding(.top, 20)
                     
                 }
+                .padding(.horizontal)
                 HStack{
                     // Profile Picture
-                    Image(user.profilePicture)
+                    Image("UVA")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)
@@ -53,54 +52,46 @@ struct ProfilePage: View {
                         .padding(.horizontal)
                     
                     // Name
-                    VStack{
-                        Text(user.name)
+                    VStack(alignment: .leading){
+                        //       let supposedID = authState.currentUserId ?? "ratio"
+                        Text(user?.name ?? "Loading...")
                             .font(.title)
-                            .padding(.top, 10)
-                            .padding(.horizontal)
+                            .padding()
                             .bold()
-                        
-                        // School
-                        Text(user.school)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.top, 5)
+                            .onAppear {
+                                fetchUserData()
+                            }
                     }
                 }
-                VStack(alignment: .leading){
-             //       let supposedID = authState.currentUserId ?? "ratio"
-
-                    Text("Your Schools")
-                        .font(.title2)
-                        .padding(.top, 10)
-                        .bold()
-              //      Text(supposedID)
-                        .font(.title2)
-                        .padding(.top, 10)
-                        .bold()
-                    
-                    List{
-                        //list of schools they have favorited
-                    }
-                    
-                    Text("Your Reviews")
-                        .font(.title2)
-                        .padding(.top, 10)
-                        .bold()
-                    
-                    List{
-                        // list of reviews written
-                    }
-                    
-                    Spacer()
+                
+            }
+        }
+    }
+        
+        func fetchUserData() {
+            let db = Firestore.firestore()
+            
+            // Query the Users collection for the provided UserID
+            db.collection("Users").whereField("UserID", isEqualTo: userID).getDocuments { querySnapshot, error in
+                guard let documents = querySnapshot?.documents else {
+                    print("Error fetching documents: \(error ?? NSError())")
+                    return
+                }
+                
+                // Assuming there's only one document for the given UserID
+                if let userDoc = documents.first {
+                    let username = userDoc["Username"] as? String ?? "Default Username"
+                    self.user = UserProfile(name: username)
+                } else {
+                    print("User not found")
                 }
             }
-            .padding()
         }
     }
     
-}
 
+
+        
 #Preview {
-    ProfilePage()
+    ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")
 }

@@ -26,12 +26,14 @@ struct ForumsTemplate: View {
     
     
     var body: some View {
-        NavigationStack{
+    
             VStack(alignment: .center) {
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack{
-                        Text("\(collegeName) - \(forumName)")
+                    VStack{
+                        Text("\(collegeName)")
                             .font(.title2)
+                        Text("\(forumName)")
+                            .font(.caption)
                     }
                 }
                 .padding(.horizontal, 40)
@@ -44,7 +46,7 @@ struct ForumsTemplate: View {
                 
             }
             
-            NavigationLink(destination: ProfilePage()) {
+        NavigationLink(destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")) {
                 VStack {
                     
                     Text("Write a Review")
@@ -61,7 +63,7 @@ struct ForumsTemplate: View {
         }
         
     }
-}
+
 
 
 #Preview {
