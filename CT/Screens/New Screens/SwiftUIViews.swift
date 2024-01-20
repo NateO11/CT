@@ -45,7 +45,6 @@ struct SchoolView: View {
     @ObservedObject var viewModel: CollegeDetailViewModel
 
     var body: some View {
-        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     Spacer().frame(height: 90)
@@ -123,7 +122,7 @@ struct SchoolView: View {
             .onAppear {
                 viewModel.fetchLocations()
             }
-        }
+        
         .navigationBarTitle(viewModel.college.name)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
@@ -483,7 +482,7 @@ struct MapView: View {
     
     
     var body: some View {
-        NavigationStack() {
+
             Map(selection: $mapSelectionName) {
                 ForEach(viewModel.filteredLocations, id: \.id) { location in
                     Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
@@ -534,7 +533,7 @@ struct MapView: View {
                     })
             }
             
-        }
+        
         
         .onChange(of: mapSelectionName) { oldValue, newValue in
             if let selected = viewModel.locations.first(where: { $0.name == newValue }) {
@@ -772,7 +771,6 @@ struct SearchView: View {
     var colleges: [College]
     
     var body: some View {
-        NavigationView {
             VStack{
                 Text("All Schools")
                     .font(.largeTitle)
@@ -801,7 +799,7 @@ struct SearchView: View {
                 }
                 //   .navigationBarTitle("Virginia Schools")
                 
-            }
+            
         }
     }
 }
