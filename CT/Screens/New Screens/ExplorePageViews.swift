@@ -192,18 +192,10 @@ struct SchoolScrollView: View {
                     .gray.opacity(0.8),
                     .gray
                 ], startPoint: .top, endPoint: .bottom)
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Text("Coming Soon!")
-                            .font(.title)
-                            .fontWeight(.black)
-                            .foregroundStyle(.white)
-                        Spacer()
-                    }
-                    Spacer()
-                }
+                Image("ComingSoon")
+                    .resizable()
+                    .opacity(0.5)
+                    .blur(radius: 0.5)
                 VStack(alignment: .leading, spacing: 4, content: {
                     Text(college.name)
                         .font(.title2)
