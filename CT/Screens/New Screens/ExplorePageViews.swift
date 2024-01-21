@@ -88,7 +88,7 @@ struct SchoolScrollView: View {
                                     .frame(width: proxy.size.width * 1.5)
                                     .frame(width: cardSize.width, height: cardSize.height)
                                     .overlay {
-                                        OverlayView(college)
+                                        OverlayView(college, available: college.available)
                                     }
                                     .clipShape(.rect(cornerRadius: 15))
                                     .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
@@ -118,29 +118,49 @@ struct SchoolScrollView: View {
         
     }
     @ViewBuilder
-    func OverlayView(_ college: College) -> some View {
-        ZStack(alignment: .bottomLeading, content: {
-            LinearGradient(colors: [
-                .clear,
-                .clear,
-                .clear,
-                .black.opacity(0.1),
-                .black.opacity(0.5),
-                .black
-            ], startPoint: .top, endPoint: .bottom)
-            
-            VStack(alignment: .leading, spacing: 4, content: {
-                Text(college.name)
-                    .font(.title2)
-                    .multilineTextAlignment(.leading)
-                    .fontWeight(.black)
-                    .foregroundStyle(.white)
-                Text(college.city)
-                    .font(.callout)
-                    .foregroundStyle(.white.opacity(0.8))
+    func OverlayView(_ college: College, available: Bool) -> some View {
+
+        if available {
+            ZStack(alignment: .bottomLeading, content: {
+                LinearGradient(colors: [
+                    Color.clear,
+                    .clear,
+                    .clear,
+                    .black.opacity(0.1),
+                    .black.opacity(0.5),
+                    .black
+                ], startPoint: .top, endPoint: .bottom)
+                
+                VStack(alignment: .leading, spacing: 4, content: {
+                    Text(college.name)
+                        .font(.title2)
+                        .multilineTextAlignment(.leading)
+                        .fontWeight(.black)
+                        .foregroundStyle(.white)
+                    Text(college.city)
+                        .font(.callout)
+                        .foregroundStyle(.white.opacity(0.8))
+                })
+                .padding(20)
             })
-            .padding(20)
-        })
+        } else {
+            ZStack {
+                Color.gray.opacity(0.7)
+                VStack {
+                    Text(college.name)
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .padding(.bottom, 20)
+                    Text("Coming Soon")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                }
+            }
+        }
+        
     }
 }
 
@@ -364,11 +384,11 @@ struct xButton: ButtonStyle {
     }
 
 var sampleColleges: [College] = [
-    .init(id: "UVA", name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA"),
-    .init(id: "VT", name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT"),
-    .init(id: "JMU", name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU"),
-    .init(id: "GMU", name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU"),
-    .init(id: "W&M", name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
+    .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA"),
+    .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT"),
+    .init(id: "JMU", available: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU"),
+    .init(id: "GMU", available: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU"),
+    .init(id: "W&M", available: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
 ]
 
 

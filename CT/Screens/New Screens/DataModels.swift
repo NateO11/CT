@@ -13,6 +13,7 @@ import FirebaseFirestore
 
 struct College: Identifiable {
     let id: String
+    let available: Bool
     let name: String
     let city: String
     let description: String

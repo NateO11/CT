@@ -27,12 +27,13 @@ class ExploreViewModel: ObservableObject {
             self.colleges = documents.map { queryDocumentSnapshot -> College in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
+                let available = data["available"] as? Bool ?? false
                 let name = data["name"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let image = data["image"] as? String ?? ""
 
-                return College(id: id, name: name, city: city, description: description, image: image)
+                return College(id: id, available: available, name: name, city: city, description: description, image: image)
             }
         }
     }
