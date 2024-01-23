@@ -276,34 +276,29 @@ struct SubCategoryButton: View {
     var forum: String
     var viewModel: CollegeDetailViewModel // Add this line
 
-    @State private var isLinkActive: Bool = false
-
     var body: some View {
-        NavigationLink(destination: ForumsTemplate(college: viewModel.college.name, forum: forum), isActive: $isLinkActive) {
-            Button(action: {
-                isLinkActive = true
-            }) {
-                HStack {
-                    Image(systemName: icon)
-                        .resizable()
-                        .foregroundColor(.white)
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20) // Set a fixed size for the image
+        NavigationLink(destination: ForumsTemplate(college: viewModel.college.name, forum: forum)) {
+            HStack {
+                Image(systemName: icon)
+                    .resizable()
+                    .foregroundColor(.white)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20) // Set a fixed size for the image
 
-                    Text(title)
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.5)
-                        .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take remaining space
-                }
-                .padding()
-                .background(Color.black)
-                .cornerRadius(30)
-                .frame(width: 150, height: 60) // Set a fixed size for the entire button
+                Text(title)
+                    .foregroundColor(.white)
+                    .font(.headline)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take remaining space
             }
-            .buttonStyle(PlainButtonStyle()) // Remove the default button style
+            .padding()
+            .background(Color.black)
+            .cornerRadius(30)
+            .frame(width: 150, height: 60) // Set a fixed size for the entire button
         }
+        .buttonStyle(PlainButtonStyle()) // Remove the default button style
+        
     }
 }
 
