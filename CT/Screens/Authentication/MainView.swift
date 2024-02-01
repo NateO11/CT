@@ -13,7 +13,7 @@ struct MainView: View {
             ExploreView(viewModel: ExploreViewModel(), ID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Profile")
+                    Text("Explore")
                 }
             
             SearchView(colleges: sampleColleges)
