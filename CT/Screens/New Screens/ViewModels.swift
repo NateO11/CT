@@ -11,11 +11,14 @@ import MapKit
 import FirebaseFirestore
 import CoreLocation
 
+
+// view model used for the explore page, really the only thing this uses is an array of colleges pulled from firestore ... down the line this should further classify colleges so there can be multiple unique scroll views ... maybe a Virginia specific array or an out of state array ... could eventually integrate some sorting algorithm to produce X relevant colleges based on onboarding survey or other user preferences
 class ExploreViewModel: ObservableObject {
     @Published var colleges: [College] = []
-
-    private var db = Firestore.firestore()
+    // published is super useful ... whenever a published object is changed, all views using the object are updated to reflect those changes
     
+    private var db = Firestore.firestore()
+    // calls database from firebase, built on keys that are in various dependencies within the app
 
     func fetchColleges() {
         db.collection("Schools").addSnapshotListener { querySnapshot, error in
@@ -23,6 +26,7 @@ class ExploreViewModel: ObservableObject {
                 print("No documents in 'Schools'")
                 return
             }
+            // using guard let allows us to ensure everything checks out before we try and execute any further code
 
             self.colleges = documents.map { queryDocumentSnapshot -> College in
                 let data = queryDocumentSnapshot.data()
@@ -32,8 +36,11 @@ class ExploreViewModel: ObservableObject {
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let image = data["image"] as? String ?? ""
+                
+                // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
                 return College(id: id, available: available, name: name, city: city, description: description, image: image)
+                // this systematically fills the colleges array, which is ultimately displayed on the explore page and subsequently accessed when looking at school specific views
             }
         }
     }
@@ -46,56 +53,7 @@ class ExploreViewModel: ObservableObject {
 
 
 
-class CollegeDetailViewModel: ObservableObject {
-    @Published var college: College
-    @Published var locations: [Location] = []
-
-    private var db = Firestore.firestore()
-
-    init(college: College) {
-        self.college = college
-    }
-    
-    func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
-    }
-
-    func fetchLocations() {
-        db.collection("Schools").document(college.id).collection("Locations").addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No locations found for college \(self.college.name)")
-                return
-            }
-
-            self.locations = documents.compactMap { queryDocumentSnapshot -> Location? in
-                let data = queryDocumentSnapshot.data()
-                let id = queryDocumentSnapshot.documentID
-                let name = data["name"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let category = data["category"] as? String ?? ""
-
-                // Parse the GeoPoint
-                guard let geoPoint = data["coordinate"] as? GeoPoint else {
-                    print("Invalid or missing coordinate for location \(name)")
-                    return nil
-                }
-                
-                let coordinate = self.convertGeoPointToCoordinate(geoPoint)
-
-                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-class LocationViewModel: ObservableObject {
+class LocationInitialViewModel: ObservableObject {
     @Published var reviews: [Review] = []
     @Published var college: College
 
@@ -286,7 +244,7 @@ class ForumViewModel: ObservableObject {
 
 
 
-class LocationCardViewModel: ObservableObject {
+class LocationExpandedViewModel: ObservableObject {
     @Published var reviews: [LocationReview] = []
     @Published var college: College
     @Published var location: Location
