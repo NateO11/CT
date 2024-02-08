@@ -142,6 +142,7 @@
 		A180E9842B407F3800B0514A /* New Screens */ = {
 			isa = PBXGroup;
 			children = (
+				E60F7C742B3CD43300468BCC /* ProfilePage.swift */,
 				E646D0D82B5B3B5900805CE5 /* MainView.swift */,
 				A19CCE122B753F2D00D2419A /* LocationInfo.swift */,
 				A180E9852B407F5200B0514A /* DataModels.swift */,
@@ -162,12 +163,10 @@
 		A180E9932B44988D00B0514A /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */,
-				E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */,
-				E61CE1E12B460093009EB5D6 /* SignUpView.swift */,
-				E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */,
-				E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */,
-				E60F7C742B3CD43300468BCC /* ProfilePage.swift */,
+				E68E42542B754C9C006CE026 /* Authentication Functions */,
+				E68E42502B754C1E006CE026 /* Login */,
+				E68E42512B754C2B006CE026 /* SignUp */,
+				E68E42532B754C75006CE026 /* PasswordReset */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -263,6 +262,39 @@
 				E670FAEC2B268F6F00BB3692 /* CTUITestsLaunchTests.swift */,
 			);
 			path = CTUITests;
+			sourceTree = "<group>";
+		};
+		E68E42502B754C1E006CE026 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		E68E42512B754C2B006CE026 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				E61CE1E12B460093009EB5D6 /* SignUpView.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		E68E42532B754C75006CE026 /* PasswordReset */ = {
+			isa = PBXGroup;
+			children = (
+				E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */,
+			);
+			path = PasswordReset;
+			sourceTree = "<group>";
+		};
+		E68E42542B754C9C006CE026 /* Authentication Functions */ = {
+			isa = PBXGroup;
+			children = (
+				E61CE1DB2B45FA29009EB5D6 /* UserManager.swift */,
+				E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */,
+			);
+			path = "Authentication Functions";
 			sourceTree = "<group>";
 		};
 		E6D2D36F2B2B93DF0093872A /* Frameworks */ = {
