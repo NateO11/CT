@@ -9,11 +9,30 @@ import SwiftUI
 
 
 struct LoginPageView: View {
+    
+    
+    /*
+     Below are specific private variables that are handled during all login attempts
+     
+     
+     email,password, ID are all strings
+     errorSignIN is a boolean value that is set to true during issues
+     signing in. Otherwise it is left as false
+     
+     
+     AuthState updates our function called AuthState which tracks the status of the signedIN variable
+     
+     
+     */
+    
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var ID: String = ""
     @State private var errorSignIN: Bool = false
     @StateObject private var authState = AuthState()
+    
+    
+    
 
     var body: some View {
         NavigationView {
@@ -28,21 +47,11 @@ struct LoginPageView: View {
                     .padding(.top, 30)
                     .font(.largeTitle)
                     .bold()
-
-                TextField("Email", text: $email)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding()
-                    .shadow(radius: 10)
-
-                TextField("Password", text: $password)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding()
-                    .shadow(radius: 10)
-
+                
+                AuthenticationUI(innerText: "Email", variableName: $email)
+                
+                AuthenticationUI(innerText: "Password", variableName: $password)
+                
                 Button() {
                     Task {
                        await validateUser()
@@ -95,7 +104,7 @@ struct LoginPageView: View {
     }
 
     func validateUser() async {
-        await UserManager.shared.validateUser(email: email, password: password, authState: authState) { success in
+        await LoginFunctions.shared.validateUser(email: email, password: password, authState: authState) { success in
             errorSignIN = !success
             if success {
                 authState.signedIn = true

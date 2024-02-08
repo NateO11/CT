@@ -56,10 +56,11 @@ struct SignUpView: View {
                     .padding(.bottom, 20)
 
                 Button(action: {
-                    UserManager.shared.createUser(name: name, email: email, password: password, username: username, confirmPassword: confirmPassword, authState: authState) { success in
+                    SignUpFunctions.shared.createUser(name: name, email: email, password: password, username: username, confirmPassword: confirmPassword, authState: authState) { success in
                         errorLogin = !success
                     }
-                }) {
+                })
+                {
                     Text("Sign Up")
                         .font(.title)
                         .frame(width: 200, height: 60)
@@ -68,6 +69,8 @@ struct SignUpView: View {
                         .cornerRadius(10)
                         .shadow(radius: 5)
                 }
+                
+                
                 .padding(.top, 20)
 
                 NavigationLink(destination: LoginPageView()) {

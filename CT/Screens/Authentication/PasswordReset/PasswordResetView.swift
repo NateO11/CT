@@ -65,7 +65,7 @@ struct PasswordResetView: View {
     }
 
     func resetPassword() {
-        UserManager.shared.resetPassword(email: email) { success, message in
+        PasswordResetFunctions.shared.resetPassword(email: email) { success, message in
             if success {
                 resetSuccessMessage = true
             } else {
