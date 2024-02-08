@@ -76,7 +76,7 @@ struct MapView: View {
                 viewModel.updateFilteredLocations(forCategory: newCategory)
             } // updates locations when they are filtered differently
             .sheet(item: $selectedLocation) { location in
-                LocationInitialView(locationViewModel: LocationViewModel(college: viewModel.college), location: location)
+                LocationInitialView(locationViewModel: LocationInitialViewModel(college: viewModel.college), location: location)
                     .presentationDetents([.fraction(0.4)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()

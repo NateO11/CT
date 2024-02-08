@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 
 struct SchoolView: View {
-    @ObservedObject var viewModel: CollegeDetailViewModel
+    var college: College
 
     var body: some View {
             ScrollView {
@@ -22,7 +22,7 @@ struct SchoolView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
                             ForEach(1..<5) { _ in
-                                Image(viewModel.college.image)
+                                Image(college.image)
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 300, height: 200)
@@ -35,25 +35,25 @@ struct SchoolView: View {
                     .padding(.bottom, 5) // Adjust spacing as needed
                     
                     // School Information
-                    Text(viewModel.college.name)
+                    Text(college.name)
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                         .padding(.bottom, 10)
                     
-                    Text(viewModel.college.city)
+                    Text(college.city)
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .padding(.bottom, 5)
                     
-                    Text(viewModel.college.description)
+                    Text(college.description)
                         .padding(.bottom, 10)
                     
                     // Navigation Buttons
                     HStack {
-                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: viewModel.college)))
+                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: college)))
                     }
                     
-                    LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [viewModel.college.image])
+                    LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [college.image])
                     
                     subTitleText(text: "Categories", subtext: "Hear what students have to say about...")
                     
@@ -66,33 +66,31 @@ struct SchoolView: View {
                         
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
-                                SubCategoryButton(icon: "g.square", title: "Greek Life", forum: "Greek", viewModel: viewModel)
-                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", viewModel: viewModel)
+                                SubCategoryButton(icon: "g.square", title: "Greek Life", forum: "Greek", college: college)
+                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", college: college)
                             }
                             HStack {
-                                SubCategoryButton(icon: "book", title: "Business", forum: "Business", viewModel: viewModel)
-                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Dining", viewModel: viewModel)
+                                SubCategoryButton(icon: "book", title: "Business", forum: "Business", college: college)
+                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Dining", college: college)
                             }
                             HStack {
-                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Athletics", viewModel: viewModel)
-                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Other", viewModel: viewModel)
+                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Athletics", college: college)
+                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Other", college: college)
                             }
                         }
                     }
                     .padding(.horizontal)
                     
-                    SchoolCardReviews(college: viewModel.college.name)
+                    SchoolCardReviews(college: college.name)
                     
-                    LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [viewModel.college.image])
+                    LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [college.image])
                 }
                 .padding()
             }
             .ignoresSafeArea()
-            .onAppear {
-                viewModel.fetchLocations()
-            }
+
         
-        .navigationBarTitle(viewModel.college.name)
+        .navigationBarTitle(college.name)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
     }
@@ -151,10 +149,10 @@ struct SubCategoryButton: View {
     var icon: String
     var title: String
     var forum: String
-    var viewModel: CollegeDetailViewModel // Add this line
+    var college: College
 
     var body: some View {
-        NavigationLink(destination: ForumsTemplate(college: viewModel.college.name, forum: forum)) {
+        NavigationLink(destination: ForumsTemplate(college: college.name, forum: forum)) {
             HStack {
                 Image(systemName: icon)
                     .resizable()
