@@ -11,11 +11,14 @@
 		A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */; };
 		A180E9862B407F5200B0514A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9852B407F5200B0514A /* DataModels.swift */; };
 		A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98D2B4081DB00B0514A /* ViewModels.swift */; };
-		A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */; };
 		A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9912B40ABA900B0514A /* ExplorePageViews.swift */; };
 		A19CCE0B2B6BEFFF00D2419A /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0A2B6BEFFF00D2419A /* Explore.swift */; };
 		A19CCE0D2B6BF06700D2419A /* HScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0C2B6BF06700D2419A /* HScroll.swift */; };
 		A19CCE0F2B6BF18900D2419A /* SchoolPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */; };
+		A19CCE112B753E6100D2419A /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE102B753E6100D2419A /* Map.swift */; };
+		A19CCE132B753F2D00D2419A /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE122B753F2D00D2419A /* LocationInfo.swift */; };
+		A19CCE152B753F5E00D2419A /* LocationReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE142B753F5E00D2419A /* LocationReviews.swift */; };
+		A19CCE172B753FC300D2419A /* SearchPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE162B753FC300D2419A /* SearchPageView.swift */; };
 		E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60F7C742B3CD43300468BCC /* ProfilePage.swift */; };
 		E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */; };
 		E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */; };
@@ -64,11 +67,14 @@
 		A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVersionsOfScreens.swift; sourceTree = "<group>"; };
 		A180E9852B407F5200B0514A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		A180E98D2B4081DB00B0514A /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
-		A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViews.swift; sourceTree = "<group>"; };
 		A180E9912B40ABA900B0514A /* ExplorePageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageViews.swift; sourceTree = "<group>"; };
 		A19CCE0A2B6BEFFF00D2419A /* Explore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		A19CCE0C2B6BF06700D2419A /* HScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HScroll.swift; sourceTree = "<group>"; };
 		A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolPage.swift; sourceTree = "<group>"; };
+		A19CCE102B753E6100D2419A /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		A19CCE122B753F2D00D2419A /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
+		A19CCE142B753F5E00D2419A /* LocationReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReviews.swift; sourceTree = "<group>"; };
+		A19CCE162B753FC300D2419A /* SearchPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageView.swift; sourceTree = "<group>"; };
 		E60F7C742B3CD43300468BCC /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
 		E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
@@ -137,15 +143,18 @@
 			isa = PBXGroup;
 			children = (
 				E646D0D82B5B3B5900805CE5 /* MainView.swift */,
+				A19CCE122B753F2D00D2419A /* LocationInfo.swift */,
 				A180E9852B407F5200B0514A /* DataModels.swift */,
 				A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */,
 				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
-				A180E98F2B4081ED00B0514A /* SwiftUIViews.swift */,
+				A19CCE162B753FC300D2419A /* SearchPageView.swift */,
+				A19CCE142B753F5E00D2419A /* LocationReviews.swift */,
 				A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */,
 				A19CCE0C2B6BF06700D2419A /* HScroll.swift */,
 				A19CCE0A2B6BEFFF00D2419A /* Explore.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
+				A19CCE102B753E6100D2419A /* Map.swift */,
 			);
 			path = "New Screens";
 			sourceTree = "<group>";
@@ -411,13 +420,15 @@
 			files = (
 				E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */,
 				E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */,
+				A19CCE152B753F5E00D2419A /* LocationReviews.swift in Sources */,
 				A180E9862B407F5200B0514A /* DataModels.swift in Sources */,
 				E61CE1DC2B45FA29009EB5D6 /* UserManager.swift in Sources */,
-				A180E9902B4081ED00B0514A /* SwiftUIViews.swift in Sources */,
 				E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */,
+				A19CCE172B753FC300D2419A /* SearchPageView.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
 				A19CCE0B2B6BEFFF00D2419A /* Explore.swift in Sources */,
 				A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */,
+				A19CCE112B753E6100D2419A /* Map.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
 				E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */,
 				A19CCE0D2B6BF06700D2419A /* HScroll.swift in Sources */,
@@ -426,6 +437,7 @@
 				E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */,
 				E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */,
 				A19CCE0F2B6BF18900D2419A /* SchoolPage.swift in Sources */,
+				A19CCE132B753F2D00D2419A /* LocationInfo.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
