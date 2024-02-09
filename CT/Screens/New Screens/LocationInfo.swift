@@ -13,8 +13,7 @@ import MapKit
 // smaller card between the two, takes up 40% of the screen and shows initial information about that location... includes image of school (eventually location image) and button to enter expanded view
 
 struct LocationInitialView: View {
-    @ObservedObject var locationViewModel: LocationInitialViewModel
-    let location: Location
+    @ObservedObject var viewModel: LocationViewModel
     // passes through neccesary information regarding location
     
     @State private var showingReviewSheet = false
@@ -25,11 +24,11 @@ struct LocationInitialView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [colorForCategory(location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
+                LinearGradient(gradient: Gradient(colors: [colorForCategory(viewModel.location.category), Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea()
                 // specific background color based on type of location
                 HStack {
                     VStack {
-                        Image(locationViewModel.college.image)
+                        Image(viewModel.college.image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 150, height: 200)
@@ -41,14 +40,14 @@ struct LocationInitialView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
                         VStack {
-                            Text(location.name)
+                            Text(viewModel.location.name)
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(.black)
                                 .multilineTextAlignment(.center)
                                 .padding(.top, 10)
                                 .padding(.horizontal, 5)
-                            Text("\(location.name) is a super cool place at \(locationViewModel.college.name)")
+                            Text("\(viewModel.location.name) is a super cool place at \(viewModel.college.name)")
                             // default description ... one will eventually be pulled from firestore
                                 .foregroundColor(.black)
                                 .padding(.horizontal, 10)
@@ -78,7 +77,7 @@ struct LocationInitialView: View {
             .padding(10)
         } // xbutton used to dismiss, maintains continuity between all map related sheets
         .sheet(isPresented: $showingReviewSheet) {
-            LocationExpandedView(viewModel: LocationExpandedViewModel(college: locationViewModel.college, location: location))
+            LocationExpandedView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location))
                 .presentationDetents([.fraction(0.99)]) // 0.99 instead of 1 to disable zoom effect
                 .presentationDragIndicator(.hidden)
                 .interactiveDismissDisabled()
@@ -91,7 +90,7 @@ struct LocationInitialView: View {
 // this is the expanded view that shows all the reviews for that specific location ... this sheet takes up the entire screen unlike the initial view which is ~40% ... includes button for user to write a review
 
 struct LocationExpandedView: View {
-    @StateObject var viewModel: LocationExpandedViewModel
+    @StateObject var viewModel: LocationViewModel
     // view model lets us pass through necceasry information about the location and relevant firestore related functions
     
     @State private var showingWriteReviewSheet = false
@@ -173,7 +172,7 @@ struct LocationExpandedView: View {
             .shadow(radius: 10)
             .padding()
             .sheet(isPresented: $showingWriteReviewSheet) {
-                WriteReviewView(viewModel: LocationExpandedViewModel(college: viewModel.college, location: viewModel.location), isPresented: $showingWriteReviewSheet) { rating, title, text in
+                WriteReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $showingWriteReviewSheet) { rating, title, text in
                     viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
                 }
                 .presentationDetents([.fraction(0.99)]) // 0.99 instead of 1 to ensure no zoom effect
