@@ -28,7 +28,7 @@ struct LoginPageView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var ID: String = ""
-    @State private var errorSignIN: Bool = false
+    @State private var errorSignIn: Bool = false
     @StateObject private var authState = AuthState()
     
     
@@ -40,19 +40,10 @@ struct LoginPageView: View {
             
             VStack {
                 
-                Image("CTlogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(20)
-
-                Text("Login")
-                    .padding(.top, 30)
-                    .font(.largeTitle)
-                    .bold()
-                
+              //  these are styles that are used across all of the auth screens
+            
+                AuthTitleAndImage(title: "Login")
                 AuthTextFieldStyle(innerText: "Email", variableName: $email)
-                
                 AuthTextFieldStyle(innerText: "Password", variableName: $password)
                     .padding(.bottom)
                 
@@ -68,11 +59,16 @@ struct LoginPageView: View {
                     AuthButtonStyle(buttonText: "Login")
                 }
 
+                
+                // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
                 if authState.signedIn {
                     NavigationLink("Signing In", destination: MainView())
                         .navigationBarHidden(true)
                 }
 
+                
+                // these are our linked to the other Auth Screens
+                
                 NavigationLink(destination: SignUpView()) {
                     Text("New User? Sign Up Here")
                         .foregroundColor(.blue)
@@ -83,24 +79,27 @@ struct LoginPageView: View {
                     Text("Forgot Your Password? Reset Here")
                         .foregroundColor(.blue)
                 }
-                .padding()
 
-                if errorSignIN {
-                    Text("Password or Email is incorrect")
-                        .foregroundColor(.red)
-                } else {
-                    Text("")
-                }
+                // alert error pops up wehn error signin is true
+                
+                .alert(isPresented: $errorSignIn) {
+                    Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
+                          dismissButton: .default(Text("OK")))
+                            }
             }
             .padding()
         }
+        
+       // You are injecting an instance of authState
+       // By doing this, any child views of the current view can access and observe changes to the properties of authState
+        
         .environmentObject(authState)
         .navigationBarHidden(true)
     }
 
     func validateUser() async {
         await LoginFunctions.shared.validateUser(email: email, password: password, authState: authState) { success in
-            errorSignIN = !success
+            errorSignIn = !success
             if success {
                 authState.signedIn = true
             }

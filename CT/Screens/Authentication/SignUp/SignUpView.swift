@@ -15,6 +15,7 @@ struct SignUpView: View {
     @State private var name: String = ""
     @State private var confirmPassword: String = ""
     @State private var errorLogin: Bool = false
+    @State private var showAlert: Bool = false
 
     // Inject the AuthState object
     @StateObject private var authState = AuthState()
@@ -22,72 +23,57 @@ struct SignUpView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Image("CTlogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(20)
+                AuthTitleAndImage(title: "Sign Up")
 
-                Text("Sign Up")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding()
-
-                TextField("First Name", text: $name)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
-
-                TextField("Username", text: $username)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
-
-                TextField("Email", text: $email)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
-
-                TextField("Password", text: $password)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
-
-                TextField("Confirm Password", text: $confirmPassword)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
-                    .padding(.bottom, 20)
+                AuthTextFieldStyle(innerText: "Name", variableName: $name)
+                AuthTextFieldStyle(innerText: "Username", variableName: $username)
+                AuthTextFieldStyle(innerText: "Email", variableName: $email)
+                AuthTextFieldStyle(innerText: "Password", variableName: $password)
+                AuthTextFieldStyle(innerText: "Confirm Password", variableName: $confirmPassword)
 
                 Button(action: {
                     SignUpFunctions.shared.createUser(name: name, email: email, password: password, username: username, confirmPassword: confirmPassword, authState: authState) { success in
                         errorLogin = !success
+                        
+        
+                        
                     }
                 })
                 {
                     AuthButtonStyle(buttonText: "Sign Up")
                 }
-                
-                
                 .padding(.top, 20)
+                
+                if authState.signedIn {
+                    NavigationLink("Creating Your Account", destination: MainView())
+                        .navigationBarHidden(true)
+                }
 
                 NavigationLink(destination: LoginPageView()) {
                     Text("Already have an account? Log in here.")
                         .foregroundColor(.blue)
                         .padding()
                 }
+                
+                // basic alert when errorLogin is true
 
-                if errorLogin {
-                    Text("Email or Username has already been used")
-                        .foregroundColor(.red)
-                        .padding(.top)
-                    Text("Make sure all fields are filled in")
-                        .foregroundColor(.red)
-                        .padding(.bottom)
-                }
+                .alert(isPresented: $errorLogin) {
+                    Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
+                          dismissButton: .default(Text("OK")))
+                            }
             }
+            
+            // You are injecting an instance of authState
+            // By doing this, any child views of the current view can access and observe changes to the properties of authState
+            
             .padding()
             .environmentObject(authState)
         }
         .navigationBarHidden(true)
     }
 }
+
+
 
 
 #Preview {

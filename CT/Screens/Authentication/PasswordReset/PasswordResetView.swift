@@ -10,36 +10,18 @@ import Firebase
 
 struct PasswordResetView: View {
     @State private var email: String = ""
-    @State private var resetSuccessMessage: Bool?
-    @State private var errorMessage: String?
+    @State private var resetSuccess: Bool = false
 
     var body: some View {
         NavigationView {
             VStack {
-                Image("CTlogo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(20)
+                AuthTitleAndImage(title: "Reset Password")
 
-                Text("Reset Password")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding()
 
-                TextField("Enter Email", text: $email)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).foregroundColor(Color(.systemGray6)))
+                AuthTextFieldStyle(innerText: "Enter Email", variableName: $email)
 
                 Button(action: { resetPassword() }) {
-                    Text("Reset")
-                        .font(.title)
-                        .frame(width: 200, height: 60)
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
+                    AuthButtonStyle(buttonText: "Reset")
                 }
                 .padding(.top, 20)
 
@@ -49,15 +31,11 @@ struct PasswordResetView: View {
                         .padding()
                 }
 
-                if let error = errorMessage {
-                    Text(error)
-                        .foregroundColor(.red)
-                        .padding()
-                } else if resetSuccessMessage != nil {
-                    Text("Check your inbox for a Reset Password Email")
-                        .foregroundColor(.green)
-                        .padding()
-                }
+                .alert(isPresented: $resetSuccess) {
+                                    Alert(title: Text("Oopsie"), message: Text("Please enter a valid email"),
+                                          dismissButton: .default(Text("OK")))
+                                            }
+
             }
             .padding()
         }
@@ -67,9 +45,9 @@ struct PasswordResetView: View {
     func resetPassword() {
         PasswordResetFunctions.shared.resetPassword(email: email) { success, message in
             if success {
-                resetSuccessMessage = true
+                resetSuccess = false
             } else {
-                errorMessage = message ?? "An unknown error occurred."
+                resetSuccess = true
             }
         }
     }
