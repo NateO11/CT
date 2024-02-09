@@ -35,8 +35,11 @@ struct LoginPageView: View {
     
 
     var body: some View {
+        
         NavigationView {
+            
             VStack {
+                
                 Image("CTlogo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -48,34 +51,26 @@ struct LoginPageView: View {
                     .font(.largeTitle)
                     .bold()
                 
-                AuthenticationUI(innerText: "Email", variableName: $email)
+                AuthTextFieldStyle(innerText: "Email", variableName: $email)
                 
-                AuthenticationUI(innerText: "Password", variableName: $password)
+                AuthTextFieldStyle(innerText: "Password", variableName: $password)
+                    .padding(.bottom)
                 
                 Button() {
                     Task {
                        await validateUser()
                      }
                    } 
+             
             
                     label:
                 {
-                        Text("Login")
-                            .font(.title)
-                            .frame(width: 200, height: 60)
-                            .background(Color.black)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                    }
+                    AuthButtonStyle(buttonText: "Login")
+                }
 
                 if authState.signedIn {
-                    NavigationLink(
-                        "Loading...",
-                        destination: MainView(),
-                        isActive: $authState.signedIn
-                    )
-                    .navigationBarHidden(true)
+                    NavigationLink("Signing In", destination: MainView())
+                        .navigationBarHidden(true)
                 }
 
                 NavigationLink(destination: SignUpView()) {
