@@ -18,7 +18,6 @@ struct College: Identifiable {
     let city: String
     let description: String
     let image: String
-    // Other college properties
 }
 
 struct Location: Identifiable {
@@ -27,19 +26,10 @@ struct Location: Identifiable {
     let description: String
     let coordinate: CLLocationCoordinate2D
     let category: String
-    // Other location properties
 }
 
-struct Review: Identifiable {
-    let id: String
-    let userID: String
-    let rating: Int
-    let text: String
-    let timestamp: Date
-    // Other review properties
-}
 
-struct LocationReview {
+struct Review {
     let text: String
     let rating: Int
     let userID: String

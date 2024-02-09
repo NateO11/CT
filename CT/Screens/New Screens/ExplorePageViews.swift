@@ -15,32 +15,32 @@ struct TopButtonsSection: View {
     @State private var userName: String = "Loading..."    
     
     var body: some View {
-        VStack {
-            ZStack {
-                BlueRectangleView()
-                   
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.blue, .black.opacity(0.85)]), startPoint: .topLeading, endPoint: .bottomTrailing).edgesIgnoringSafeArea(.all)
 
-                VStack(alignment: .leading) {
-                
-                    WelcomeNameText(userID: userID)
-                    underlineRectangle()
-                    explorePageTitleText()
+            VStack(alignment: .leading) {
+            
+                WelcomeNameText(userID: userID)
+                underlineRectangle()
+                explorePageTitleText()
 
-                    HStack {
-                        VStack(alignment: .leading) {
-                            StyledButton(icon: "book", title: "Schools", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                            StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                        }
-                        VStack(alignment: .leading) {
-                            StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                            StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                        }
+                HStack {
+                    VStack(alignment: .leading) {
+                        StyledButton(icon: "book", title: "Schools", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                        StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                    }
+                    VStack(alignment: .leading) {
+                        StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                        StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
                     }
                 }
-                .padding(.leading, 20)
             }
+            .frame(maxHeight: .infinity)
+            .padding(.leading, 20)
+            .padding(.bottom, 30)
+            .padding(.top, 60)
         }
-        .padding(.bottom, 10)
+
     }
 }
 
@@ -204,15 +204,6 @@ struct WelcomeNameText: View {
 
 }
 
-struct BlueRectangleView: View {
-    var body: some View {
-        Rectangle()
-            .fill(Color.blue)
-            .frame(height: 300)
-            .edgesIgnoringSafeArea(.all)
-    }
-      
-}
 
 struct explorePageTitleText: View {
     var body: some View {

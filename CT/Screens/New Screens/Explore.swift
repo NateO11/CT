@@ -21,7 +21,7 @@ struct ExploreView: View {
             ScrollView {
                 VStack {
                     TopButtonsSection(userID: ID)
-                    // this section contains the welcome message and a number of links to relevant pages, though all are populated with the user profile as of now
+                    // this section contains the welcome message and a number of links to relevant pages, though all are populated with the user profile as of now ... need to eventually make it so the gradient extends all the way to the top
                     
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
                     // each large image section will include a stock photo and a link to some feature of the app
@@ -42,6 +42,7 @@ struct ExploreView: View {
                     viewModel.fetchColleges()
                 } // there are some issues with the colleges not loading in with the rest of the componenents, leaving the scroll view blank initially ... I believe there is some udnerlying logic we can change with the async/await stuff to fix this
             }
+            .edgesIgnoringSafeArea(.top)
             .navigationBarBackButtonHidden(true)
         }
        .navigationBarBackButtonHidden(true)

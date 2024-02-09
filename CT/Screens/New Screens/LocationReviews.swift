@@ -13,7 +13,7 @@ import MapKit
 // this is essentially the template/format for each how each individual review displays when a user is reading reviews of a specific location ... this should be standardized and eventually incorporated into forum reviews as well for continuity
 
 struct IndividualReviewView: View {
-    let review: LocationReview
+    let review: Review
     let firstChar: String
     @State private var expandedReviews: Set<String> = []
     // logic to show/hide lines of a really long review, but not really using this right now
@@ -79,7 +79,7 @@ struct IndividualReviewView: View {
 // this view appears when the user clicks the "write a review" button while reading about a location ... once the user adds a rating, title, and body they can submit and the review is then added to firestore
 
 struct WriteReviewView: View {
-    @StateObject var viewModel: LocationExpandedViewModel
+    @StateObject var viewModel: LocationViewModel
     // view model includes functions neccesary to relay the reviews back and forth between firestore, although I want to make some small changes to the review data is sent to the associated user as well as the associated location, where it can then be accessed on the user's profile page
     
     @Binding var isPresented: Bool {
