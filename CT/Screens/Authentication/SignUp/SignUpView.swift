@@ -26,7 +26,7 @@ struct SignUpView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 100, height: 100)
-                    .cornerRadius(30)
+                    .cornerRadius(20)
 
                 Text("Sign Up")
                     .font(.largeTitle)
@@ -61,13 +61,7 @@ struct SignUpView: View {
                     }
                 })
                 {
-                    Text("Sign Up")
-                        .font(.title)
-                        .frame(width: 200, height: 60)
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
+                    AuthButtonStyle(buttonText: "Sign Up")
                 }
                 
                 
