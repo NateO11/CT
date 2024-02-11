@@ -30,6 +30,7 @@ struct LoginPageView: View {
     @State private var ID: String = ""
     @State private var errorSignIn: Bool = false
     @StateObject private var authState = AuthState()
+    @State private var navigateToMainView = false
     
     
     
@@ -61,10 +62,8 @@ struct LoginPageView: View {
 
                 
                 // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
-                if authState.signedIn {
-                    NavigationLink("Signing In", destination: MainView())
-                        .navigationBarHidden(true)
-                }
+                NavigationLink(destination: MainView(), isActive: $navigateToMainView) { EmptyView() }
+                    .navigationBarHidden(true)
 
                 
                 // these are our linked to the other Auth Screens
@@ -102,6 +101,9 @@ struct LoginPageView: View {
             errorSignIn = !success
             if success {
                 authState.signedIn = true
+                DispatchQueue.main.async {
+                    self.navigateToMainView = true 
+                }
             }
         }
     }
