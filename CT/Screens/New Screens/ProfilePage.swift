@@ -33,7 +33,7 @@ struct ProfilePage: View {
                         Text("Settings")
                             .padding()
                             .foregroundColor(.white)
-                            .background(Color.gray)
+                            .background(.black)
                             .cornerRadius(20)
                     }
                     .padding(.top, 20)

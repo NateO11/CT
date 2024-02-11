@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 class PasswordResetFunctions {
+    //
     static let shared = PasswordResetFunctions()
     
     func checkIfEmailExists(emailToCheck: String, completion: @escaping (Bool) -> Void) {
