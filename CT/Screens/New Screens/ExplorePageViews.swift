@@ -234,10 +234,10 @@ struct StyledButton<Destination: View>: View {
         NavigationLink(destination: destination) {
             HStack(alignment: .center) {
                 Image(systemName: icon)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.black)
                     .bold()
                 Text(title)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.black)
                     .padding(.leading, 5)
                     .bold()
             }
