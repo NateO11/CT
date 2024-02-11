@@ -63,6 +63,21 @@ struct ProfilePage: View {
                             }
                     }
                 }
+                HStack{
+                    Text("My Schools:")
+                        .font(.title2)
+                        .padding()
+                        .bold()
+                    Spacer()
+                }
+                
+                HStack{
+                    Text("My Reviews:")
+                        .font(.title2)
+                        .padding()
+                        .bold()
+                    Spacer()
+                }
                 
             }
         }

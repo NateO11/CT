@@ -84,7 +84,7 @@ struct LoginPageView: View {
                     // alert error pops up wehn error signin is true
                     
                     .alert(isPresented: $errorSignIn) {
-                        Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
+                        Alert(title: Text("Try Again"), message: Text("Email or Username has already been used. Make sure all fields are filled in"),
                               dismissButton: .default(Text("OK")))
                     }
                 }
