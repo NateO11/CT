@@ -36,6 +36,8 @@
 		E69829712B75609800F5A416 /* SignUp Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69829702B75609800F5A416 /* SignUp Functions.swift */; };
 		E69829732B75618100F5A416 /* Password Reset Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69829722B75618100F5A416 /* Password Reset Functions.swift */; };
 		E69829772B75689100F5A416 /* Authentication UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69829762B75689100F5A416 /* Authentication UI.swift */; };
+		E698297B2B79441800F5A416 /* littlepraccy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698297A2B79441800F5A416 /* littlepraccy.swift */; };
+		E698297D2B7945C000F5A416 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E698297C2B7945C000F5A416 /* SplashScreenView.swift */; };
 		E6D2D35E2B2B8BC90093872A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D35D2B2B8BC90093872A /* FirebaseAnalytics */; };
 		E6D2D3602B2B8BC90093872A /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D35F2B2B8BC90093872A /* FirebaseAnalyticsOnDeviceConversion */; };
 		E6D2D3622B2B8BC90093872A /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E6D2D3612B2B8BC90093872A /* FirebaseAnalyticsSwift */; };
@@ -99,6 +101,8 @@
 		E69829702B75609800F5A416 /* SignUp Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUp Functions.swift"; sourceTree = "<group>"; };
 		E69829722B75618100F5A416 /* Password Reset Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Password Reset Functions.swift"; sourceTree = "<group>"; };
 		E69829762B75689100F5A416 /* Authentication UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Authentication UI.swift"; sourceTree = "<group>"; };
+		E698297A2B79441800F5A416 /* littlepraccy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = littlepraccy.swift; sourceTree = "<group>"; };
+		E698297C2B7945C000F5A416 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		E6D2D3702B2B93DF0093872A /* GoogleService-Info (1).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info (1).plist"; path = "../../Downloads/GoogleService-Info (1).plist"; sourceTree = "<group>"; };
 		E6D2D3712B2B94460093872A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +166,7 @@
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
+				E698297A2B79441800F5A416 /* littlepraccy.swift */,
 			);
 			path = "New Screens";
 			sourceTree = "<group>";
@@ -274,6 +279,7 @@
 			isa = PBXGroup;
 			children = (
 				E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */,
+				E698297C2B7945C000F5A416 /* SplashScreenView.swift */,
 				E698296E2B755FF900F5A416 /* Login Functions.swift */,
 			);
 			path = Login;
@@ -459,6 +465,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E698297B2B79441800F5A416 /* littlepraccy.swift in Sources */,
+				E698297D2B7945C000F5A416 /* SplashScreenView.swift in Sources */,
 				E69829772B75689100F5A416 /* Authentication UI.swift in Sources */,
 				E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */,
 				E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */,

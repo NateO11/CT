@@ -31,69 +31,87 @@ struct LoginPageView: View {
     @State private var errorSignIn: Bool = false
     @StateObject private var authState = AuthState()
     @State private var navigateToMainView = false
-    
+    @State private var isSplashScreenActive = true
+
     
     
 
     var body: some View {
         
         NavigationView {
-            
-            VStack {
+            ZStack{
                 
-              //  these are styles that are used across all of the auth screens
-            
-                AuthTitleAndImage(title: "Login")
-                AuthTextFieldStyle(innerText: "Email", variableName: $email)
-                AuthTextFieldStyle(innerText: "Password", variableName: $password)
-                    .padding(.bottom)
-                
-                Button() {
-                    Task {
-                       await validateUser()
-                     }
-                   } 
-             
-            
-                    label:
-                {
-                    AuthButtonStyle(buttonText: "Login")
+                VStack {
+                    
+                    //  these are styles that are used across all of the auth screens
+                    
+                    AuthTitleAndImage(title: "Login")
+                    AuthTextFieldStyle(innerText: "Email", variableName: $email)
+                    AuthTextFieldStyle(innerText: "Password", variableName: $password)
+                        .padding(.bottom)
+                    
+                    Button() {
+                        Task {
+                            await validateUser()
+                        }
+                    }
+                    
+                    
+                label:
+                    {
+                        AuthButtonStyle(buttonText: "Login")
+                    }
+                    
+                    
+                    // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
+                    NavigationLink(destination: MainView(), isActive: $navigateToMainView) { EmptyView() }
+                        .navigationBarHidden(true)
+                    
+                    
+                    // these are our linked to the other Auth Screens
+                    
+                    NavigationLink(destination: SignUpView()) {
+                        Text("New User? Sign Up Here")
+                            .foregroundColor(.blue)
+                            .padding()
+                    }
+                    
+                    NavigationLink(destination: PasswordResetView()) {
+                        Text("Forgot Your Password? Reset Here")
+                            .foregroundColor(.blue)
+                    }
+                    
+                    // alert error pops up wehn error signin is true
+                    
+                    .alert(isPresented: $errorSignIn) {
+                        Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
+                              dismissButton: .default(Text("OK")))
+                    }
                 }
-
+                .padding()
                 
-                // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
-                NavigationLink(destination: MainView(), isActive: $navigateToMainView) { EmptyView() }
-                    .navigationBarHidden(true)
-
                 
-                // these are our linked to the other Auth Screens
-                
-                NavigationLink(destination: SignUpView()) {
-                    Text("New User? Sign Up Here")
-                        .foregroundColor(.blue)
-                        .padding()
-                }
-
-                NavigationLink(destination: PasswordResetView()) {
-                    Text("Forgot Your Password? Reset Here")
-                        .foregroundColor(.blue)
-                }
-
-                // alert error pops up wehn error signin is true
-                
-                .alert(isPresented: $errorSignIn) {
-                    Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
-                          dismissButton: .default(Text("OK")))
+                if isSplashScreenActive {
+                    SplashScreenView()
+                        .transition(.opacity)
+                        .onAppear {
+                            // After a delay, hide the splash screen
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                withAnimation {
+                                    
+                                    isSplashScreenActive = false
+                                }
                             }
+                        }
+                }
             }
-            .padding()
+            
+            // You are injecting an instance of authState
+            // By doing this, any child views of the current view can access and observe changes to the properties of authState
+            
+            .environmentObject(authState)
+            .navigationBarHidden(true)
         }
-        
-       // You are injecting an instance of authState
-       // By doing this, any child views of the current view can access and observe changes to the properties of authState
-        
-        .environmentObject(authState)
-        .navigationBarHidden(true)
     }
 
     func validateUser() async {
@@ -108,6 +126,8 @@ struct LoginPageView: View {
         }
     }
 }
+
+
 
 #Preview {
     LoginPageView()
