@@ -1,57 +1,18 @@
-//
-//  littlepraccy.swift
-//  CT
-//
-//  Created by Nate Owen on 2/11/24.
-//
-
 import SwiftUI
+import Firebase
+import FirebaseStorage
 
-struct littlepraccy: View {
-        @State private var isSplashScreenActive = true
-    
-    var body: some View {
-        ZStack {
-            // Your main content goes here
-            Color.green
-                .edgesIgnoringSafeArea(.all)
-            
-            // Splash screen view with animation
-            if isSplashScreenActive {
-                SplashScreenView()
-                    .transition(.opacity)
-                    .animation(.easeInOut(duration: 1.5))
-                    .onAppear {
-                        // After a delay, hide the splash screen
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            withAnimation {
-                                isSplashScreenActive = false
-                            }
-                        }
-                    }
-            }
-        }
-    }
-}
 
-struct SlashScreenView: View {
+struct lp: View {
+
     var body: some View {
-        // Customize your splash screen view here
-        VStack {
-            Image(systemName: "star.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100, height: 100)
-                .foregroundColor(.white)
-            
-            Text("Your App Name")
-                .foregroundColor(.white)
-                .font(.headline)
-                .padding(.top, 10)
-        }
-    }
-}
+        // Replace the URL with your actual image URL
+        Image(ImageResource.URL("https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/usopen.jpg?alt=media&token=58db7adb-03db-492c-a10b-c576dde98787"))
+                           
+           }
+       }
+   
 
 #Preview {
-    littlepraccy()
+    lp()
 }
