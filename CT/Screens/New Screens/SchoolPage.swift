@@ -81,7 +81,7 @@ struct SchoolView: View {
                     }
                     .padding(.horizontal)
                     
-                    SchoolCardReviews(college: college.name)
+                    SchoolCardReviews(college: college)
                     
                     LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [college.image])
                 }
@@ -152,7 +152,7 @@ struct SubCategoryButton: View {
     var college: College
 
     var body: some View {
-        NavigationLink(destination: ForumsTemplate(college: college.name, forum: forum)) {
+        NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: college, forum: forum))) {
             HStack {
                 Image(systemName: icon)
                     .resizable()
@@ -179,14 +179,15 @@ struct SubCategoryButton: View {
 
 
 struct SchoolCardReviews: View {
-    var college: String
+    var college: College
+    var forum: String = "Testing"
 
     var body: some View {
         
         subTitleText(text: "Reviews", subtext: "Where current students voice their opinons")
 
         
-        NavigationLink(destination: ForumsTemplate(college: college, forum: "General")) {
+        NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: college, forum: forum))) {
             VStack {
                 
                 Text("Read Reviews")

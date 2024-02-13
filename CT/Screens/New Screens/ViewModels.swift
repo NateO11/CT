@@ -169,12 +169,17 @@ class LocationViewModel: ObservableObject {
 
 
 
-
+// view model used to generate the map screen for each school... includes functions for fetching locations, interpreting firestore data, and filtering location categories ... might modify this in the future so we could have an overall map screen that shows individual schools as icons instead of specific locations, but that might require an entirely new view model instead
 class MapViewModel: ObservableObject {
     @Published var locations: [Location] = []
     @Published var filteredLocations: [Location] = []
+    // establishes blank array for locations and filtered locations, which will be updated when the map appears and is filtered respectively
+    
     @Published var mapSelectionName: String?
+    // the selection applies to the icon currently selected on the map ... this value is optional because it starts as nil (no object selected) and deselects whenever a location is closed
+    
     @Published var college: College
+    // "published" allows the map and subsequent views to constantly update when changes are made to the data being pulled
 
     private var db = Firestore.firestore()
     
@@ -185,9 +190,8 @@ class MapViewModel: ObservableObject {
     func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
     }
+    // minor function that pulls firestore data (geopoint) and converts it into the type of object needed for map interpretation (CLLcoords)
 
-
-    // Call this method to fetch locations
     func fetchLocations() {
         print(college.name)
         db.collection("Schools").document(college.name).collection("Locations")
@@ -195,35 +199,37 @@ class MapViewModel: ObservableObject {
             guard let documents = querySnapshot?.documents else {
                 print("No locations found for college \(self.college.name): \(error?.localizedDescription ?? "")")
                 return
+                // built in print statements to verify that fetching pathways are operating correctly
             }
 
             self.locations = documents.compactMap { doc -> Location? in
-                // Parse the document into a Location object
+                // parse the document into a Location object
                 let data = doc.data()
                 let id = data["id"] as? String ?? ""
                 let name = data["name"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let category = data["category"] as? String ?? ""
 
-                // Parse the GeoPoint
+                // parse the GeoPoint
                 guard let geoPoint = data["coordinate"] as? GeoPoint else {
                     print("Invalid or missing coordinate for location \(name)")
                     return nil // Return nil if GeoPoint is invalid
                 }
                 
                 let coordinate = self.convertGeoPointToCoordinate(geoPoint)
+                // convert the coordinate into the proper format for display on map
 
-                // Return a Location object or nil
+                // return a Location object or nil
                 return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
             }
             print("Fetched locations: \(self.locations)")
 
             self.filteredLocations = self.locations
+            // sets filtered locations to be all locations as an unfiltered default
         }
     }
 
-
-    // Call this method to update filtered locations based on a category
+    // function to update filtered locations and map when a new category is selected
     func updateFilteredLocations(forCategory category: String) {
         if category == "All" {
             filteredLocations = locations
@@ -236,40 +242,46 @@ class MapViewModel: ObservableObject {
 
 
 
-
-
-
-
+// view model for the forums page... basically the same functionality as the location reviews pages but the ability to write reviews is not fully built out yet ... includes date formatting and firestore fetching
 class ForumViewModel: ObservableObject {
-    @Published var reviews: [(user: String, time: Date, reviewTitle: String, review: String, rating: Int)] = []
-
+    @Published var reviews: [Review] = []
+    @Published var college: College
+    @Published var forum: String
+    // blank array of reviews that gets filled up and updated after fetching
+    
+    init(college: College, forum: String) {
+        self.college = college
+        self.forum = forum
+    }
+    
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"
         return formatter.string(from: date)
     }
+    // like usual, function to convert the embedded firestore date data into something more readable
 
-    func fetchReviews(forCollege collegeName: String, forumName: String) {
+    func fetchReviews(forCollege college: College, forumName: String) {
         let db = Firestore.firestore()
-
+        
         let schoolsRef = db.collection("Schools")
-        let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
-
+        let collegeQuery = schoolsRef.whereField("name", isEqualTo: college.name)
+        // ensuring query is only applicable to the specific school
         collegeQuery.getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self, error == nil else {
                 print("Error fetching college: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-
+            // error handling if the database cannot find the college for whatever reason
+            
             guard let document = querySnapshot?.documents.first else {
                 print("College not found")
                 return
             }
 
-            let categoriesRef = document.reference.collection("categories")
-            let forumDocumentRef = categoriesRef.document(forumName)
-            let reviewsCollectionRef = forumDocumentRef.collection("Reviews")
-
+            let reviewsCollectionRef = document.reference.collection("categories").document(forumName).collection("Reviews")
+            // mapping the correct document path in order to fetch the relevant reviews
+            
             reviewsCollectionRef.getDocuments { (reviewsSnapshot, reviewsError) in
                 guard reviewsError == nil else {
                     print("Error fetching reviews: \(reviewsError!.localizedDescription)")
@@ -280,21 +292,22 @@ class ForumViewModel: ObservableObject {
                     print("No reviews found for the forum")
                     return
                 }
-
+                
+                // maps the data to a review and returns it for display
                 self.reviews = reviewsDocuments.compactMap { reviewDocument in
-                    if let user = reviewDocument["User"] as? String,
-                       let time = reviewDocument["Time"] as? Timestamp,
-                       let rating = reviewDocument["Rating"] as? Int,
-                       let reviewTitle = reviewDocument["ReviewTitle"] as? String,
-                       let review = reviewDocument["Review"] as? String {
-                        return (user: user, time: time.dateValue(), reviewTitle: reviewTitle, review: review, rating: rating)
+                    guard let userID = reviewDocument["userID"] as? String,
+                       let timestamp = reviewDocument["timestamp"] as? Timestamp,
+                       let rating = reviewDocument["rating"] as? Int,
+                       let title = reviewDocument["title"] as? String,
+                       let text = reviewDocument["text"] as? String else {
+                        return nil
                     }
-                    return nil
+                    return Review(text: text, rating: rating, userID: userID, title: title, timestamp: timestamp.dateValue())
                 }
 
                 DispatchQueue.main.async {
-                    // Handle the fetched reviews as needed
                     print("Fetched reviews: \(self.reviews)")
+                    // debugging statement to ensure reviews are properly fetched 
                 }
             }
         }

@@ -11,18 +11,21 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 struct CategoryButton: ButtonStyle {
+    // button style to simplify the category select screen and minimize repetitiveness
     let category: String
     let showTextBelow: Bool = false
+    // possibility to show text below, just a format option
     var dimensions: CGFloat = 33
     func makeBody(configuration: Configuration) -> some View {
         Image(systemName: symbolForCategory(category))
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.white)
-            .frame(width: dimensions,height: dimensions)
+            .frame(width: dimensions, height: dimensions)
             .padding()
             .background(colorForCategory(category))
             .clipShape(Circle())
+        // generates a view that uses the category's associated symbol and color
         if showTextBelow == true {
             Text(category)
         }
@@ -63,6 +66,7 @@ func colorForCategory(_ category: String) -> Color {
     default:
         return Color.gray
     }
+    // the locations listed here are a lot more extensive than they will actually be in the builds, but it gives more felxibility if we want to expand categories
 }
 
 func symbolForCategory(_ category: String) -> String {
@@ -99,13 +103,15 @@ func symbolForCategory(_ category: String) -> String {
     default:
         return "gearshape.fill"
     }
+    // same idea as the color function, we don't actually use all of these categories but have the option to build in more if needed
 }
 
 struct CategorySelectView: View {
+    // sheet that displays when the "settings" button is clicked, allows the user to filter the locations across campus
     @Binding var selectedCategory: String
     @Binding var showCategorySelect: Bool
     @Environment(\.presentationMode) var presentationMode
-
+    // this is simply the array of buttons to modify categories ... only the most general ones are currently displayed
     
     var body: some View {
         ZStack {
@@ -144,6 +150,7 @@ struct CategorySelectView: View {
                         showCategorySelect.toggle()
                     }
                     .buttonStyle(CategoryButton(category: "All"))
+                    // we will be changing the "all" category to something more intuitive than the settings symbol
                 }
             }
             
@@ -151,7 +158,7 @@ struct CategorySelectView: View {
         .overlay(alignment: .topTrailing) {
             Button("") {
                 self.presentationMode.wrappedValue.dismiss()
-                // this should dismiss the sheet
+                // this should dismiss the sheet when the xbutton is pressed, rather than when the sheet is swiped down like it would natively function
             }
             .buttonStyle(xButton())
             .shadow(radius: 10)
