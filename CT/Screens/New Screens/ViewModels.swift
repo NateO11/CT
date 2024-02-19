@@ -32,6 +32,7 @@ class ExploreViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
                 let available = data["available"] as? Bool ?? false
+                let starred = data["starred"] as? Bool ?? false
                 let name = data["name"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
@@ -39,7 +40,7 @@ class ExploreViewModel: ObservableObject {
                 
                 // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
-                return College(id: id, available: available, name: name, city: city, description: description, image: image)
+                return College(id: id, available: available, starred: starred, name: name, city: city, description: description, image: image)
                 // this systematically fills the colleges array, which is ultimately displayed on the explore page and subsequently accessed when looking at school specific views
             }
         }

@@ -64,6 +64,7 @@ struct SchoolScrollView: View {
                                     .overlay {
                                         OverlayView(college, available: college.available)
                                     }
+                                    
                                     .clipShape(.rect(cornerRadius: 15))
                                     .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
                                     .onTapGesture {
@@ -117,6 +118,13 @@ struct SchoolScrollView: View {
                 ], startPoint: .top, endPoint: .bottom)
                 
                 VStack(alignment: .leading, spacing: 4, content: {
+                    HStack {
+                        Spacer()
+                        Button("") {
+                        }
+                        .buttonStyle(starButton(starred: college.starred))
+                    }
+                    Spacer()
                     Text(college.name)
                         .font(.title2)
                         .multilineTextAlignment(.leading)
