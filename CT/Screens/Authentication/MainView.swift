@@ -35,6 +35,9 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
+
+struct Main_Preview: PreviewProvider {
+    static var previews: some View {
+        MainView().environmentObject(AuthState.mock)
+    }
 }

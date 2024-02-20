@@ -187,8 +187,3 @@ struct WriteReviewView: View {
     }
 }
 
-
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
-}
-

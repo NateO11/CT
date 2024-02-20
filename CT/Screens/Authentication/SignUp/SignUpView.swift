@@ -70,6 +70,7 @@ struct SignUpView: View {
             .environmentObject(authState)
         }
         .navigationBarHidden(true)
+        .navigationBarBackButtonHidden()
     }
 }
 

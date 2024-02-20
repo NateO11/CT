@@ -184,8 +184,3 @@ struct LocationExpandedView: View {
     }
 }
 
-
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
-}
-

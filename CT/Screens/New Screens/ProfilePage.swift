@@ -103,9 +103,10 @@ struct ProfilePage: View {
         }
     }
     
-
-
-        
-#Preview {
-    ProfilePage()
+struct ProfilePage_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfilePage().environmentObject(AuthState.mock)
+    }
 }
+
+

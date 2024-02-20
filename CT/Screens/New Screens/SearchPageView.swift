@@ -47,7 +47,3 @@ struct SearchView: View {
         }
     }
 }
-
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
-}

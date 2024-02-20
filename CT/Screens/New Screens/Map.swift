@@ -98,6 +98,3 @@ struct MapView: View {
 }
 
 
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
-}

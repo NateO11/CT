@@ -49,6 +49,8 @@ struct ExploreView: View {
     } // navigation being disabled means the user cannot return to the login/signup page which obviously we dont want
 }
 
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
+struct ExplorePage_Preview: PreviewProvider {
+    static var previews: some View {
+        ExploreView(viewModel: ExploreViewModel()).environmentObject(AuthState.mock)
+    }
 }

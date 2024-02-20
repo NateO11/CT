@@ -111,6 +111,7 @@ struct LoginPageView: View {
             
             .environmentObject(authState)
             .navigationBarHidden(true)
+            .navigationBarBackButtonHidden()
         }
     }
 

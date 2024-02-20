@@ -326,6 +326,3 @@ var sampleColleges: [College] = [
 ]
 
 
-#Preview {
-    ExploreView(viewModel: ExploreViewModel())
-}

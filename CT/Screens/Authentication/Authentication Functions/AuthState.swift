@@ -49,3 +49,14 @@ class AuthState: ObservableObject {
     }
 }
 
+extension AuthState {
+    static var mock: AuthState {
+        let mockAuthState = AuthState()
+        mockAuthState.signedIn = true // Or false, depending on what you want to preview
+        mockAuthState.currentUserEmail = "mock@example.com"
+        mockAuthState.currentUserId = "12345"
+        return mockAuthState
+    }
+}
+
+
