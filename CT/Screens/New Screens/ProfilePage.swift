@@ -13,9 +13,8 @@ struct UserProfile {
 }
 
 struct ProfilePage: View {
-    
+    @EnvironmentObject var authState: AuthState
     @State private var user: UserProfile?
-    var userID: String
     
     var body: some View {
         ScrollView{
@@ -87,7 +86,7 @@ struct ProfilePage: View {
             let db = Firestore.firestore()
             
             // Query the Users collection for the provided UserID
-            db.collection("Users").whereField("UserID", isEqualTo: userID).getDocuments { querySnapshot, error in
+            db.collection("Users").whereField("UserID", isEqualTo: authState.currentUserId!).getDocuments { querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
                     print("Error fetching documents: \(error ?? NSError())")
                     return
@@ -108,5 +107,5 @@ struct ProfilePage: View {
 
         
 #Preview {
-    ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")
+    ProfilePage()
 }

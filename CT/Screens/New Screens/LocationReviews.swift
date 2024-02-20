@@ -189,6 +189,6 @@ struct WriteReviewView: View {
 
 
 #Preview {
-    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
+    ExploreView(viewModel: ExploreViewModel())
 }
 

@@ -64,7 +64,7 @@ struct LoginPageView: View {
                     
                     
                     // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
-                    NavigationLink(destination: MainView(), isActive: $navigateToMainView) { EmptyView() }
+                    NavigationLink(destination: MainView().environmentObject(authState), isActive: $navigateToMainView) { EmptyView() }
                         .navigationBarHidden(true)
                     
                     

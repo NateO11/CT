@@ -39,7 +39,7 @@ struct ForumsTemplate: View {
                 
             }
             
-        NavigationLink(destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")) {
+        NavigationLink(destination: ProfilePage()) {
                 VStack {
                     
                     Text("Write a Review")

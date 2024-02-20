@@ -26,12 +26,12 @@ struct TopButtonsSection: View {
 
                 HStack {
                     VStack(alignment: .leading) {
-                        StyledButton(icon: "book", title: "Schools", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                        StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                        StyledButton(icon: "book", title: "Schools", destination: ProfilePage())
+                        StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage())
                     }
                     VStack(alignment: .leading) {
-                        StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
-                        StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2"))
+                        StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage())
+                        StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage())
                     }
                 }
             }
@@ -327,5 +327,5 @@ var sampleColleges: [College] = [
 
 
 #Preview {
-    ExploreView(viewModel: ExploreViewModel(), ID: "placeholdr")
+    ExploreView(viewModel: ExploreViewModel())
 }

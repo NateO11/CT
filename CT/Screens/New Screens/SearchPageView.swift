@@ -49,5 +49,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
+    ExploreView(viewModel: ExploreViewModel())
 }

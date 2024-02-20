@@ -12,15 +12,15 @@ import MapKit
 
 // this generates the explore page, which is the default page the user visits after logging in ... this is broken down into an unneccessarily large amount of small components but they all get called into the single view at the end ... overall vision for the explore page is for the user to access scroll views as well as a handful of buttons that link to relevant pages (map, search, profile, etc) ... a major inspiration for this UI is the explore page for tripadvisor and how that feels
 struct ExploreView: View {
+    @EnvironmentObject var authState: AuthState
     @ObservedObject var viewModel: ExploreViewModel
-    var ID: String
     // need to link this up with the authentication logic so the ID and other relevant user data is pulled
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    TopButtonsSection(userID: ID)
+                    TopButtonsSection(userID: authState.currentUserId ?? "4xLrvkubquPQIVNSrUrGCW1Twhi2")
                     // this section contains the welcome message and a number of links to relevant pages, though all are populated with the user profile as of now ... need to eventually make it so the gradient extends all the way to the top
                     
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
@@ -50,5 +50,5 @@ struct ExploreView: View {
 }
 
 #Preview {
-    ExploreView(viewModel: ExploreViewModel(), ID: "placeholder")
+    ExploreView(viewModel: ExploreViewModel())
 }

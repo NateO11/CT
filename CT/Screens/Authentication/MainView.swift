@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var authState: AuthState
     var body: some View {
         TabView{
-            ExploreView(viewModel: ExploreViewModel(), ID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")
+            ExploreView(viewModel: ExploreViewModel())
+                .environmentObject(authState)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Explore")
@@ -22,7 +24,8 @@ struct MainView: View {
                     Text("Search")
                 }
             
-            ProfilePage(userID: "4xLrvkubquPQIVNSrUrGCW1Twhi2")
+            ProfilePage()
+                .environmentObject(authState)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Profile")
