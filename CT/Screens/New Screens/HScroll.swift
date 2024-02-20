@@ -120,9 +120,7 @@ struct SchoolScrollView: View {
                 VStack(alignment: .leading, spacing: 4, content: {
                     HStack {
                         Spacer()
-                        Button("") {
-                        }
-                        .buttonStyle(starButton(starred: college.starred))
+                        starButton2(starred: false)
                     }
                     Spacer()
                     Text(college.name)

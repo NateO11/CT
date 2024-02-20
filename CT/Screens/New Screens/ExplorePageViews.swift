@@ -302,9 +302,9 @@ struct xButton: ButtonStyle {
         }
     }
 
-struct starButton: ButtonStyle {
+struct starButton: View {
     @State var starred: Bool
-    func makeBody(configuration: Configuration) -> some View {
+    var body: some View {
         Image(systemName: "star.fill")
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -313,15 +313,16 @@ struct starButton: ButtonStyle {
             .padding()
             .background(Color.white)
             .clipShape(Circle())
-        }
+        
     }
+}
 
 var sampleColleges: [College] = [
-    .init(id: "UVA", available: true, starred: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA"),
-    .init(id: "VT", available: true, starred: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT"),
-    .init(id: "JMU", available: true, starred: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU"),
-    .init(id: "GMU", available: true, starred: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU"),
-    .init(id: "W&M", available: true, starred: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
+    .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA"),
+    .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT"),
+    .init(id: "JMU", available: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU"),
+    .init(id: "GMU", available: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU"),
+    .init(id: "W&M", available: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM")
 ]
 
 

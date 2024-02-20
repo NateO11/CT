@@ -40,7 +40,7 @@ class ExploreViewModel: ObservableObject {
                 
                 // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
-                return College(id: id, available: available, starred: starred, name: name, city: city, description: description, image: image)
+                return College(id: id, available: available, name: name, city: city, description: description, image: image)
                 // this systematically fills the colleges array, which is ultimately displayed on the explore page and subsequently accessed when looking at school specific views
             }
         }

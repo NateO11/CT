@@ -14,7 +14,6 @@ import FirebaseFirestore
 struct College: Identifiable {
     let id: String
     let available: Bool
-    var starred: Bool
     let name: String
     let city: String
     let description: String
