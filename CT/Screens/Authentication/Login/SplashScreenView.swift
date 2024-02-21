@@ -12,8 +12,8 @@ import SwiftUI
 struct SplashScreenView: View {
     @State private var scale: CGFloat = 1
     @State private var opacity: Double = 1
-
-
+    
+    
     var body: some View {
         
         ZStack {

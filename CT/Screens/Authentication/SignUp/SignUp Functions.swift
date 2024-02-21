@@ -36,4 +36,37 @@ class SignUpFunctions {
             }
         }
     }
+    
+    func addPositionToUser(userID: String, position: String) {
+        let db = Firestore.firestore()
+        print (userID)
+        let userRef = db.collection("Users").document(userID)
+        
+        
+        // Use updateData to add or update the "Position" field
+        userRef.updateData(["Position": position]) { error in
+            if let error = error {
+                print("Error updating user document: \(error.localizedDescription)")
+            } else {
+                print("Position added or updated successfully")
+            }
+            
+        }
+    }
+    
+    func addSchoolToUser(userID: String, school: String) {
+        let db = Firestore.firestore()
+        let userRef = db.collection("Users").document(userID)
+        
+        // Use updateData to add or update the "Position" field
+        userRef.updateData(["School": school]) { error in
+            if let error = error {
+                print("Error updating user document: \(error.localizedDescription)")
+            } else {
+                print("Position added or updated successfully")
+            }
+            
+        }
+    }
+
 }

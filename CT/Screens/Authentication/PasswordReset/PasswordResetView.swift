@@ -11,7 +11,7 @@ import Firebase
 struct PasswordResetView: View {
     @State private var email: String = ""
     @State private var resetfailed: Bool = false
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -19,7 +19,7 @@ struct PasswordResetView: View {
                 // styles for textfield and image
                 AuthTitleAndImage(title: "Reset Password")
                 AuthTextFieldStyle(innerText: "Enter Email", variableName: $email)
-
+                
                 // style for button
                 Button(action: { resetPassword() }) {
                     AuthButtonStyle(buttonText: "Reset")
@@ -33,14 +33,14 @@ struct PasswordResetView: View {
                         .foregroundColor(.blue)
                         .padding()
                 }
-
+                
                 
                 // pop to alert users to enter a valid email
                 .alert(isPresented: $resetfailed) {
-                                    Alert(title: Text("Oopsie"), message: Text("Please enter a valid email"),
-                                          dismissButton: .default(Text("OK")))
-                                            }
-
+                    Alert(title: Text("Oopsie"), message: Text("Please enter a valid email"),
+                          dismissButton: .default(Text("OK")))
+                }
+                
             }
             .padding()
         }
@@ -59,7 +59,7 @@ struct PasswordResetView: View {
             }
         }
     }
-
+    
 }
 
 #Preview {

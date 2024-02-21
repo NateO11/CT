@@ -38,7 +38,7 @@ struct LoginPageView: View {
 
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ZStack{
                 
                 VStack {
@@ -111,7 +111,7 @@ struct LoginPageView: View {
             
             .environmentObject(authState)
             .navigationBarHidden(true)
-            .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden(true)
         }
     }
 

@@ -14,8 +14,9 @@ struct SignUpView: View {
     @State private var email: String = ""
     @State private var name: String = ""
     @State private var confirmPassword: String = ""
-    @State private var errorLogin: Bool = false
+    @State private var errorSignUp: Bool = false
     @State private var showAlert: Bool = false
+    @State private var navigateToNextView: Bool = false
 
     // Inject the AuthState object
     @StateObject private var authState = AuthState()
@@ -30,25 +31,26 @@ struct SignUpView: View {
                 AuthTextFieldStyle(innerText: "Email", variableName: $email)
                 AuthTextFieldStyle(innerText: "Password", variableName: $password)
                 AuthTextFieldStyle(innerText: "Confirm Password", variableName: $confirmPassword)
-
-                Button(action: {
-                    SignUpFunctions.shared.createUser(name: name, email: email, password: password, username: username, confirmPassword: confirmPassword, authState: authState) { success in
-                        errorLogin = !success
-                        
-        
-                        
+                
+                
+                Button() {
+                    Task {
+                        await createUser()
                     }
-                })
+                }
+                
+                
+            label:
                 {
                     AuthButtonStyle(buttonText: "Sign Up")
                 }
-                .padding(.top, 20)
                 
-                if authState.signedIn {
-                    NavigationLink("Creating Your Account", destination: MainView())
-                        .navigationBarHidden(true)
-                }
+                
+                // now the validate user function which is executed in the Login Funcitons file and will update the signedIn AuthState var
+                NavigationLink(destination: OnboardingScreen1().environmentObject(authState), isActive: $navigateToNextView) { EmptyView() }
+                    .navigationBarHidden(true)
 
+            
                 NavigationLink(destination: LoginPageView()) {
                     Text("Already have an account? Log in here.")
                         .foregroundColor(.blue)
@@ -57,7 +59,7 @@ struct SignUpView: View {
                 
                 // basic alert when errorLogin is true
 
-                .alert(isPresented: $errorLogin) {
+                .alert(isPresented: $errorSignUp) {
                     Alert(title: Text("Oopsie"), message: Text("Email or Username has already been used. Make sure all fields are filled in.😜🤪"),
                           dismissButton: .default(Text("OK")))
                             }
@@ -72,6 +74,22 @@ struct SignUpView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
     }
+    
+    
+    func createUser() async {
+        await SignUpFunctions.shared.createUser(name: name, email: email, password: password, username: username, confirmPassword: confirmPassword, authState: authState) { success in
+            errorSignUp = !success
+            if success {
+                authState.signedIn = true
+                DispatchQueue.main.async {
+                    self.navigateToNextView = true
+                }
+            }
+        }
+    }
+    
+    
+    
 }
 
 

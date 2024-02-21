@@ -25,6 +25,7 @@
 		E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */; };
 		E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E12B460093009EB5D6 /* SignUpView.swift */; };
 		E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */; };
+		E63AA2282B857A1B0077D89C /* OnboardingScreen1.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63AA2272B857A1B0077D89C /* OnboardingScreen1.swift */; };
 		E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646D0D82B5B3B5900805CE5 /* MainView.swift */; };
 		E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FACE2B268F6D00BB3692 /* CTApp.swift */; };
 		E670FAD32B268F6F00BB3692 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E670FAD22B268F6F00BB3692 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		E61CE1E12B460093009EB5D6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumsTemplate.swift; sourceTree = "<group>"; };
+		E63AA2272B857A1B0077D89C /* OnboardingScreen1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen1.swift; sourceTree = "<group>"; };
 		E646D0D82B5B3B5900805CE5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = ../Authentication/MainView.swift; sourceTree = "<group>"; };
 		E670FACB2B268F6D00BB3692 /* CT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E670FACE2B268F6D00BB3692 /* CTApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTApp.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				E61CE1E12B460093009EB5D6 /* SignUpView.swift */,
+				E63AA2272B857A1B0077D89C /* OnboardingScreen1.swift */,
 				E69829702B75609800F5A416 /* SignUp Functions.swift */,
 			);
 			path = SignUp;
@@ -475,6 +478,7 @@
 				E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */,
 				A19CCE172B753FC300D2419A /* SearchPageView.swift in Sources */,
 				E69829732B75618100F5A416 /* Password Reset Functions.swift in Sources */,
+				E63AA2282B857A1B0077D89C /* OnboardingScreen1.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
 				E69829712B75609800F5A416 /* SignUp Functions.swift in Sources */,
 				A19CCE0B2B6BEFFF00D2419A /* Explore.swift in Sources */,
