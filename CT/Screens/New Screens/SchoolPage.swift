@@ -11,6 +11,7 @@ import MapKit
 import Firebase
 
 struct SchoolView: View {
+    @EnvironmentObject var authState: AuthState
     var college: College
 
     var body: some View {
@@ -50,7 +51,7 @@ struct SchoolView: View {
                     
                     // Navigation Buttons
                     HStack {
-                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: college)))
+                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: college)).environmentObject(authState))
                     }
                     
                     LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [college.image])

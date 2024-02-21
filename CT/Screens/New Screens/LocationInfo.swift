@@ -13,6 +13,7 @@ import MapKit
 // smaller card between the two, takes up 40% of the screen and shows initial information about that location... includes image of school (eventually location image) and button to enter expanded view
 
 struct LocationInitialView: View {
+    @EnvironmentObject var authState: AuthState
     @ObservedObject var viewModel: LocationViewModel
     // passes through neccesary information regarding location
     
@@ -77,7 +78,7 @@ struct LocationInitialView: View {
             .padding(10)
         } // xbutton used to dismiss, maintains continuity between all map related sheets
         .sheet(isPresented: $showingReviewSheet) {
-            LocationExpandedView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location))
+            LocationExpandedView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location, authState: authState))
                 .presentationDetents([.fraction(0.99)]) // 0.99 instead of 1 to disable zoom effect
                 .presentationDragIndicator(.hidden)
                 .interactiveDismissDisabled()
@@ -90,6 +91,7 @@ struct LocationInitialView: View {
 // this is the expanded view that shows all the reviews for that specific location ... this sheet takes up the entire screen unlike the initial view which is ~40% ... includes button for user to write a review
 
 struct LocationExpandedView: View {
+    @EnvironmentObject var authState: AuthState
     @StateObject var viewModel: LocationViewModel
     // view model lets us pass through necceasry information about the location and relevant firestore related functions
     
@@ -172,7 +174,7 @@ struct LocationExpandedView: View {
             .shadow(radius: 10)
             .padding()
             .sheet(isPresented: $showingWriteReviewSheet) {
-                WriteReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $showingWriteReviewSheet) { rating, title, text in
+                WriteReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location, authState: authState), isPresented: $showingWriteReviewSheet) { rating, title, text in
                     viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
                 }
                 .presentationDetents([.fraction(0.99)]) // 0.99 instead of 1 to ensure no zoom effect

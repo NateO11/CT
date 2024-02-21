@@ -32,7 +32,6 @@ class ExploreViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
                 let available = data["available"] as? Bool ?? false
-                let starred = data["starred"] as? Bool ?? false
                 let name = data["name"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
@@ -58,15 +57,16 @@ class LocationViewModel: ObservableObject {
     @Published var location: Location
     // establishing the specific location and associated college, and preparing to fetch reviews if needed
     
-    @EnvironmentObject var authState: AuthState
+    var authState: AuthState?
     // looking to implement authstate so we can pass through reviews associated with a specific user, but haven't quite gotten there yet
     
     private var db = Firestore.firestore()
 
     
-    init(college: College, location: Location) {
+    init(college: College, location: Location, authState: AuthState? = nil) {
         self.college = college
         self.location = location
+        self.authState = authState
     }
     // initiating any screen requires passing through the college and location
 
@@ -79,7 +79,9 @@ class LocationViewModel: ObservableObject {
 
     func submitReview(rating: Int, title: String, text: String, forLocation locationID: String) {
         let reviewData: [String: Any] = [
-            "userID": "currentUserID",
+            "school": college.name,
+            "location": location.name,
+            "userID": authState?.currentUserId ?? "defaultID",
             "rating": rating,
             "title": title,
             "text": text,
@@ -93,7 +95,7 @@ class LocationViewModel: ObservableObject {
                 print("Review successfully added!")
             }
         } // sends the new review element to a reviews collection for that specific location ... need to work on this logic to ensure it goes to the location Id and not the location name
-        db.collection("Users").document("OK").collection("reviews").addDocument(data: reviewData) { error in
+        db.collection("Users").document(authState?.currentUserId ?? "test").collection("reviews").addDocument(data: reviewData) { error in
             if let error = error {
                 print("Error adding review: \(error.localizedDescription)")
             } else {

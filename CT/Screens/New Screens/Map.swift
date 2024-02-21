@@ -13,6 +13,7 @@ import MapKit
 // view that generates a map for the college based on data pulled from firestore, creating clickable markers at every location which can then be expanded to read more information/reviews
 
 struct MapView: View {
+    @EnvironmentObject var authState: AuthState
     @ObservedObject var viewModel: MapViewModel
     // view model includes functions to parse location info from firestore
 
@@ -76,7 +77,7 @@ struct MapView: View {
                 viewModel.updateFilteredLocations(forCategory: newCategory)
             } // updates locations when they are filtered differently
             .sheet(item: $selectedLocation) { location in
-                LocationInitialView(viewModel: LocationViewModel(college: viewModel.college, location: location))
+                LocationInitialView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
                     .presentationDetents([.fraction(0.4)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()
