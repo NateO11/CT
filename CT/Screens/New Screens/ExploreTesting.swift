@@ -60,8 +60,8 @@ struct ExploreTesting: View {
                 .padding(.horizontal, 15)
                 .background {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(.black)
-                        .opacity(0.15)
+                        .fill(.white)
+                        .opacity(0.25)
                 }
                 .opacity(showSearch ? 1 : 1+progress)
                 
@@ -71,7 +71,7 @@ struct ExploreTesting: View {
                     Image("UVA")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 35, height: 35)
+                        .frame(width: 40, height: 40)
                         .clipShape(Circle())
                         .background {
                             Circle()
@@ -94,7 +94,7 @@ struct ExploreTesting: View {
                 }
             }
             HStack(spacing: 15) {
-                CustomButton(symbolImage: "map.fill", title: "Map") {
+                CustomButton(symbolImage: "map.fill", title: "Schools") {
                 }
                 CustomButton(symbolImage: "star.fill", title: "Favorites") {
                 }
