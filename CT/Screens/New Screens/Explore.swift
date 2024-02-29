@@ -26,7 +26,7 @@ struct ExploreView: View {
                     LargeImageSection(imageName: "stockimage1", title: "Discover Your Future", description: "Read reviews from current students...")
                     // each large image section will include a stock photo and a link to some feature of the app
 
-                    SchoolScrollView(colleges: viewModel.colleges)
+                    SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
                     // scroll view contains a list of schools that are clickable by the user, navigates to the specific page for that school ... I'm looking to change something within the view model so there could be unique scroll views with unique lists of colleges
 
                     LargeImageSection(imageName: "stockimage2", title: "Find Your Next Step", description: "Read reviews from current students...")

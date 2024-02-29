@@ -27,11 +27,15 @@ struct MapView: View {
         CategorySelectView(selectedCategory: $selectedCategory, showCategorySelect: $showCategorySelect)
     }
     // updates location categories when modified
-    
+    @State private var initialSelectedLocation: Location? = nil
     @State private var mapSelectionName: String? = nil
     @State private var selectedLocation: Location? = nil
     // variables used to update which location is currently selected
     
+    init(viewModel: MapViewModel, initialSelectedLocation: Location? = nil) {
+        self._viewModel = ObservedObject(initialValue: viewModel)
+        self._initialSelectedLocation = State(initialValue: initialSelectedLocation)
+    }
     
     var body: some View {
 
@@ -72,6 +76,11 @@ struct MapView: View {
             
             .onAppear {
                 viewModel.fetchLocations()
+                if let initialLocation = initialSelectedLocation {
+                        // Logic to select initialLocation on the map
+                        self.selectedLocation = initialLocation
+                        self.mapSelectionName = initialLocation.name
+                    }
             } // pulls from firestore on start
             .onChange(of: selectedCategory) { oldCategory, newCategory in
                 viewModel.updateFilteredLocations(forCategory: newCategory)

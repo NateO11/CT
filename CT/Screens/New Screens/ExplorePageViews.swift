@@ -326,3 +326,7 @@ var sampleColleges: [College] = [
 ]
 
 
+var sampleLocations: [Location] = [
+    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks"),
+    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining")
+]

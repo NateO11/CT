@@ -25,9 +25,9 @@ struct ExploreTesting: View {
                     
                     VStack {
                         SchoolScrollView(colleges: sampleColleges)
-                        LargeImageSection(imageName: "stockimage1", title: "I like men", description: "Especially younger men")
+                        LargeImageSection(imageName: "stockimage1", title: "I like men", description: "Testing")
                         SchoolScrollView(colleges: sampleColleges)
-                        LargeImageSection(imageName: "stockimage3", title: "I like men", description: "Especially younger men")
+                        LargeImageSection(imageName: "stockimage3", title: "I like men", description: "Testing")
                         bottomText(text: "Contact us at CollegeTour@gmail.com")
                     }
                     .zIndex(0)
@@ -59,7 +59,7 @@ struct ExploreTesting: View {
                 .padding(.vertical, 10)
                 .padding(.horizontal, 15)
                 .background {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .fill(.white)
                         .opacity(0.25)
                 }
@@ -134,18 +134,21 @@ struct ExploreTesting: View {
             
         } label: {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(.white)
+                    .shadow(radius: 10)
                 HStack(spacing: 0) {
                     Image(systemName: symbolImage)
                         .fontWeight(.semibold)
                         .foregroundColor(.blue)
+                        .shadow(radius: 10)
                         .frame(width: 40, height: 40)
                     Text(title)
                         .font(.headline)
                         .fontWeight(.semibold)
                         .lineLimit(1)
                         .foregroundColor(.blue)
+                        .shadow(radius: 10)
                         .padding(.trailing, 5)
                 }
                 .padding(.vertical, 0)

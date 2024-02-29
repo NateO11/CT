@@ -12,6 +12,7 @@ import Firebase
 
 
 struct SchoolScrollView: View {
+    @EnvironmentObject var authState: AuthState
     var colleges: [College]
     @State private var showAlert: Bool = false
     var body: some View {
@@ -22,7 +23,7 @@ struct SchoolScrollView: View {
                 HStack(spacing: 5) {
                     ForEach(colleges) { college in
                         if college.available {
-                            NavigationLink(destination: SchoolView(college: college)) {
+                            NavigationLink(destination: SchoolView(college: college, viewModel: MapViewModel(college: college)).environmentObject(authState)) {
                                 GeometryReader(content: { proxy in
                                     let cardSize = proxy.size
                                     let minX = proxy.frame(in: .scrollView).minX - 60
@@ -164,6 +165,8 @@ struct SchoolScrollView: View {
     }
 }
 
-#Preview {
-    SchoolScrollView(colleges: sampleColleges)
+struct HScroll_Preview: PreviewProvider {
+    static var previews: some View {
+        SchoolScrollView(colleges: sampleColleges).environmentObject(AuthState.mock)
+    }
 }

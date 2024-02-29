@@ -13,6 +13,7 @@ import Firebase
 struct SchoolView: View {
     @EnvironmentObject var authState: AuthState
     var college: College
+    @ObservedObject var viewModel: MapViewModel
 
     var body: some View {
             ScrollView {
@@ -48,6 +49,9 @@ struct SchoolView: View {
                     
                     Text(college.description)
                         .padding(.bottom, 10)
+                    
+                    Text("Notable locations")
+                    LocationScrollView(college: college, topLocations: viewModel.filteredLocations)
                     
                     // Navigation Buttons
                     HStack {
@@ -87,6 +91,9 @@ struct SchoolView: View {
                     LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [college.image])
                 }
                 .padding()
+            }
+            .onAppear {
+                viewModel.fetchLocations()
             }
             .ignoresSafeArea()
 

@@ -10,6 +10,7 @@
 		A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */; };
 		A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */; };
 		A1536DCC2B890F77008D96A9 /* ExploreTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */; };
+		A1794BCF2B90F4D10038CF95 /* HScrollLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */; };
 		A180E9862B407F5200B0514A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9852B407F5200B0514A /* DataModels.swift */; };
 		A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98D2B4081DB00B0514A /* ViewModels.swift */; };
 		A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9912B40ABA900B0514A /* ExplorePageViews.swift */; };
@@ -73,6 +74,7 @@
 		A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryManager.swift; sourceTree = "<group>"; };
 		A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVersionsOfScreens.swift; sourceTree = "<group>"; };
 		A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTesting.swift; sourceTree = "<group>"; };
+		A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HScrollLocations.swift; sourceTree = "<group>"; };
 		A180E9852B407F5200B0514A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		A180E98D2B4081DB00B0514A /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		A180E9912B40ABA900B0514A /* ExplorePageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageViews.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				A19CCE142B753F5E00D2419A /* LocationReviews.swift */,
 				A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */,
 				A19CCE0C2B6BF06700D2419A /* HScroll.swift */,
+				A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */,
 				A19CCE0A2B6BEFFF00D2419A /* Explore.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
@@ -475,6 +478,7 @@
 				E69829772B75689100F5A416 /* Authentication UI.swift in Sources */,
 				E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */,
 				E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */,
+				A1794BCF2B90F4D10038CF95 /* HScrollLocations.swift in Sources */,
 				E698296F2B755FF900F5A416 /* Login Functions.swift in Sources */,
 				A19CCE152B753F5E00D2419A /* LocationReviews.swift in Sources */,
 				A180E9862B407F5200B0514A /* DataModels.swift in Sources */,
