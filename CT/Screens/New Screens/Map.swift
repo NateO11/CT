@@ -86,13 +86,19 @@ struct MapView: View {
                 viewModel.updateFilteredLocations(forCategory: newCategory)
             } // updates locations when they are filtered differently
             .sheet(item: $selectedLocation) { location in
-                LocationInitialView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
+                LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
+                    .presentationDetents([.fraction(0.15),.medium,.fraction(0.99)])
+                    .presentationDragIndicator(.visible)
+                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.2)))
+                    .ignoresSafeArea()
+                    
+                /* LocationInitialView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
                     .presentationDetents([.fraction(0.4)])
                     .presentationDragIndicator(.hidden)
                     .interactiveDismissDisabled()
                     .onDisappear(perform: {
                         mapSelectionName = nil
-                    })
+                    }) */
             } // displays small sheet with basic information about location, user can then expand
             
         

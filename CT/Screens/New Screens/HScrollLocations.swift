@@ -15,7 +15,6 @@ struct LocationScrollView: View {
     @EnvironmentObject var authState: AuthState
     var college: College
     var topLocations: [Location]
-    @State private var showAlert: Bool = false
     var body: some View {
         GeometryReader(content: { geometry in
             let size = geometry.size

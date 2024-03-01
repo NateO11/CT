@@ -79,7 +79,7 @@ struct SchoolView: View {
             .ignoresSafeArea()
 
         
-            .navigationBarTitle(viewModel.college.name)
+            //.navigationBarTitle(viewModel.college.name)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
     }

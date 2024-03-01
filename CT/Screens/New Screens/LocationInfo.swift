@@ -11,7 +11,7 @@ import MapKit
 
 
 // smaller card between the two, takes up 40% of the screen and shows initial information about that location... includes image of school (eventually location image) and button to enter expanded view
-
+/*
 struct LocationInitialView: View {
     @EnvironmentObject var authState: AuthState
     @ObservedObject var viewModel: LocationViewModel
@@ -185,4 +185,123 @@ struct LocationExpandedView: View {
             
     }
 }
+*/
 
+struct LocationTestingView: View {
+    @EnvironmentObject var authState: AuthState
+    @ObservedObject var viewModel: LocationViewModel
+    
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            LazyVStack(alignment: .leading) {
+                HStack {
+                    Text(viewModel.location.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .lineLimit(2)
+                    Spacer()
+                    HStack(spacing: 5) {
+                        ForEach(0..<4, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                                .frame(width: 15)
+                        }
+                        ForEach(4..<5, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.gray)
+                                .frame(width: 15)
+                        }
+                    }
+                    
+                }.padding(.bottom, 10)
+                
+                HStack {
+                    Text("\(viewModel.college.name) - \(viewModel.location.category)")
+                        .font(.callout)
+                }.padding(.bottom, 5)
+                
+                Text(viewModel.college.description)
+                    .font(.caption)
+                    .fontWeight(.light)
+                
+                LocationImageScrollView(college: viewModel.college)
+                
+                Text("Reviews")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                VStack {
+                    // if no reviews are in firestore, a single text line is displayed instead of an empty list where reviews otherwise would be
+                    if viewModel.reviews.isEmpty {
+                        Text("Be the first to review this location")
+                    } else {
+                        List {
+                            ForEach(viewModel.reviews, id: \.text) { review in
+                                let firstChar = Array(review.userID)[0]
+                                IndividualReviewView(review: review, firstChar: String(firstChar).uppercased())
+                            } // uses individual review view for consistent formatting throughout
+                        }
+                    }
+                }
+                
+                
+            }
+        }.padding(20)
+            .onAppear {
+                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
+            }
+            
+        
+    }
+}
+
+struct LocationImageScrollView: View {
+    var college: College
+    var body: some View {
+        GeometryReader(content: { geometry in
+            let size = geometry.size
+            
+            ScrollView(.horizontal) {
+                HStack(spacing: 5) {
+                    ForEach(1...5, id:\.self) { index in
+                            GeometryReader(content: { proxy in
+                                let cardSize = proxy.size
+                                let minX = proxy.frame(in: .scrollView).minX - 60
+                                // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
+                                    
+                                Image(college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .offset(x: -minX)
+                                    .frame(width: proxy.size.width * 1.5)
+                                    .frame(width: cardSize.width, height: cardSize.height)
+                                    .clipShape(.rect(cornerRadius: 15))
+                                    .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                
+                            })
+                            .frame(width: size.width - 120, height: size.height - 30)
+                            .scrollTransition(.interactive, axis: .horizontal) {
+                                view, phase in
+                                view
+                                    .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                        }
+                        
+                   
+                    }
+                }
+                .padding(.horizontal, 60)
+                .scrollTargetLayout()
+                .frame(height: size.height, alignment: .top)
+                
+            }
+            .scrollTargetBehavior(.viewAligned)
+            .scrollIndicators(.hidden)
+        })
+        .frame(height: 300)
+        .padding(.horizontal, -15)
+        .padding(.top, 10)
+            
+        
+    }
+
+}
