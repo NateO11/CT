@@ -11,35 +11,43 @@ import MapKit
 import Firebase
 
 
-struct ExploreTesting: View {
+struct ExploreView: View {
+    @EnvironmentObject var authState: AuthState
+    @ObservedObject var viewModel: ExploreViewModel
+    
     @State var offsetY: CGFloat = 0
     @State var showSearch: Bool = false
     var body: some View {
-        GeometryReader{proxy in
-            let safeAreaTop = proxy.safeAreaInsets.top
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    HeaderView(safeAreaTop)
-                        .offset(y: -offsetY)
-                        .zIndex(1)
-                    
+        NavigationStack {
+            GeometryReader{proxy in
+                let safeAreaTop = proxy.safeAreaInsets.top
+                ScrollView(.vertical, showsIndicators: false) {
                     VStack {
-                        SchoolScrollView(colleges: sampleColleges)
-                        LargeImageSection(imageName: "stockimage1", title: "I like men", description: "Testing")
-                        SchoolScrollView(colleges: sampleColleges)
-                        LargeImageSection(imageName: "stockimage3", title: "I like men", description: "Testing")
-                        bottomText(text: "Contact us at CollegeTour@gmail.com")
-                    }
-                    .zIndex(0)
+                        HeaderView(safeAreaTop)
+                            .offset(y: -offsetY)
+                            .zIndex(1)
+                        
+                        VStack {
+                            SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
+                            LargeImageSection(imageName: "stockimage1", title: "I like men", description: "Testing")
+                            SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
+                            LargeImageSection(imageName: "stockimage3", title: "I like men", description: "Testing")
+                            bottomText(text: "Contact us at CollegeTour@gmail.com")
+                        }
+                        .zIndex(0)
 
+                    }
+                    .offset(coordinateSpace: .named("SCROLL")) { offset in
+                        offsetY = offset
+                        showSearch = (-offset > 80) && showSearch
+                    }
+                    .onAppear {
+                        viewModel.fetchColleges()
+                    }
                 }
-                .offset(coordinateSpace: .named("SCROLL")) { offset in
-                    offsetY = offset
-                    showSearch = (-offset > 80) && showSearch
-                }
+                .coordinateSpace(name: "SCROLL")
+                .edgesIgnoringSafeArea(.top)
             }
-            .coordinateSpace(name: "SCROLL")
-            .edgesIgnoringSafeArea(.top)
         }
     }
     
@@ -65,9 +73,7 @@ struct ExploreTesting: View {
                 }
                 .opacity(showSearch ? 1 : 1+progress)
                 
-                Button {
-                    
-                } label: {
+                NavigationLink(destination: ProfilePage().environmentObject(authState)) {
                     Image("UVA")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -183,6 +189,8 @@ extension View {
     }
 }
 
-#Preview {
-    ExploreTesting()
+struct ExploreTesting_Preview: PreviewProvider {
+    static var previews: some View {
+        ExploreView(viewModel: ExploreViewModel()).environmentObject(AuthState.mock)
+    }
 }

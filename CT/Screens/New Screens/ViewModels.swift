@@ -21,7 +21,7 @@ class ExploreViewModel: ObservableObject {
     // calls database from firebase, built on keys that are in various dependencies within the app
 
     func fetchColleges() {
-        db.collection("Schools").addSnapshotListener { querySnapshot, error in
+        db.collection("Schools").order(by: "rank").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No documents in 'Schools'")
                 return
@@ -31,7 +31,7 @@ class ExploreViewModel: ObservableObject {
             self.colleges = documents.map { queryDocumentSnapshot -> College in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let available = data["available"] as? Bool ?? false
+                let available = data["available"] as? Bool ?? true
                 let name = data["name"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""

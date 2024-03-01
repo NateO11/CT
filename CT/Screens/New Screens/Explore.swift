@@ -11,7 +11,7 @@ import MapKit
 
 
 // this generates the explore page, which is the default page the user visits after logging in ... this is broken down into an unneccessarily large amount of small components but they all get called into the single view at the end ... overall vision for the explore page is for the user to access scroll views as well as a handful of buttons that link to relevant pages (map, search, profile, etc) ... a major inspiration for this UI is the explore page for tripadvisor and how that feels
-struct ExploreView: View {
+struct OldExploreView: View {
     @EnvironmentObject var authState: AuthState
     @ObservedObject var viewModel: ExploreViewModel
     // need to link this up with the authentication logic so the ID and other relevant user data is pulled
@@ -31,7 +31,7 @@ struct ExploreView: View {
 
                     LargeImageSection(imageName: "stockimage2", title: "Find Your Next Step", description: "Read reviews from current students...")
                     
-                    SchoolScrollView(colleges: viewModel.colleges)
+                    SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
                     
                     LargeImageSection(imageName: "stockimage3", title: "I'm going to end it all", description: "The voices are growing louder...")
 
@@ -51,6 +51,6 @@ struct ExploreView: View {
 
 struct ExplorePage_Preview: PreviewProvider {
     static var previews: some View {
-        ExploreView(viewModel: ExploreViewModel()).environmentObject(AuthState.mock)
+        OldExploreView(viewModel: ExploreViewModel()).environmentObject(AuthState.mock)
     }
 }

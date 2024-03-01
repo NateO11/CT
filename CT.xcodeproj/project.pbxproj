@@ -14,7 +14,6 @@
 		A180E9862B407F5200B0514A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9852B407F5200B0514A /* DataModels.swift */; };
 		A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E98D2B4081DB00B0514A /* ViewModels.swift */; };
 		A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9912B40ABA900B0514A /* ExplorePageViews.swift */; };
-		A19CCE0B2B6BEFFF00D2419A /* Explore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0A2B6BEFFF00D2419A /* Explore.swift */; };
 		A19CCE0D2B6BF06700D2419A /* HScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0C2B6BF06700D2419A /* HScroll.swift */; };
 		A19CCE0F2B6BF18900D2419A /* SchoolPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */; };
 		A19CCE112B753E6100D2419A /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE102B753E6100D2419A /* Map.swift */; };
@@ -78,7 +77,6 @@
 		A180E9852B407F5200B0514A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
 		A180E98D2B4081DB00B0514A /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
 		A180E9912B40ABA900B0514A /* ExplorePageViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorePageViews.swift; sourceTree = "<group>"; };
-		A19CCE0A2B6BEFFF00D2419A /* Explore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		A19CCE0C2B6BF06700D2419A /* HScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HScroll.swift; sourceTree = "<group>"; };
 		A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolPage.swift; sourceTree = "<group>"; };
 		A19CCE102B753E6100D2419A /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -169,7 +167,6 @@
 				A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */,
 				A19CCE0C2B6BF06700D2419A /* HScroll.swift */,
 				A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */,
-				A19CCE0A2B6BEFFF00D2419A /* Explore.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
@@ -488,7 +485,6 @@
 				E63AA2282B857A1B0077D89C /* OnboardingScreen1.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
 				E69829712B75609800F5A416 /* SignUp Functions.swift in Sources */,
-				A19CCE0B2B6BEFFF00D2419A /* Explore.swift in Sources */,
 				A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */,
 				A19CCE112B753E6100D2419A /* Map.swift in Sources */,
 				A1536DCC2B890F77008D96A9 /* ExploreTesting.swift in Sources */,

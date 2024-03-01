@@ -23,7 +23,7 @@ struct SchoolScrollView: View {
                 HStack(spacing: 5) {
                     ForEach(colleges) { college in
                         if college.available {
-                            NavigationLink(destination: SchoolView(college: college, viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                            NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
                                 GeometryReader(content: { proxy in
                                     let cardSize = proxy.size
                                     let minX = proxy.frame(in: .scrollView).minX - 60
@@ -100,7 +100,7 @@ struct SchoolScrollView: View {
         })
         .frame(height: 300)
         .padding(.horizontal, -15)
-        .padding(.top, 10)
+        .padding(.top, 20)
             
         
     }

@@ -21,7 +21,7 @@ struct SearchView: View {
                 
                 
                 List(colleges) { college in
-                    NavigationLink(destination: SchoolView(college: college, viewModel: MapViewModel(college: college))) {
+                    NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college))) {
                         HStack {
                             Image(college.image)
                                 .resizable()

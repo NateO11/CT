@@ -12,85 +12,66 @@ import Firebase
 
 struct SchoolView: View {
     @EnvironmentObject var authState: AuthState
-    var college: College
     @ObservedObject var viewModel: MapViewModel
 
     var body: some View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    Spacer().frame(height: 90)
-                    
-                    // Horizontal Scroll of Photos
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            ForEach(1..<5) { _ in
-                                Image(college.image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 300, height: 200)
-                                    .clipped()
-                                    .cornerRadius(10)
-                            }
-                        }
-                    }
-                    .frame(height: 200)
-                    .padding(.bottom, 5) // Adjust spacing as needed
+                    Spacer().frame(height: 70)
                     
                     // School Information
-                    Text(college.name)
+                    Text(viewModel.college.name)
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                         .padding(.bottom, 10)
                     
-                    Text(college.city)
+                    Text(viewModel.college.city)
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .padding(.bottom, 5)
                     
-                    Text(college.description)
+                    Text(viewModel.college.description)
                         .padding(.bottom, 10)
                     
                     Text("Notable locations")
-                    LocationScrollView(college: college, topLocations: viewModel.filteredLocations)
+                        .font(.title)
+                        .fontWeight(.heavy)
+                    
+                    LocationScrollView(college: viewModel.college, topLocations: viewModel.filteredLocations)
                     
                     // Navigation Buttons
                     HStack {
-                        StyledButtonDark(icon: "mappin", title: "View Map", destination: MapView(viewModel: MapViewModel(college: college)).environmentObject(authState))
+                        Spacer()
+                        StyledButtonDark(icon: "mappin", title: "View Full Map", destination: MapView(viewModel: MapViewModel(college: viewModel.college)).environmentObject(authState))
+                        Spacer()
                     }
+                    .padding(.bottom, 10)
                     
-                    LocationHorizontalScrollView(title: "Locations", description: "Prominent spots around campus", images: [college.image])
                     
-                    subTitleText(text: "Categories", subtext: "Hear what students have to say about...")
+                    Text("Reviews")
+                        .font(.title)
+                        .fontWeight(.heavy)
                     
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 330, height: 250)
-                            .foregroundColor(Color.blue.opacity(0.3)) // Adjust the opacity value as needed
-                            .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2) // Adjust the shadow properties as needed
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                SubCategoryButton(icon: "g.square", title: "Greek Life", forum: "Greek", college: college)
-                                SubCategoryButton(icon: "gear", title: "Engineering", forum: "Engineering", college: college)
-                            }
-                            HStack {
-                                SubCategoryButton(icon: "book", title: "Business", forum: "Business", college: college)
-                                SubCategoryButton(icon: "leaf", title: "Dining", forum: "Dining", college: college)
-                            }
-                            HStack {
-                                SubCategoryButton(icon: "football", title: "Athletics", forum: "Athletics", college: college)
-                                SubCategoryButton(icon: "pencil", title: "Other", forum: "Other", college: college)
-                            }
+                    VStack {
+                        HStack {
+                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "General"))) {
+                                RectView(color: Color.blue, title: "General")
+                            }.frame(height: 150)
+                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Greek Life"))) {
+                                RectView(color: Color.orange, title: "Greek \nLife")
+                            }.frame(height: 150)
                         }
-                    }
-                    .padding(.horizontal)
+                        HStack {
+                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Athletics"))) {
+                                RectView(color: Color.orange, title: "Athletics")
+                            }.frame(height: 150)
+                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Engineering"))) {
+                                RectView(color: Color.blue, title: "Engineering")
+                            }.frame(height: 150)
+                        }
+                    }.padding(.bottom, 40)
                     
-                    SchoolCardReviews(college: college)
-                    
-                    LocationHorizontalScrollView(title: "Libraries", description: "Read about where students study", images: [college.image])
-                }
-                .padding()
+                }.padding(20)
             }
             .onAppear {
                 viewModel.fetchLocations()
@@ -98,117 +79,85 @@ struct SchoolView: View {
             .ignoresSafeArea()
 
         
-        .navigationBarTitle(college.name)
+            .navigationBarTitle(viewModel.college.name)
         .navigationBarHidden(false)
         .navigationBarBackButtonHidden(false)
     }
-    private func photoScaleValue(geometry: GeometryProxy) -> CGFloat {
-            var scale: CGFloat = 1.0
-            let offset = geometry.frame(in: .global).minX
-
-            // Adjust these values to control the scale
-            let threshold: CGFloat = 100
-            if abs(offset) < threshold {
-                scale = 1 + (threshold - abs(offset)) / 500
-            }
-
-            return scale
-        }
-     
 }
 
 
-struct LocationHorizontalScrollView: View {
-    let title: String
-    let description: String
-    let images: [String]
 
+
+struct RectView: View {
+    var color: Color
+    var title: String
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.bottom, 5)
-                .padding(.top, 40)
-                .bold()
-
-            Text(description)
-                .padding(.bottom, 30)
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(images, id: \.self) { imageName in
-                        Image(imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 250, height: 225)
-                            .clipped()
-                            .cornerRadius(10)
-                    }
+        ZStack {
+            Rectangle()
+                .fill(color)
+                .overlay(alignment: .leading) {
+                    Circle()
+                        .fill(color)
+                        .overlay {
+                            Circle()
+                                .fill(Color.white.opacity(0.3))
+                        }
+                        .scaleEffect(2, anchor: .topLeading)
+                        .offset(x: -150, y: 50)
                 }
+                .overlay(alignment: .leading) {
+                    Circle()
+                        .fill(color)
+                        .overlay {
+                            Circle()
+                                .fill(Color.white.opacity(0.2))
+                        }
+                        .scaleEffect(0.8, anchor: .topLeading)
+                        .offset(x: 80, y: -150)
+                }
+                .overlay(alignment: .leading) {
+                    Circle()
+                        .fill(color)
+                        .overlay {
+                            Circle()
+                                .fill(Color.white.opacity(0.4))
+                        }
+                        .scaleEffect(1.2, anchor: .topLeading)
+                        .offset(x: 130, y: -50)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+            VStack(alignment: .leading) {
+                Spacer()
+                Text(title)
+                    .font(.title)
+                    .foregroundStyle(.white)
             }
-            .frame(height: 200)
-            .padding(.bottom, 10)
         }
     }
 }
 
-struct SubCategoryButton: View {
-    var icon: String
-    var title: String
-    var forum: String
-    var college: College
+struct StyledButtonDark<Destination: View>: View {
+    let icon: String
+    let title: String
+    let destination: Destination
 
     var body: some View {
-        NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: college, forum: forum))) {
-            HStack {
+        NavigationLink(destination: destination) {
+            HStack(alignment: .center) {
                 Image(systemName: icon)
-                    .resizable()
                     .foregroundColor(.white)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 20, height: 20) // Set a fixed size for the image
-
+                    .bold()
                 Text(title)
                     .foregroundColor(.white)
-                    .font(.headline)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .frame(maxWidth: .infinity, alignment: .leading) // Allow text to take remaining space
+                    .padding(.leading, 5)
+                    .bold()
+                    .fontWeight(.heavy)
             }
-            .padding()
-            .background(Color.black)
-            .cornerRadius(30)
-            .frame(width: 150, height: 60) // Set a fixed size for the entire button
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
         }
-        .buttonStyle(PlainButtonStyle()) // Remove the default button style
-        
-    }
-}
-
-
-struct SchoolCardReviews: View {
-    var college: College
-    var forum: String = "Testing"
-
-    var body: some View {
-        
-        subTitleText(text: "Reviews", subtext: "Where current students voice their opinons")
-
-        
-        NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: college, forum: forum))) {
-            VStack {
-                
-                Text("Read Reviews")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.black)
-                    .cornerRadius(20)
-
-                Spacer()
-            }
-        }
-        .navigationBarTitle("")  // To hide the default "Back" button text
-        .navigationBarHidden(true) // To hide the navigation bar when transitioning
+        .frame(width: 180, height: 60)
+        .background(Color.black)
+        .cornerRadius(40)
     }
 }

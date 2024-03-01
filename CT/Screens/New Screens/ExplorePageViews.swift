@@ -65,7 +65,7 @@ struct LargeImageSection: View {
         }
         .clipShape(.rect(bottomLeadingRadius: 10, bottomTrailingRadius: 10))
         .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-        .padding(.vertical, 20)
+        //.padding(.vertical, 20)
     }
 }
 
@@ -250,31 +250,6 @@ struct StyledButton<Destination: View>: View {
     }
 }
 
-struct StyledButtonDark<Destination: View>: View {
-    let icon: String
-    let title: String
-    let destination: Destination
-
-    var body: some View {
-        NavigationLink(destination: destination) {
-            HStack(alignment: .center) {
-                Image(systemName: icon)
-                    .foregroundColor(.white)
-                    .bold()
-                Text(title)
-                    .foregroundColor(.white)
-                    .padding(.leading, 5)
-                    .bold()
-                    .fontWeight(.heavy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
-        }
-        .frame(width: 160, height: 60)
-        .background(Color.black)
-        .cornerRadius(40)
-    }
-}
 
 struct bottomText: View {
   
@@ -285,6 +260,7 @@ struct bottomText: View {
         Text(text)
             .font(.caption2)
             .fontWeight(.thin)
+            .padding(.top, 10)
             
     }
 }
