@@ -23,9 +23,7 @@ struct MapView: View {
             viewModel.updateFilteredLocations(forCategory: selectedCategory)
         }
     }
-    var categorySelect: some View {
-        CategorySelectView(selectedCategory: $selectedCategory, showCategorySelect: $showCategorySelect)
-    }
+
     // updates location categories when modified
     @State private var initialSelectedLocation: Location? = nil
     @State private var mapSelectionName: String? = nil
@@ -47,28 +45,18 @@ struct MapView: View {
             } // creates a marker at each location, using the symbol/color for associated category
         
             .mapStyle(.standard(pointsOfInterest: [])) // sets map style to show no generated locations
-            .mapControls {
+            /* .mapControls {
                 MapCompass()
                     .buttonBorderShape(.circle)
                     .padding()
                 MapUserLocationButton()
                     .buttonBorderShape(.circle)
                     .padding()
-            } // native map buttons to help user orient themselves, kinda useless tho might delete
+            } */ // native map buttons to help user orient themselves, kinda useless tho might delete
         
             .overlay(alignment: .bottomTrailing) {
-                Button("") {
-                    showCategorySelect.toggle()
-                }
-                .buttonStyle(CategoryButton(category: selectedCategory))
-                .padding(30)
-                .sheet(isPresented: $showCategorySelect) {
-                    categorySelect
-                        .presentationDetents([.fraction(0.35)])
-                        .presentationDragIndicator(.hidden)
-                        .presentationBackground(.ultraThinMaterial)
-                        .interactiveDismissDisabled()
-                }
+                ExpandedCategorySelect(selectedCategory: $selectedCategory)
+                    .padding(30)
             } // category modification button, lets user filter types of locations
             .navigationTitle("\(viewModel.college.name) - \(selectedCategory)")
             .navigationBarTitleDisplayMode(.inline)

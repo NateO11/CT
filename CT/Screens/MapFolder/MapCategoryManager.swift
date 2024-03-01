@@ -100,70 +100,86 @@ func symbolForCategory(_ category: String) -> String {
         return "trophy.fill"
     case "Health":
         return "stethoscope"
+    case "All":
+        return "globe"
+    case "Close":
+        return "xmark"
+    case "Expand" :
+        return "square.stack.3d.up"
     default:
         return "gearshape.fill"
     }
     // same idea as the color function, we don't actually use all of these categories but have the option to build in more if needed
 }
 
-struct CategorySelectView: View {
-    // sheet that displays when the "settings" button is clicked, allows the user to filter the locations across campus
+
+
+struct ExpandedCategorySelect: View {
     @Binding var selectedCategory: String
-    @Binding var showCategorySelect: Bool
-    @Environment(\.presentationMode) var presentationMode
-    // this is simply the array of buttons to modify categories ... only the most general ones are currently displayed
+    @State private var isExpanded = false
+    @State var showLandmarksButton = false
+    @State var showAthleticsButton = false
+    @State var showDiningButton = false
+    @State var showStudyButton = false
+    @State var showAllButton = false
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(Color.clear)
-            VStack(spacing: 20) {
-                Text("Select a category")
-                HStack(spacing: 12) {
-                    Button("") {
-                        selectedCategory = "Landmarks"
-                        showCategorySelect.toggle()
-                    }
-                    .buttonStyle(CategoryButton(category: "Landmarks"))
-                    
-                    Button("") {
-                        selectedCategory = "Athletics"
-                        showCategorySelect.toggle()
-                    }
-                    .buttonStyle(CategoryButton(category: "Athletics"))
-                    
-                    Button("") {
-                        selectedCategory = "Dining"
-                        showCategorySelect.toggle()
-                    }
-                    .buttonStyle(CategoryButton(category: "Dining"))
+        VStack {
+            if showLandmarksButton {
+                Button("") {
+                    selectedCategory = "Landmarks"
+                    self.showMenu()
                 }
-                HStack {
-                    Button("") {
-                        selectedCategory = "Study Spots"
-                        showCategorySelect.toggle()
-                    }
-                    .buttonStyle(CategoryButton(category: "Study Spots"))
-                    
-                    Button("") {
-                        selectedCategory = "All"
-                        showCategorySelect.toggle()
-                    }
-                    .buttonStyle(CategoryButton(category: "All"))
-                    // we will be changing the "all" category to something more intuitive than the settings symbol
-                }
+                .buttonStyle(CategoryButton(category: "Landmarks"))
             }
-            
-        }
-        .overlay(alignment: .topTrailing) {
+            if showAthleticsButton {
+                Button("") {
+                    selectedCategory = "Athletics"
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: "Athletics"))
+            }
+            if showDiningButton {
+                Button("") {
+                    selectedCategory = "Dining"
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: "Dining"))
+            }
+            if showStudyButton {
+                Button("") {
+                    selectedCategory = "Study Spots"
+                    self.showMenu()        
+                }
+                .buttonStyle(CategoryButton(category: "Study Spots"))
+            }
+            if showAllButton {
+                Button("") {
+                    selectedCategory = "All"
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: "All"))
+            }
             Button("") {
-                self.presentationMode.wrappedValue.dismiss()
-                // this should dismiss the sheet when the xbutton is pressed, rather than when the sheet is swiped down like it would natively function
-            }
-            .buttonStyle(xButton())
-            .shadow(radius: 10)
-            .padding(20)
-            
+                withAnimation {
+                    self.showMenu()
+                }
+                
+            }.buttonStyle(CategoryButton(category: showAllButton ? "Close" : "Expand", dimensions: 40)).contentTransition(.symbolEffect(.replace))
+
         }
+        .transition(.move(edge: .top))
     }
+    
+    func showMenu() {
+        withAnimation {
+            showLandmarksButton.toggle()
+            showAthleticsButton.toggle()
+            showDiningButton.toggle()
+            showStudyButton.toggle()
+            showAllButton.toggle()
+        }
+        
+    }
+    
 }
