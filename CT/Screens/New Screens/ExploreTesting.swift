@@ -29,7 +29,7 @@ struct ExploreView: View {
                         
                         VStack {
                             SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
-                            LargeImageSection(imageName: "stockimage1", title: "I like men", description: "Testing")
+                            LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself...")
                             SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
                             LargeImageSection(imageName: "stockimage3", title: "I like men", description: "Testing")
                             bottomText(text: "Contact us at CollegeTour@gmail.com")

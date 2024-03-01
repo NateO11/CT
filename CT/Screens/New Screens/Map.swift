@@ -76,29 +76,26 @@ struct MapView: View {
             
             .onAppear {
                 viewModel.fetchLocations()
-                if let initialLocation = initialSelectedLocation {
-                        // Logic to select initialLocation on the map
+                if let initialLocation = initialSelectedLocation, selectedLocation == nil {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        // Giving a slight delay might help in ensuring the view is fully loaded before attempting to present the sheet.
                         self.selectedLocation = initialLocation
                         self.mapSelectionName = initialLocation.name
+                        // This forces a re-render, but ensure your logic is sound for setting and using `selectedLocation`.
                     }
-            } // pulls from firestore on start
+                }
+            }
+            // pulls from firestore on start
             .onChange(of: selectedCategory) { oldCategory, newCategory in
                 viewModel.updateFilteredLocations(forCategory: newCategory)
             } // updates locations when they are filtered differently
-            .sheet(item: $selectedLocation) { location in
+            .sheet(item: $selectedLocation, onDismiss: clearSelection) { location in
                 LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
                     .presentationDetents([.fraction(0.15),.medium,.fraction(0.99)])
                     .presentationDragIndicator(.visible)
                     .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.2)))
                     .ignoresSafeArea()
                     
-                /* LocationInitialView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
-                    .presentationDetents([.fraction(0.4)])
-                    .presentationDragIndicator(.hidden)
-                    .interactiveDismissDisabled()
-                    .onDisappear(perform: {
-                        mapSelectionName = nil
-                    }) */
             } // displays small sheet with basic information about location, user can then expand
             
         
@@ -111,6 +108,14 @@ struct MapView: View {
             }
         } // deselects location when the sheet info view is closed
     }
+    func clearSelection() {
+        withAnimation {
+            self.selectedLocation = nil
+            self.mapSelectionName = nil
+        }
+        
+    }
+
 }
 
 
