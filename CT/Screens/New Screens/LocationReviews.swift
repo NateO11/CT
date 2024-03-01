@@ -15,35 +15,57 @@ import MapKit
 struct IndividualReviewView: View {
     let review: Review
     let firstChar: String
-    @State private var expandedReviews: Set<String> = []
     // logic to show/hide lines of a really long review, but not really using this right now
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                ZStack {
+                /* ZStack {
                     Circle()
                         .fill(Color.black)
-                        .frame(width: 25, height: 25)
+                        .frame(width: 35, height: 35)
                     Text(String(firstChar).uppercased())
                         .foregroundStyle(Color.white)
-                } // results in what looks like a user icon of sorts ... i want to create a system for this that has an associated color for every user or maybe allows profile pictures ... probably a v2 thing
+                } */ // results in what looks like a user icon of sorts ... i want to create a system for this that has an associated color for every user or maybe allows profile pictures ... probably a v2 thing
+                Image("UVA")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                    .background {
+                        Circle()
+                            .fill(.black)
+                            .padding(-2)
+                    }
                 
-                Text("\(review.userID)")
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-            }
-            
-            HStack {
-                ForEach(0..<review.rating, id: \.self) { _ in
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
-                }
-                ForEach(review.rating..<5, id: \.self) { _ in
-                    Image(systemName: "star.fill")
+                VStack(alignment: .leading) {
+                    Text("\(review.userID)")
+                        .font(.subheadline)
+                        .foregroundColor(.black)
+                    Text("\(formattedDate(review.timestamp))")
+                        .font(.caption2)
                         .foregroundColor(.gray)
                 }
-            } // this creates a horizontal list of stars resembling whatever the associated rating is, yellow stars appear first and gray (if its not 5 star) appear second
+                Spacer()
+                
+                HStack(spacing: 5) {
+                    ForEach(0..<review.rating, id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                            .frame(width: 15)
+                    }
+                    ForEach(review.rating..<5, id: \.self) { _ in
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.gray)
+                            .frame(width: 15)
+                    }
+                    
+                } // this creates a horizontal list of stars resembling whatever the associated rating is, yellow stars appear first and gray (if its not 5 star) appear second
+                
+                
+            }
+            
+            
             .padding(.vertical, 1)
 
             Text("\(review.title)")
@@ -51,21 +73,24 @@ struct IndividualReviewView: View {
                 .bold()
                 .foregroundColor(.black)
 
-            Text("\(formattedDate(review.timestamp))")
-                .font(.caption2)
-                .foregroundColor(.gray)
-                .padding(.bottom, 5)
-                .padding(.top, 1)
+            
             // calls a function to format the date properly for display
 
             Text(review.text)
-                .lineLimit(expandedReviews.contains(review.userID) ? nil : 4)
-                .font(.body)
+                .font(.callout)
                 .foregroundColor(.black)
             // logic to expand the review is not integrated right now but could be down the line
 
         }
         .padding()
+        /* HStack {
+            Spacer()
+            Rectangle()
+                .fill(.black.opacity(0.7))
+                .frame(width: 250, height: 2)
+            Spacer()
+        } */
+        
     }
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()

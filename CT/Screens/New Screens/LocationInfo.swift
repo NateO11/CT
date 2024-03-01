@@ -230,26 +230,26 @@ struct LocationTestingView: View {
                     .font(.title)
                     .fontWeight(.bold)
                 
-                VStack {
+                VStack(alignment: .leading) {
                     // if no reviews are in firestore, a single text line is displayed instead of an empty list where reviews otherwise would be
                     if viewModel.reviews.isEmpty {
                         Text("Be the first to review this location")
                     } else {
-                        List {
                             ForEach(viewModel.reviews, id: \.text) { review in
                                 let firstChar = Array(review.userID)[0]
                                 IndividualReviewView(review: review, firstChar: String(firstChar).uppercased())
                             } // uses individual review view for consistent formatting throughout
-                        }
+                        
                     }
                 }
                 
                 
             }
-        }.padding(20)
             .onAppear {
                 viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
             }
+        }.padding(20)
+            
             
         
     }
