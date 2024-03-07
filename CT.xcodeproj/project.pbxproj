@@ -26,6 +26,9 @@
 		E61CE1E02B45FE66009EB5D6 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */; };
 		E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E12B460093009EB5D6 /* SignUpView.swift */; };
 		E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */; };
+		E620DE8F2B9A3B4000232C5E /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE8E2B9A3B4000232C5E /* AuthViewModel.swift */; };
+		E620DE912B9A4C7C00232C5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE902B9A4C7C00232C5E /* ContentView.swift */; };
+		E620DE932B9A552B00232C5E /* practiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE922B9A552B00232C5E /* practiceView.swift */; };
 		E63AA2282B857A1B0077D89C /* OnboardingScreen1.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63AA2272B857A1B0077D89C /* OnboardingScreen1.swift */; };
 		E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646D0D82B5B3B5900805CE5 /* MainView.swift */; };
 		E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E670FACE2B268F6D00BB3692 /* CTApp.swift */; };
@@ -89,6 +92,9 @@
 		E61CE1DF2B45FE66009EB5D6 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		E61CE1E12B460093009EB5D6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumsTemplate.swift; sourceTree = "<group>"; };
+		E620DE8E2B9A3B4000232C5E /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthViewModel.swift; path = ../Login/AuthViewModel.swift; sourceTree = "<group>"; };
+		E620DE902B9A4C7C00232C5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../Views/ContentView.swift; sourceTree = "<group>"; };
+		E620DE922B9A552B00232C5E /* practiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = practiceView.swift; sourceTree = "<group>"; };
 		E63AA2272B857A1B0077D89C /* OnboardingScreen1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen1.swift; sourceTree = "<group>"; };
 		E646D0D82B5B3B5900805CE5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = ../Authentication/MainView.swift; sourceTree = "<group>"; };
 		E670FACB2B268F6D00BB3692 /* CT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,8 +175,10 @@
 				A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */,
 				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
+				E620DE902B9A4C7C00232C5E /* ContentView.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
 				A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */,
+				E620DE922B9A552B00232C5E /* practiceView.swift */,
 			);
 			path = "New Screens";
 			sourceTree = "<group>";
@@ -312,6 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */,
+				E620DE8E2B9A3B4000232C5E /* AuthViewModel.swift */,
 				E69829762B75689100F5A416 /* Authentication UI.swift */,
 			);
 			path = "Authentication Functions";
@@ -472,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E698297D2B7945C000F5A416 /* SplashScreenView.swift in Sources */,
+				E620DE932B9A552B00232C5E /* practiceView.swift in Sources */,
 				E69829772B75689100F5A416 /* Authentication UI.swift in Sources */,
 				E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */,
 				E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */,
@@ -495,7 +505,9 @@
 				E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */,
 				E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */,
 				E646D0D92B5B3B5900805CE5 /* MainView.swift in Sources */,
+				E620DE8F2B9A3B4000232C5E /* AuthViewModel.swift in Sources */,
 				A19CCE0F2B6BF18900D2419A /* SchoolPage.swift in Sources */,
+				E620DE912B9A4C7C00232C5E /* ContentView.swift in Sources */,
 				A19CCE132B753F2D00D2419A /* LocationInfo.swift in Sources */,
 				E670FACF2B268F6D00BB3692 /* CTApp.swift in Sources */,
 			);

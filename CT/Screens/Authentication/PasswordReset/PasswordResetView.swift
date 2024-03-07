@@ -27,13 +27,13 @@ struct PasswordResetView: View {
                 .padding(.top, 20)
                 
                 
-                
-                NavigationLink(destination: LoginPageView()) {
-                    Text("Have an Account? Login Here")
-                        .foregroundColor(.blue)
-                        .padding()
-                }
-                
+//                
+//                NavigationLink(destination: LoginPageView(authViewModel: AuthViewModel)) {
+//                    Text("Have an Account? Login Here")
+//                        .foregroundColor(.blue)
+//                        .padding()
+//                }
+//                
                 
                 // pop to alert users to enter a valid email
                 .alert(isPresented: $resetfailed) {
