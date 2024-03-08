@@ -32,8 +32,6 @@ struct SplashScreenView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 300, height: 300)
                 .cornerRadius(20)
-                .scaleEffect(scale)
-                .opacity(opacity)
             
                 Image("CTPin")
                     .resizable()
@@ -41,17 +39,11 @@ struct SplashScreenView: View {
                     .frame(width: 200, height: 200)
                     .cornerRadius(20)
                     .offset(x: 0, y: -90)
-                    .scaleEffect(scale)
-                    .opacity(opacity)
-                    .onAppear {
-                        withAnimation(.spring()) {
-                            // Update any animatable property here
-                            self.scale = 1.2
-                        }
+                    
                 }
         }
     }
-}
+
     
 
 

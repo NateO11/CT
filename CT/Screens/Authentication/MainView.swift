@@ -24,12 +24,12 @@ struct MainView: View {
                     Text("Search")
                 }
             
-            ProfilePage()
-                .environmentObject(authState)
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profile")
-                }
+//            ProfilePage()
+//                .environmentObject(authState)
+//                .tabItem {
+//                    Image(systemName: "person.fill")
+//                    Text("Profile")
+//                }
         }
         .navigationBarHidden(true)
     }

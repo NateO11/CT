@@ -64,6 +64,11 @@ class AuthViewModel: ObservableObject {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         guard let snapshot = try? await Firestore.firestore().collection("Users").document(uid).getDocument() else {return}
         self.currentUser = try? snapshot.data(as: User.self)
-        print("shit fuck \(String(describing: self.currentUser))")
+        print("The user is \(String(describing: self.currentUser))")
+        }
+    
+    func addUserFavorites() async {
+        // should got to the current uid and then create/ add to the existing array of favorite schools
         }
 }
+
