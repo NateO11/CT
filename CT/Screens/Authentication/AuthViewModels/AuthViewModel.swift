@@ -10,6 +10,10 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestoreSwift
 
+protocol AuthenticationFormProtocol {
+    var formIsValid : Bool  { get }
+}
+
 
 @MainActor
 class AuthViewModel: ObservableObject {
@@ -33,7 +37,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func signUp(email: String, password: String, fullname: String) async throws {
+    func signUp(email: String, password: String, fullname: String) async throws -> String {
         do{
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
@@ -43,7 +47,9 @@ class AuthViewModel: ObservableObject {
             await fetchUser()
         } catch {
             print("Failed to Create user error \(error.localizedDescription)")
+            return error.localizedDescription
         }
+        return ""
     }
     
     func signOut() {

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct practice_imageretriaval: View {
+    var imageUrl: URL = URL(string: "gs://collegetour-fb638.appspot.com/usopen.jpg")!
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("hi")
     }
 }
 

@@ -6,10 +6,18 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseStorage
+
 
 struct practice: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+
+            // Assuming storageReference is your gs:// URL obtained from Firebase Storage
+          Text("fuck")
+
+        }
     }
 }
 
