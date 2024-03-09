@@ -12,6 +12,8 @@ struct LoginPageView: View {
     
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var validLoginMessage: String = ""
+    @State private var validLoginMessageBool: Bool = false
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
@@ -27,13 +29,19 @@ struct LoginPageView: View {
                     // button for login using protocol
                     Button {
                         Task {
-                            try await viewModel.signIn(email:email,password:password)
+                            validLoginMessage = try await viewModel.signIn(email:email,password:password)
+                            if !validLoginMessage.isEmpty {
+                                validLoginMessageBool = true
+                            }
                         }
                     } label: {
                         AuthButtonStyle(buttonText: "Log in")
                         }
                     .disabled(!formIsValid)
                     .opacity(formIsValid ? 1.0:0.5)
+                    .alert("Invalid Username or Password",isPresented: $validLoginMessageBool){
+                        Button("OK") {}
+                    }
                     
                     
                     // redirect to sign up

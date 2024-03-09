@@ -14,9 +14,14 @@ struct EditProfileView: View {
     @State private var textFieldInput: String = ""
 
     var body: some View {
-        Text("Edit Profile")
-        List{
-            TextField(viewModel.currentUser?.fullname ?? " ", text: $textFieldInput)
+//      Text("Edit Profile")
+//        List{
+//            TextField(viewModel.currentUser?.fullname ?? " ", text: $textFieldInput)
+//        }
+        VStack{
+            Text("COMING SOON")
+                .font(.title)
+                .bold()
         }
     }
 }

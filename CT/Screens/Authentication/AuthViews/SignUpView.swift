@@ -38,7 +38,7 @@ struct SignUpView: View {
                             }
                         }
                     } label: {
-                        AuthButtonStyle(buttonText: "Log in")
+                        AuthButtonStyle(buttonText: "Sign Up")
                     }
                     .disabled(!formIsValid)
                     .opacity(formIsValid ? 1.0:0.5)
