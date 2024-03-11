@@ -11,7 +11,7 @@ import MapKit
 import Firebase
 
 struct SchoolView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: MapViewModel
 
     var body: some View {

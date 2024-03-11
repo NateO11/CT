@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     var body: some View {
         TabView{
             ExploreView(viewModel: ExploreViewModel())

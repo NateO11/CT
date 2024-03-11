@@ -12,7 +12,7 @@ import Firebase
 
 
 struct LocationScrollView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     var college: College
     var topLocations: [Location]
     var body: some View {

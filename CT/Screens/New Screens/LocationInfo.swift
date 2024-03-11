@@ -188,7 +188,7 @@ struct LocationExpandedView: View {
 */
 
 struct LocationTestingView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: LocationViewModel
     
     var body: some View {

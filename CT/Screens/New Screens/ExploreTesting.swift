@@ -12,7 +12,7 @@ import Firebase
 
 
 struct ExploreView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: ExploreViewModel
     
     @State var offsetY: CGFloat = 0

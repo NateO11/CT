@@ -13,9 +13,8 @@ struct ContentView: View {
     var body: some View {
         Group {
             if viewModel.userSession != nil {
-                ProfilePage()
-            }
-            else{
+                ExploreView( viewModel: ExploreViewModel())
+            } else {
                 SignUpView()
             }
         }

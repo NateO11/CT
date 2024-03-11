@@ -82,3 +82,23 @@ class AuthViewModel: ObservableObject {
         }
 }
 
+extension AuthViewModel {
+    
+    static func mock() -> AuthViewModel {
+        // Create an instance of AuthViewModel
+        let mockViewModel = AuthViewModel()
+        
+        // Setup the mock data
+        // Note: You might need to adjust this part depending on how FirebaseAuth.User and User are defined in your project.
+        // For instance, you might need to create mock versions of these objects or use existing initializers with mock data.
+        
+        // Setup a mock user session
+        
+        
+        // Setup a mock current user
+        mockViewModel.currentUser = User(id: "mockUID", email: "mock@example.com", fullname: "Mock User")
+        
+        // Return the mocked ViewModel
+        return mockViewModel
+    }
+}

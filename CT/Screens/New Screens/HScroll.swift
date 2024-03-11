@@ -12,7 +12,7 @@ import Firebase
 
 
 struct SchoolScrollView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     var colleges: [College]
     @State private var showAlert: Bool = false
     var body: some View {
@@ -36,7 +36,8 @@ struct SchoolScrollView: View {
                                         .frame(width: proxy.size.width * 1.5)
                                         .frame(width: cardSize.width, height: cardSize.height)
                                         .overlay {
-                                            OverlayView(college, available: college.available)
+                                            AvailableOverlay(college: college)
+                                            
                                         }
                                         .clipShape(.rect(cornerRadius: 15))
                                         .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
@@ -50,42 +51,45 @@ struct SchoolScrollView: View {
                             }
                             }
                         } else {
-                            GeometryReader(content: { proxy in
-                                let cardSize = proxy.size
-                                let minX = proxy.frame(in: .scrollView).minX - 60
-                                // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
-                                    
-                                Image(college.image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .offset(x: -minX)
-                                    .frame(width: proxy.size.width * 1.5)
-                                    .frame(width: cardSize.width, height: cardSize.height)
-                                    .blur(radius: 2)
-                                    .overlay {
-                                        OverlayView(college, available: college.available)
-                                    }
-                                    
-                                    .clipShape(.rect(cornerRadius: 15))
-                                    .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-                                    .onTapGesture {
-                                        showAlert = true
-                                    }
-                                    .alert(isPresented: $showAlert) {
-                                        Alert(
-                                            title: Text("School unavailable"),
-                                            message: Text("\(college.name) \n is coming soon!"),
-                                            dismissButton: .default(Text("OK"))
-                                        )
-                                    }
+                            NavigationLink(destination: EditProfileView()) {
+                                GeometryReader(content: { proxy in
+                                    let cardSize = proxy.size
+                                    let minX = proxy.frame(in: .scrollView).minX - 60
+                                    // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
+                                        
+                                    Image(college.image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .offset(x: -minX)
+                                        .frame(width: proxy.size.width * 1.5)
+                                        .frame(width: cardSize.width, height: cardSize.height)
+                                        .blur(radius: 2)
+                                        .overlay {
+                                            UnavailableOverlay(college: college)
+                                        }
+                                        
+                                        .clipShape(.rect(cornerRadius: 15))
+                                        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                        /* .onTapGesture {
+                                            showAlert = true
+                                        }
+                                        .alert(isPresented: $showAlert) {
+                                            Alert(
+                                                title: Text("School unavailable"),
+                                                message: Text("\(college.name) \n is coming soon!"),
+                                                dismissButton: .default(Text("OK"))
+                                            )
+                                        }
+                                         */
 
-                                
-                            })
-                            .frame(width: size.width - 120, height: size.height - 30)
-                            .scrollTransition(.interactive, axis: .horizontal) {
-                                view, phase in
-                                view
-                                    .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                    
+                                })
+                                .frame(width: size.width - 120, height: size.height - 30)
+                                .scrollTransition(.interactive, axis: .horizontal) {
+                                    view, phase in
+                                    view
+                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                            }
                             }
                         }
                     }
@@ -104,69 +108,78 @@ struct SchoolScrollView: View {
             
         
     }
-    @ViewBuilder
-    func OverlayView(_ college: College, available: Bool) -> some View {
-
-        if available {
-            ZStack(alignment: .bottomLeading, content: {
-                LinearGradient(colors: [
-                    Color.clear,
-                    .clear,
-                    .clear,
-                    .black.opacity(0.1),
-                    .black.opacity(0.5),
-                    .black
-                ], startPoint: .top, endPoint: .bottom)
-                
-                VStack(alignment: .leading, spacing: 4, content: {
-                    HStack {
-                        Spacer()
-                        starButton(starred: false)
-                    }
-                    Spacer()
-                    Text(college.name)
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                        .fontWeight(.black)
-                        .foregroundStyle(.white)
-                    Text(college.city)
-                        .font(.callout)
-                        .foregroundStyle(.white.opacity(0.8))
-                })
-                .padding(20)
-            })
-        } else {
-            ZStack(alignment: .bottomLeading) {
-                LinearGradient(colors: [
-                    Color.gray,
-                    .gray.opacity(0.8),
-                    .gray.opacity(0.6),
-                    .gray.opacity(0.8),
-                    .gray
-                ], startPoint: .top, endPoint: .bottom)
-                Image("ComingSoon")
-                    .resizable()
-                    .opacity(0.5)
-                    .blur(radius: 0.5)
-                VStack(alignment: .leading, spacing: 4, content: {
-                    Text(college.name)
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
-                        .fontWeight(.black)
-                        .foregroundStyle(.white.opacity(0.8))
-                    Text(college.city)
-                        .font(.callout)
-                        .foregroundStyle(.white.opacity(0.8))
-                })
-                .padding(20)
-            }
-        }
-        
-    }
+    
 }
 
 struct HScroll_Preview: PreviewProvider {
     static var previews: some View {
         SchoolScrollView(colleges: sampleColleges).environmentObject(AuthState.mock)
+    }
+}
+
+
+struct AvailableOverlay: View {
+    var college: College
+    
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            LinearGradient(colors: [
+                Color.clear,
+                .clear,
+                .clear,
+                .black.opacity(0.1),
+                .black.opacity(0.5),
+                .black
+            ], startPoint: .top, endPoint: .bottom)
+            
+            VStack(alignment: .leading, spacing: 4, content: {
+                HStack {
+                    Spacer()
+                    starButton(starred: false)
+                    
+                }
+                Spacer()
+                Text(college.name)
+                    .font(.title2)
+                    .multilineTextAlignment(.leading)
+                    .fontWeight(.black)
+                    .foregroundStyle(.white)
+                Text(college.city)
+                    .font(.callout)
+                    .foregroundStyle(.white.opacity(0.8))
+            })
+            .padding(20)
+        }
+    }
+}
+
+struct UnavailableOverlay: View {
+    var college: College
+    
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            LinearGradient(colors: [
+                Color.gray,
+                .gray.opacity(0.8),
+                .gray.opacity(0.6),
+                .gray.opacity(0.8),
+                .gray
+            ], startPoint: .top, endPoint: .bottom)
+            Image("ComingSoon")
+                .resizable()
+                .opacity(0.5)
+                .blur(radius: 0.5)
+            VStack(alignment: .leading, spacing: 4, content: {
+                Text(college.name)
+                    .font(.title2)
+                    .multilineTextAlignment(.leading)
+                    .fontWeight(.black)
+                    .foregroundStyle(.white.opacity(0.8))
+                Text(college.city)
+                    .font(.callout)
+                    .foregroundStyle(.white.opacity(0.8))
+            })
+            .padding(20)
+        }
     }
 }

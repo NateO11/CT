@@ -20,6 +20,7 @@ class ExploreViewModel: ObservableObject {
     private var db = Firestore.firestore()
     // calls database from firebase, built on keys that are in various dependencies within the app
 
+    @MainActor
     func fetchColleges() {
         db.collection("Schools").order(by: "rank").addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
@@ -57,13 +58,13 @@ class LocationViewModel: ObservableObject {
     @Published var location: Location
     // establishing the specific location and associated college, and preparing to fetch reviews if needed
     
-    var authState: AuthState?
+    var authState: AuthViewModel?
     // looking to implement authstate so we can pass through reviews associated with a specific user, but haven't quite gotten there yet
     
     private var db = Firestore.firestore()
 
     
-    init(college: College, location: Location, authState: AuthState? = nil) {
+    init(college: College, location: Location, authState: AuthViewModel? = nil) {
         self.college = college
         self.location = location
         self.authState = authState
@@ -77,11 +78,12 @@ class LocationViewModel: ObservableObject {
     }
     // function to format date when ultimately displaying reviews
 
+    @MainActor 
     func submitReview(rating: Int, title: String, text: String, forLocation locationID: String) {
         let reviewData: [String: Any] = [
             "school": college.name,
             "location": location.name,
-            "userID": authState?.currentUserId ?? "defaultID",
+            "userID": authState?.currentUser?.id ?? "defaultID",
             "rating": rating,
             "title": title,
             "text": text,
@@ -95,7 +97,7 @@ class LocationViewModel: ObservableObject {
                 print("Review successfully added!")
             }
         } // sends the new review element to a reviews collection for that specific location ... need to work on this logic to ensure it goes to the location Id and not the location name
-        db.collection("Users").document(authState?.currentUserId ?? "test").collection("reviews").addDocument(data: reviewData) { error in
+        db.collection("Users").document(authState?.currentUser?.id ?? "test").collection("reviews").addDocument(data: reviewData) { error in
             if let error = error {
                 print("Error adding review: \(error.localizedDescription)")
             } else {

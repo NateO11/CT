@@ -13,7 +13,7 @@ import MapKit
 // view that generates a map for the college based on data pulled from firestore, creating clickable markers at every location which can then be expanded to read more information/reviews
 
 struct MapView: View {
-    @EnvironmentObject var authState: AuthState
+    @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: MapViewModel
     // view model includes functions to parse location info from firestore
 
