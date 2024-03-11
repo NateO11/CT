@@ -107,7 +107,7 @@ struct ProfilePage: View {
 
 
 #Preview {
-    ProfilePage().environmentObject(AuthViewModel())
+    ProfilePage().environmentObject(AuthViewModel.mock)
 }
 
 

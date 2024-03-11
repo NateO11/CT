@@ -195,6 +195,6 @@ extension View {
 
 struct ExploreTesting_Preview: PreviewProvider {
     static var previews: some View {
-        ExploreView(viewModel: ExploreViewModel()).environmentObject(AuthState.mock)
+        ExploreView(viewModel: ExploreViewModel()).environmentObject(AuthViewModel.mock)
     }
 }

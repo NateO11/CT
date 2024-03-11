@@ -97,6 +97,6 @@ struct LocationScrollView: View {
 
 struct HScroll_Preview2: PreviewProvider {
     static var previews: some View {
-        LocationScrollView(college: sampleColleges[2], topLocations: sampleLocations).environmentObject(AuthState.mock)
+        LocationScrollView(college: sampleColleges[2], topLocations: sampleLocations).environmentObject(AuthViewModel.mock)
     }
 }

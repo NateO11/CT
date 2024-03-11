@@ -84,7 +84,7 @@ class AuthViewModel: ObservableObject {
 
 extension AuthViewModel {
     
-    static func mock() -> AuthViewModel {
+    static var mock: AuthViewModel {
         // Create an instance of AuthViewModel
         let mockViewModel = AuthViewModel()
         

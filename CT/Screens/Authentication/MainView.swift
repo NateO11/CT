@@ -24,12 +24,12 @@ struct MainView: View {
                     Text("Search")
                 }
             
-//            ProfilePage()
-//                .environmentObject(authState)
-//                .tabItem {
-//                    Image(systemName: "person.fill")
-//                    Text("Profile")
-//                }
+            ProfilePage()
+                .environmentObject(authState)
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("Profile")
+                }
         }
         .navigationBarHidden(true)
     }
@@ -38,6 +38,6 @@ struct MainView: View {
 
 struct Main_Preview: PreviewProvider {
     static var previews: some View {
-        MainView().environmentObject(AuthState.mock)
+        MainView().environmentObject(AuthViewModel.mock)
     }
 }

@@ -113,7 +113,7 @@ struct SchoolScrollView: View {
 
 struct HScroll_Preview: PreviewProvider {
     static var previews: some View {
-        SchoolScrollView(colleges: sampleColleges).environmentObject(AuthState.mock)
+        SchoolScrollView(colleges: sampleColleges).environmentObject(AuthViewModel.mock)
     }
 }
 
