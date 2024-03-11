@@ -19,6 +19,17 @@ struct SchoolView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Spacer().frame(height: 70)
                     
+                    HStack {
+                        Spacer()
+                        Image(viewModel.college.image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 300, height: 200)
+                            .cornerRadius(8)
+                            .shadow(radius: 10)
+                        Spacer()
+                    }
+                    
                     // School Information
                     Text(viewModel.college.name)
                         .font(.largeTitle)

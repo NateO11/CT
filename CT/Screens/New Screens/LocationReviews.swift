@@ -104,7 +104,7 @@ struct IndividualReviewView: View {
 
 
 // this view appears when the user clicks the "write a review" button while reading about a location ... once the user adds a rating, title, and body they can submit and the review is then added to firestore
-
+/*
 struct WriteReviewView: View {
     @StateObject var viewModel: LocationViewModel
     // view model includes functions neccesary to relay the reviews back and forth between firestore, although I want to make some small changes to the review data is sent to the associated user as well as the associated location, where it can then be accessed on the user's profile page
@@ -213,4 +213,71 @@ struct WriteReviewView: View {
         } // xbutton used to close sheet instead of native dragging feature ... adds to continuity between all the location sheets
     }
 }
+
+*/
+
+struct NewReviewView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: LocationViewModel
+    
+    
+    @Binding var isPresented: Bool
+    @State private var rating: Int = -1
+    @State private var titleText: String = ""
+    @State private var reviewText: String = ""
+    @State private var showAlert: Bool = false
+    var onSubmit: (Int, String, String) -> Void
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Button("Cancel") {
+                    isPresented = false
+                }
+                Spacer()
+                Text("Write a Review")
+                    .font(.title3)
+                    .bold()
+                Spacer()
+                Button("Submit") {
+                    if titleText != "" && reviewText != "" && rating != -1 {
+                        onSubmit(rating + 1, titleText, reviewText)
+                        isPresented = false
+                    } else {
+                        showAlert = true
+                    }
+                }.alert("Must fill out all fields! \nGet a clue lil bro", isPresented: $showAlert, actions: {})
+            }
+            HStack {
+                ForEach(0..<5) {value in
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .frame(width: 25,height: 25)
+                        .foregroundColor(self.rating >= value ? .yellow : .gray)
+                        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)
+                        .onTapGesture {
+                            self.rating = value
+                        }
+                }
+            }
+            .padding(.bottom,5)
+            Rectangle()
+                .fill(.black.opacity(0.3))
+                .frame(height: 1)
+            TextField("Title", text: $titleText)
+                .textFieldStyle(.automatic)
+                .font(.title2)
+            Rectangle()
+                .fill(.black.opacity(0.3))
+                .frame(height: 1)
+            TextField("Review", text: $reviewText)
+                .textFieldStyle(.automatic)
+                .font(.title2)
+            Spacer()
+            
+        }
+        .padding()
+    }
+}
+
 

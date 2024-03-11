@@ -190,6 +190,7 @@ struct LocationExpandedView: View {
 struct LocationTestingView: View {
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: LocationViewModel
+    @State private var displaySheet: Bool = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -227,10 +228,26 @@ struct LocationTestingView: View {
                     .fontWeight(.light)
                 
                 LocationImageScrollView(college: viewModel.college)
+                    .padding(.horizontal, -20)
                 
-                Text("Reviews")
-                    .font(.title)
-                    .fontWeight(.bold)
+                
+                HStack {
+                    Text("Reviews")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button("Write a Review") {
+                        displaySheet.toggle()
+                    }
+                    .frame(width: 160, height: 40)
+                    .background(Color.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(40)
+                    .shadow(radius: 10)
+                }
+                
+                
+                
                 
                 VStack(alignment: .leading) {
                     // if no reviews are in firestore, a single text line is displayed instead of an empty list where reviews otherwise would be
@@ -251,6 +268,13 @@ struct LocationTestingView: View {
                 viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
             }
         }.padding(20)
+        
+            .sheet(isPresented: $displaySheet) {
+                NewReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $displaySheet) { rating, title, text in
+                    viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+                }
+                .presentationDetents([.fraction(0.4)])
+            }
             
             
         

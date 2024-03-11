@@ -81,7 +81,7 @@ struct MapView: View {
                 LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
                     .presentationDetents([.fraction(0.15),.medium,.fraction(0.99)])
                     .presentationDragIndicator(.visible)
-                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.2)))
+                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
                     .ignoresSafeArea()
                     
             } // displays small sheet with basic information about location, user can then expand
