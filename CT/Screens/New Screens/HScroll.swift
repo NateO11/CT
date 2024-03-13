@@ -153,6 +153,36 @@ struct AvailableOverlay: View {
     }
 }
 
+struct AvailableOverlayNoStar: View {
+    var college: College
+    
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            LinearGradient(colors: [
+                Color.clear,
+                .clear,
+                .clear,
+                .black.opacity(0.1),
+                .black.opacity(0.5),
+                .black
+            ], startPoint: .top, endPoint: .bottom)
+            
+            VStack(alignment: .leading, spacing: 4, content: {
+                Spacer()
+                Text(college.name)
+                    .font(.title2)
+                    .multilineTextAlignment(.leading)
+                    .fontWeight(.black)
+                    .foregroundStyle(.white)
+                Text(college.city)
+                    .font(.callout)
+                    .foregroundStyle(.white.opacity(0.8))
+            })
+            .padding(20)
+        }
+    }
+}
+
 struct UnavailableOverlay: View {
     var college: College
     

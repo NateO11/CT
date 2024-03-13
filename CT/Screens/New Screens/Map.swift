@@ -107,3 +107,122 @@ struct MapView: View {
 }
 
 
+struct MapSchoolView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: ExploreViewModel
+    @State private var selectedSchool: College? = nil
+    @State private var initialSelectedSchool: College? = nil
+    @State private var selectedSchoolName: String? = nil
+    var schools: [College]
+    var body: some View {
+        Map(selection: $selectedSchoolName) {
+            ForEach(schools, id: \.id) { school in
+                Marker(school.name, systemImage: "building.columns.fill", coordinate: school.coordinate)
+                    .tint(school.color)
+            }
+        }
+        
+        .mapStyle(.standard(pointsOfInterest: []))
+        .overlay(alignment: .bottom) {
+            MapSchoolScrollView(colleges: schools, selectedSchoolName: $selectedSchoolName).environmentObject(authState)
+        }
+        
+    }
+}
+
+
+struct MapSchoolScrollView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    var colleges: [College]
+    @Binding var selectedSchoolName: String?
+    
+    var body: some View {
+        GeometryReader(content: { geometry in
+            let size = geometry.size
+            ScrollViewReader { scrollViewProxy in
+                ScrollView(.horizontal) {
+                    HStack(spacing: 5) {
+                        ForEach(colleges) { college in
+                            if college.available {
+                                NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                                    GeometryReader(content: { proxy in
+                                        let cardSize = proxy.size
+                                        let minX = proxy.frame(in: .scrollView).minX - 60
+                                            
+                                        Image(college.image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .offset(x: -minX)
+                                            .frame(width: proxy.size.width * 1.5)
+                                            .frame(width: cardSize.width, height: cardSize.height)
+                                            .overlay {
+                                                AvailableOverlayNoStar(college: college)
+                                                
+                                            }
+                                            .clipShape(.rect(cornerRadius: 15))
+                                            .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                        
+                                    })
+                                    .frame(width: size.width - 120, height: size.height - 30)
+                                    .scrollTransition(.interactive, axis: .horizontal) {
+                                        view, phase in
+                                        view
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                }
+                                }
+                            } else {
+                                NavigationLink(destination: EditProfileView()) {
+                                    GeometryReader(content: { proxy in
+                                        let cardSize = proxy.size
+                                        let minX = proxy.frame(in: .scrollView).minX - 60
+                                            
+                                        Image(college.image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .offset(x: -minX)
+                                            .frame(width: proxy.size.width * 1.5)
+                                            .frame(width: cardSize.width, height: cardSize.height)
+                                            .blur(radius: 2)
+                                            .overlay {
+                                                UnavailableOverlay(college: college)
+                                            }
+                                            
+                                            .clipShape(.rect(cornerRadius: 15))
+                                            .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+
+                                        
+                                    })
+                                    .frame(width: size.width - 120, height: size.height - 30)
+                                    .scrollTransition(.interactive, axis: .horizontal) {
+                                        view, phase in
+                                        view
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 60)
+                    .scrollTargetLayout()
+                    .frame(height: size.height, alignment: .top)
+                    
+                }
+                
+                .scrollTargetBehavior(.viewAligned)
+                .scrollIndicators(.hidden)
+                .onChange(of: selectedSchoolName) { oldName, newName in
+                    if let newName = newName, let index = colleges.firstIndex(where: { $0.name == newName }) {
+                        withAnimation {
+                            scrollViewProxy.scrollTo(index, anchor: .center)
+                        }
+                    }
+                }
+            }
+            
+        })
+        .frame(height: 200)
+        .padding(.horizontal, -15)
+        .padding(.top, 20)
+    }
+}
+

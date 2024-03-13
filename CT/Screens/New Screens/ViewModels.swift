@@ -20,27 +20,38 @@ class ExploreViewModel: ObservableObject {
     private var db = Firestore.firestore()
     // calls database from firebase, built on keys that are in various dependencies within the app
 
+    
+    func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+    }
+    
     @MainActor
     func fetchColleges() {
-        db.collection("Schools").order(by: "rank").addSnapshotListener { querySnapshot, error in
+        db.collection("Schools").order(by: "rank")
+            .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No documents in 'Schools'")
                 return
             }
             // using guard let allows us to ensure everything checks out before we try and execute any further code
 
-            self.colleges = documents.map { queryDocumentSnapshot -> College in
-                let data = queryDocumentSnapshot.data()
-                let id = queryDocumentSnapshot.documentID
+            self.colleges = documents.map { doc -> College in
+                let data = doc.data()
+                let id = doc.documentID
                 let available = data["available"] as? Bool ?? true
                 let name = data["name"] as? String ?? ""
                 let city = data["city"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let image = data["image"] as? String ?? ""
                 
+                let geoPoint = data["coords"] as? GeoPoint ?? GeoPoint(latitude: 38, longitude: 77)
+                
+                let coordinate = self.convertGeoPointToCoordinate(geoPoint)
+                let color = data["color"] as? Int ?? 0
+                
                 // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
-                return College(id: id, available: available, name: name, city: city, description: description, image: image)
+                return College(id: id, available: available, name: name, city: city, description: description, image: image, coordinate: coordinate, color: Color(hex: color))
                 // this systematically fills the colleges array, which is ultimately displayed on the explore page and subsequently accessed when looking at school specific views
             }
         }
