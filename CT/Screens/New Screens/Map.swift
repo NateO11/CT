@@ -142,8 +142,9 @@ struct MapSchoolScrollView: View {
     var body: some View {
         GeometryReader(content: { geometry in
             let size = geometry.size
+            ScrollViewReader { scrollViewReader in
                 ScrollView(.horizontal) {
-                    HStack(spacing: 5) {
+                    LazyHStack(spacing: 5) {
                         ForEach(colleges) { college in
                             if college.available {
                                 NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
@@ -215,8 +216,16 @@ struct MapSchoolScrollView: View {
                 .scrollIndicators(.hidden)
                 .onChange(of: selectedSchoolName) { oldValue, newValue in
                     print(newValue)
+                    if let newValue = newValue, let targetIndex = colleges.firstIndex(where: { $0.name == newValue }) {
+                                            // Animate the scrolling to the new school
+                                            withAnimation {
+                                                scrollViewReader.scrollTo(colleges[targetIndex].id, anchor: .center)
+                                            }
+                                        }
                 }
             
+            }
+                
         })
         .frame(height: 200)
         .padding(.horizontal, -15)
