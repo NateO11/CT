@@ -126,6 +126,9 @@ struct MapSchoolView: View {
         .overlay(alignment: .bottom) {
             MapSchoolScrollView(colleges: schools, selectedSchoolName: $selectedSchoolName).environmentObject(authState)
         }
+        .onChange(of: selectedSchoolName) { oldValue, newValue in
+            print(newValue)
+        }
         
     }
 }
@@ -139,7 +142,6 @@ struct MapSchoolScrollView: View {
     var body: some View {
         GeometryReader(content: { geometry in
             let size = geometry.size
-            ScrollViewReader { scrollViewProxy in
                 ScrollView(.horizontal) {
                     HStack(spacing: 5) {
                         ForEach(colleges) { college in
@@ -148,7 +150,7 @@ struct MapSchoolScrollView: View {
                                     GeometryReader(content: { proxy in
                                         let cardSize = proxy.size
                                         let minX = proxy.frame(in: .scrollView).minX - 60
-                                            
+                                        
                                         Image(college.image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
@@ -168,14 +170,14 @@ struct MapSchoolScrollView: View {
                                         view, phase in
                                         view
                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                }
+                                    }
                                 }
                             } else {
                                 NavigationLink(destination: EditProfileView()) {
                                     GeometryReader(content: { proxy in
                                         let cardSize = proxy.size
                                         let minX = proxy.frame(in: .scrollView).minX - 60
-                                            
+                                        
                                         Image(college.image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
@@ -186,10 +188,10 @@ struct MapSchoolScrollView: View {
                                             .overlay {
                                                 UnavailableOverlay(college: college)
                                             }
-                                            
+                                        
                                             .clipShape(.rect(cornerRadius: 15))
                                             .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-
+                                        
                                         
                                     })
                                     .frame(width: size.width - 120, height: size.height - 30)
@@ -197,9 +199,10 @@ struct MapSchoolScrollView: View {
                                         view, phase in
                                         view
                                             .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                                }
+                                    }
                                 }
                             }
+                            
                         }
                     }
                     .padding(.horizontal, 60)
@@ -207,17 +210,12 @@ struct MapSchoolScrollView: View {
                     .frame(height: size.height, alignment: .top)
                     
                 }
-                
+                .scrollPosition(id: $selectedSchoolName)
                 .scrollTargetBehavior(.viewAligned)
                 .scrollIndicators(.hidden)
-                .onChange(of: selectedSchoolName) { oldName, newName in
-                    if let newName = newName, let index = colleges.firstIndex(where: { $0.name == newName }) {
-                        withAnimation {
-                            scrollViewProxy.scrollTo(index, anchor: .center)
-                        }
-                    }
+                .onChange(of: selectedSchoolName) { oldValue, newValue in
+                    print(newValue)
                 }
-            }
             
         })
         .frame(height: 200)
