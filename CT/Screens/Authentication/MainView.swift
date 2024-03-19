@@ -24,7 +24,7 @@ struct MainView: View {
                     Text("Search")
                 }
             
-            ProfilePage()
+            ProfilePage(profileViewModel: ProfileViewModel())
                 .environmentObject(authState)
                 .tabItem {
                     Image(systemName: "person.fill")

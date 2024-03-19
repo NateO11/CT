@@ -225,6 +225,7 @@ class MapViewModel: ObservableObject {
                 let name = data["name"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let category = data["category"] as? String ?? ""
+                let imageLink = data["imageURL"] as? String ?? ""
 
                 // parse the GeoPoint
                 guard let geoPoint = data["coordinate"] as? GeoPoint else {
@@ -236,7 +237,7 @@ class MapViewModel: ObservableObject {
                 // convert the coordinate into the proper format for display on map
 
                 // return a Location object or nil
-                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category)
+                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category, imageLink: imageLink)
             }
             print("Fetched locations: \(self.locations)")
 
@@ -334,3 +335,41 @@ class ForumViewModel: ObservableObject {
 
 
 
+class ProfileViewModel: ObservableObject {
+    @Published var reviews: [Review] = []
+    
+    func fetchReviewsForUser(userID: String) {
+        let db = Firestore.firestore()
+        let usersRef = db.collection("Users").document(userID).collection("reviews")
+        
+        usersRef.getDocuments { (reviewsQuerySnapshot, reviewsError) in
+            guard reviewsError == nil else {
+                print("Error fetching reviews: \(reviewsError!.localizedDescription)")
+                return
+            }
+
+            self.reviews = reviewsQuerySnapshot?.documents.compactMap { reviewDocument in
+                guard let text = reviewDocument["text"] as? String,
+                      let rating = reviewDocument["rating"] as? Int,
+                      let userID = reviewDocument["userID"] as? String,
+                      let title = reviewDocument["title"] as? String,
+                      let timestamp = reviewDocument["timestamp"] as? Timestamp else {
+                    return nil
+                }
+
+                return Review(text: text, rating: rating, userID: userID, title: title, timestamp: timestamp.dateValue())
+            } ?? []
+            // returns series of reviews, or a blank array if no reviews have been written yet (which would ultimately display an alternative message on the location expanded page) ... at this point we would implement some sort of filtering / relevancy algorithm if we wanted to show X amount of reviews rather than every single one
+            
+
+            DispatchQueue.main.async {
+                // I dont totally understand the underlying logic here, but this essentially ensures the function is executed on the main thread and data is loaded at the proper time
+                print("Fetched reviews: \(self.reviews)")
+            }
+        }
+            
+            
+        
+    }
+    
+}

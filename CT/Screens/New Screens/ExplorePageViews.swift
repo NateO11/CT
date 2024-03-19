@@ -10,7 +10,7 @@ import SwiftUI
 import MapKit
 import Firebase
 
-struct TopButtonsSection: View {
+/* struct TopButtonsSection: View {
     let userID: String
     @State private var userName: String = "Loading..."    
     
@@ -43,7 +43,7 @@ struct TopButtonsSection: View {
 
     }
 }
-
+*/
 struct LargeImageSection: View {
     let imageName: String
     let title: String
@@ -303,6 +303,6 @@ var sampleColleges: [College] = [
 
 
 var sampleLocations: [Location] = [
-    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks"),
-    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining")
+    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/rotunda.jpeg?alt=media&token=8f0d27bd-78f5-44f4-9949-75ba1a7e9e01"),
+    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining", imageLink: "")
 ]

@@ -28,6 +28,7 @@ struct Location: Identifiable {
     let description: String
     let coordinate: CLLocationCoordinate2D
     let category: String
+    let imageLink: String
 }
 
 

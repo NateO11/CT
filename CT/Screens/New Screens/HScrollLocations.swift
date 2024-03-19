@@ -28,9 +28,26 @@ struct LocationScrollView: View {
                                 let minX = proxy.frame(in: .scrollView).minX - 60
                                 // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
                                     
-                                Image(college.image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
+                                if location.imageLink == "" {
+                                    Image(college.image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .offset(x: -minX)
+                                        .frame(width: proxy.size.width * 1.5)
+                                        .frame(width: cardSize.width, height: cardSize.height)
+                                        .overlay {
+                                            OverlayView(college, location)
+                                        }
+                                        .clipShape(.rect(cornerRadius: 15))
+                                        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                } else {
+                                    AsyncImage(url: URL(string: location.imageLink)) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                    } placeholder: {
+                                        Color.black
+                                    }
                                     .offset(x: -minX)
                                     .frame(width: proxy.size.width * 1.5)
                                     .frame(width: cardSize.width, height: cardSize.height)
@@ -39,6 +56,8 @@ struct LocationScrollView: View {
                                     }
                                     .clipShape(.rect(cornerRadius: 15))
                                     .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                }
+                                
                                 
                             })
                             .frame(width: size.width - 120, height: size.height - 30)

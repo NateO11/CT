@@ -14,7 +14,7 @@ struct ProfilePage: View {
     @State private var showDeleteAlert = false
     @State private var showSplashScreen = true
 
-    
+    @ObservedObject var profileViewModel: ProfileViewModel
 
     @EnvironmentObject var viewModel: AuthViewModel
     
@@ -42,22 +42,40 @@ struct ProfilePage: View {
                         }
                     }
                     Section("My Schools"){
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 25) {
-                                ForEach(user.favorites, id: \.self) { imageName in
-                                    Image(imageName)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 100, height: 100)
-                                        .padding()
+                        if user.favorites.isEmpty {
+                            Text("Add schools to favorites!")
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 25) {
+                                    ForEach(user.favorites, id: \.self) { imageName in
+                                        Image(imageName)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100)
+                                            .padding()
+                                    }
                                 }
+                                .padding(10) // Add padding to the HStack if needed
                             }
-                            .padding(10) // Add padding to the HStack if needed
                         }
                         
                     }
                     Section("My Reviews"){
-                        
+                        if profileViewModel.reviews.isEmpty {
+                            Text("Write some reviews")
+                        } else {
+                            ScrollView(.vertical, showsIndicators: false) {
+                                VStack {
+                                    ForEach(profileViewModel.reviews, id: \.text) { review in
+                                        let firstChar = Array(review.userID)[0]
+                                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .onAppear {
+                        profileViewModel.fetchReviewsForUser(userID: viewModel.currentUser?.id ?? "")
                     }
                     Section("Account"){
                         
@@ -107,7 +125,7 @@ struct ProfilePage: View {
 
 
 #Preview {
-    ProfilePage().environmentObject(AuthViewModel.mock)
+    ProfilePage(profileViewModel: ProfileViewModel()).environmentObject(AuthViewModel.mock)
 }
 
 

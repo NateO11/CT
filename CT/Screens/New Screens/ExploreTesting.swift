@@ -77,7 +77,7 @@ struct ExploreView: View {
                 }
                 .opacity(showSearch ? 1 : 1+progress)
                 
-                NavigationLink(destination: ProfilePage().environmentObject(authState)) {
+                NavigationLink(destination: ProfilePage(profileViewModel: ProfileViewModel()).environmentObject(authState)) {
                     Image("UVA")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
