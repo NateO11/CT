@@ -126,6 +126,8 @@ struct MapSchoolView: View {
         .overlay(alignment: .bottom) {
             MapSchoolScrollView(colleges: schools, selectedSchoolName: $selectedSchoolName).environmentObject(authState)
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         .onChange(of: selectedSchoolName) { oldValue, newValue in
             print(newValue)
         }

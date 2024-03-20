@@ -128,7 +128,28 @@ struct ExploreView: View {
                     .frame(maxWidth: .infinity)
                 }
                 
-                CustomButton(symbolImage: "star.fill", title: "Favorites") {
+                NavigationLink(destination: EditProfileView().environmentObject(authState)) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(.white)
+                            .shadow(radius: 10)
+                        HStack(spacing: 0) {
+                            Image(systemName: "star.fill")
+                                .fontWeight(.semibold)
+                                .foregroundColor(.blue)
+                                .shadow(radius: 10)
+                                .frame(width: 40, height: 40)
+                            Text("Favorites")
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                                .lineLimit(1)
+                                .foregroundColor(.blue)
+                                .shadow(radius: 10)
+                                .padding(.trailing, 5)
+                        }
+                        .padding(.vertical, 0)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
                 
             }
