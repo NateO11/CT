@@ -33,8 +33,8 @@ struct Location: Identifiable {
 
 struct SchoolInfo {
     let category: String
-    let stats: [Int]?
-    let statDescriptions: [String]?
+    let stats: [Int]
+    let statDescriptions: [String]
     let description: String
 }
 

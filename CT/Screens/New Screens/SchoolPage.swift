@@ -63,7 +63,7 @@ struct SchoolView: View {
                         .font(.title)
                         .fontWeight(.heavy)
                     
-                    SchoolDisclosures(info: viewModel.info)
+                    SchoolDisclosures(info: viewModel.info).environmentObject(authState)
                     
                     
                 }.padding(20)
@@ -83,20 +83,45 @@ struct SchoolView: View {
 
 
 struct SchoolDisclosures: View {
+    @EnvironmentObject var authState: AuthViewModel
     var info: [SchoolInfo]
+    
     var body: some View {
         VStack {
-            ForEach(info, id: \.category) { info in
+            ForEach(info, id: \.category) { item in
                 DisclosureGroup {
-                    Text(info.description)
+                    HStack(spacing: 30) {
+                        ForEach(Array(zip(item.stats, item.statDescriptions)), id: \.0) { statComponent in
+                            VStack {
+                                Text("\(statComponent.0)").font(.title).bold()
+                                Text("\(statComponent.1)").font(.callout).bold()
+                            }
+                        }
+                    }.padding(.bottom, 20)
+                    
+                    Text(item.description)
+                    
+                    NavigationLink(destination: EditProfileView().environmentObject(authState)) {
+                        VStack(alignment: .center) {
+                            Text("Read reviews")
+                                .foregroundColor(.white)
+                                .bold()
+                                .fontWeight(.heavy)
+                        }
+                    }
+                    .frame(width: 160, height: 40)
+                    .background(Color.black)
+                    .cornerRadius(40)
+                    .padding()
+                    
                 } label: {
                     HStack {
-                        Text(info.category).font(.headline)
+                        Text(item.category).font(.headline)
                         Spacer()
                     }
                 }.tint(.black).padding()
             }.background(.black.opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        }
+        }.padding(.bottom, 20)
     }
 }
 

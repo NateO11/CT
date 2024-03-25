@@ -264,7 +264,7 @@ class MapViewModel: ObservableObject {
                 let data = doc.data()
                 let category = data["category"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
-                let stats = data["category"] as? [Int] ?? []
+                let stats = data["stats"] as? [Int] ?? []
                 let statDescriptions = data["statDescriptions"] as? [String] ?? []
             
                 // return an info object or nil
