@@ -49,6 +49,8 @@ class ExploreViewModel: ObservableObject {
                 let coordinate = self.convertGeoPointToCoordinate(geoPoint)
                 let color = data["color"] as? Int ?? 0
                 
+                
+                
                 // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
                 return College(id: id, available: available, name: name, city: city, description: description, image: image, coordinate: coordinate, color: Color(hex: color))
@@ -188,6 +190,7 @@ class LocationViewModel: ObservableObject {
 // view model used to generate the map screen for each school... includes functions for fetching locations, interpreting firestore data, and filtering location categories ... might modify this in the future so we could have an overall map screen that shows individual schools as icons instead of specific locations, but that might require an entirely new view model instead
 class MapViewModel: ObservableObject {
     @Published var locations: [Location] = []
+    @Published var info: [SchoolInfo] = []
     @Published var filteredLocations: [Location] = []
     // establishes blank array for locations and filtered locations, which will be updated when the map appears and is filtered respectively
     
@@ -245,6 +248,33 @@ class MapViewModel: ObservableObject {
             // sets filtered locations to be all locations as an unfiltered default
         }
     }
+    
+    func fetchInfo() {
+        print(college.name)
+        db.collection("Schools").document(college.name).collection("Info")
+          .addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
+                return
+                // built in print statements to verify that fetching pathways are operating correctly
+            }
+
+            self.info = documents.compactMap { doc -> SchoolInfo? in
+                // parse the document into a Location object
+                let data = doc.data()
+                let category = data["category"] as? String ?? ""
+                let description = data["description"] as? String ?? ""
+                let stats = data["category"] as? [Int] ?? []
+                let statDescriptions = data["statDescriptions"] as? [String] ?? []
+            
+                // return an info object or nil
+                return SchoolInfo(category: category, stats: stats, statDescriptions: statDescriptions, description: description)
+            }
+            print("Fetched locations: \(self.info)")
+
+        }
+    }
+    
 
     // function to update filtered locations and map when a new category is selected
     func updateFilteredLocations(forCategory category: String) {

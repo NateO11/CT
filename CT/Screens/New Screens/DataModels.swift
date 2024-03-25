@@ -31,6 +31,13 @@ struct Location: Identifiable {
     let imageLink: String
 }
 
+struct SchoolInfo {
+    let category: String
+    let stats: [Int]?
+    let statDescriptions: [String]?
+    let description: String
+}
+
 
 struct Review {
     let text: String

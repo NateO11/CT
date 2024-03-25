@@ -59,33 +59,18 @@ struct SchoolView: View {
                     .padding(.bottom, 10)
                     
                     
-                    Text("Reviews")
+                    Text("More info")
                         .font(.title)
                         .fontWeight(.heavy)
                     
-                    VStack {
-                        HStack {
-                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "General"))) {
-                                RectView(color: Color.blue, title: "General")
-                            }.frame(height: 150)
-                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Greek Life"))) {
-                                RectView(color: Color.orange, title: "Greek \nLife")
-                            }.frame(height: 150)
-                        }
-                        HStack {
-                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Athletics"))) {
-                                RectView(color: Color.orange, title: "Athletics")
-                            }.frame(height: 150)
-                            NavigationLink(destination: ForumsTemplate(viewModel: ForumViewModel(college: viewModel.college, forum: "Engineering"))) {
-                                RectView(color: Color.blue, title: "Engineering")
-                            }.frame(height: 150)
-                        }
-                    }.padding(.bottom, 40)
+                    SchoolDisclosures(info: viewModel.info)
+                    
                     
                 }.padding(20)
             }
             .onAppear {
                 viewModel.fetchLocations()
+                viewModel.fetchInfo()
             }
             .ignoresSafeArea()
 
@@ -97,55 +82,24 @@ struct SchoolView: View {
 }
 
 
-
-
-struct RectView: View {
-    var color: Color
-    var title: String
+struct SchoolDisclosures: View {
+    var info: [SchoolInfo]
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(color)
-                .overlay(alignment: .leading) {
-                    Circle()
-                        .fill(color)
-                        .overlay {
-                            Circle()
-                                .fill(Color.white.opacity(0.3))
-                        }
-                        .scaleEffect(2, anchor: .topLeading)
-                        .offset(x: -150, y: 50)
-                }
-                .overlay(alignment: .leading) {
-                    Circle()
-                        .fill(color)
-                        .overlay {
-                            Circle()
-                                .fill(Color.white.opacity(0.2))
-                        }
-                        .scaleEffect(0.8, anchor: .topLeading)
-                        .offset(x: 80, y: -150)
-                }
-                .overlay(alignment: .leading) {
-                    Circle()
-                        .fill(color)
-                        .overlay {
-                            Circle()
-                                .fill(Color.white.opacity(0.4))
-                        }
-                        .scaleEffect(1.2, anchor: .topLeading)
-                        .offset(x: 130, y: -50)
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-            VStack(alignment: .leading) {
-                Spacer()
-                Text(title)
-                    .font(.title)
-                    .foregroundStyle(.white)
-            }
+        VStack {
+            ForEach(info, id: \.category) { info in
+                DisclosureGroup {
+                    Text(info.description)
+                } label: {
+                    HStack {
+                        Text(info.category).font(.headline)
+                        Spacer()
+                    }
+                }.tint(.black).padding()
+            }.background(.black.opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         }
     }
 }
+
 
 struct StyledButtonDark<Destination: View>: View {
     let icon: String
