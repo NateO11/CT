@@ -95,6 +95,7 @@ struct ExploreView: View {
             HStack(spacing: 15) {
                 HStack(spacing: 8) {
                     Image(systemName: searchText.isEmpty ? "magnifyingglass" : "xmark")
+                        .contentTransition(.symbolEffect(.replace))
                         .foregroundColor(.white)
                         .onTapGesture {
                             searchText = ""

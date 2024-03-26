@@ -143,14 +143,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A1056CCD2B3E24F30072E050 /* MapFolder */ = {
-			isa = PBXGroup;
-			children = (
-				A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */,
-			);
-			path = MapFolder;
-			sourceTree = "<group>";
-		};
 		A180E9842B407F3800B0514A /* New Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +161,7 @@
 				E620DE902B9A4C7C00232C5E /* ContentView.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
 				A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */,
+				A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */,
 			);
 			path = "New Screens";
 			sourceTree = "<group>";
@@ -224,7 +217,6 @@
 			children = (
 				A180E9932B44988D00B0514A /* Authentication */,
 				A180E9842B407F3800B0514A /* New Screens */,
-				A1056CCD2B3E24F30072E050 /* MapFolder */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
