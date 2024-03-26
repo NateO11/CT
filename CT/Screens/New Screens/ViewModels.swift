@@ -25,6 +25,13 @@ class ExploreViewModel: ObservableObject {
         CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
     }
     
+    func searchColleges(with query: String) -> [College] {
+        return colleges.filter { college in
+            college.name.localizedCaseInsensitiveContains(query)
+        }
+    }
+
+    
     @MainActor
     func fetchColleges() {
         db.collection("Schools").order(by: "rank")
