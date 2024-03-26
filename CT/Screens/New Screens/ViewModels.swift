@@ -291,6 +291,18 @@ class MapViewModel: ObservableObject {
             filteredLocations = locations.filter { $0.category == category }
         }
     }
+    
+    func searchLocations(with query: String)  {
+        if query == "" {
+            filteredLocations = locations
+        } else {
+            filteredLocations = locations.filter{ location in
+                location.name.localizedCaseInsensitiveContains(query)
+            }
+        }
+        
+    }
+    
 }
 
 
