@@ -40,7 +40,7 @@ struct LocationTestingView: View {
                         .font(.callout)
                 }.padding(.bottom, 5)
                 
-                Text(viewModel.college.description)
+                Text(viewModel.location.description.isEmpty ? viewModel.college.description : viewModel.location.description)
                     .font(.caption)
                     .fontWeight(.light)
                 

@@ -114,16 +114,28 @@ struct ExploreView: View {
                 .opacity( 1+progress)
                 
                 NavigationLink(destination: ProfilePage(profileViewModel: ProfileViewModel()).environmentObject(authState)) {
-                    Image("UVA")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
+                    Text(authState.currentUser?.intitals ?? "DU")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(width: 40,height: 40)
+                        .background(Color(.systemGray3))
                         .clipShape(Circle())
                         .background {
                             Circle()
                                 .fill(.white)
                                 .padding(-2)
                         }
+//                    Image("UVA")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fill)
+//                        .frame(width: 40, height: 40)
+//                        .clipShape(Circle())
+//                        .background {
+//                            Circle()
+//                                .fill(.white)
+//                                .padding(-2)
+//                        }
                 }
                 .opacity( 1)
 //                .overlay {
