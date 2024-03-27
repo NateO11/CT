@@ -33,12 +33,12 @@ struct ExploreView: View {
                             
                             VStack {
                                 // I want this first Hstack to be reserved for favorites
-                                SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
+                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Favorite schools").environmentObject(authState)
                                 //
                                 LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself...")
-                                SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
+                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Featured schools").environmentObject(authState)
                                 LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
-                                SchoolScrollView(colleges: viewModel.colleges).environmentObject(authState)
+                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
                                 LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
                                 bottomText(text: "Contact us at CollegeTour@gmail.com")
                             }
@@ -101,7 +101,7 @@ struct ExploreView: View {
                             searchText = ""
                         }
                     TextField("Search", text: $searchText)
-                        .tint(.blue)
+                        .foregroundStyle(.white)
                     
                 }
                 .padding(.vertical, 10)

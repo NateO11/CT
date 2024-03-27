@@ -14,97 +14,108 @@ import Firebase
 struct SchoolScrollView: View {
     @EnvironmentObject var authState: AuthViewModel
     var colleges: [College]
+    var titleText: String
     @State private var showAlert: Bool = false
     var body: some View {
-        GeometryReader(content: { geometry in
-            let size = geometry.size
-            
-            ScrollView(.horizontal) {
-                HStack(spacing: 5) {
-                    ForEach(colleges) { college in
-                        if college.available {
-                            NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
-                                GeometryReader(content: { proxy in
-                                    let cardSize = proxy.size
-                                    let minX = proxy.frame(in: .scrollView).minX - 60
-                                    // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
-                                        
-                                    Image(college.image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .offset(x: -minX)
-                                        .frame(width: proxy.size.width * 1.5)
-                                        .frame(width: cardSize.width, height: cardSize.height)
-                                        .overlay {
-                                            AvailableOverlay(college: college)
+        VStack {
+            HStack {
+                Text(titleText)
+                    .font(.title)
+                    .bold()
+                Spacer()
+            }.padding(.horizontal, 20)
+                .padding(.bottom, -10)
+                .padding(.top, 5)
+            GeometryReader(content: { geometry in
+                let size = geometry.size
+                
+                ScrollView(.horizontal) {
+                    HStack(spacing: 5) {
+                        ForEach(colleges) { college in
+                            if college.available {
+                                NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                                    GeometryReader(content: { proxy in
+                                        let cardSize = proxy.size
+                                        let minX = proxy.frame(in: .scrollView).minX - 60
+                                        // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
                                             
-                                        }
-                                        .clipShape(.rect(cornerRadius: 15))
-                                        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-                                    
-                                })
-                                .frame(width: size.width - 120, height: size.height - 30)
-                                .scrollTransition(.interactive, axis: .horizontal) {
-                                    view, phase in
-                                    view
-                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                            }
-                            }
-                        } else {
-                            NavigationLink(destination: EditProfileView()) {
-                                GeometryReader(content: { proxy in
-                                    let cardSize = proxy.size
-                                    let minX = proxy.frame(in: .scrollView).minX - 60
-                                    // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
+                                        Image(college.image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .offset(x: -minX)
+                                            .frame(width: proxy.size.width * 1.5)
+                                            .frame(width: cardSize.width, height: cardSize.height)
+                                            .overlay {
+                                                AvailableOverlay(college: college)
+                                                
+                                            }
+                                            .clipShape(.rect(cornerRadius: 15))
+                                            .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
                                         
-                                    Image(college.image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .offset(x: -minX)
-                                        .frame(width: proxy.size.width * 1.5)
-                                        .frame(width: cardSize.width, height: cardSize.height)
-                                        .blur(radius: 2)
-                                        .overlay {
-                                            UnavailableOverlay(college: college)
-                                        }
-                                        
-                                        .clipShape(.rect(cornerRadius: 15))
-                                        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-                                        /* .onTapGesture {
-                                            showAlert = true
-                                        }
-                                        .alert(isPresented: $showAlert) {
-                                            Alert(
-                                                title: Text("School unavailable"),
-                                                message: Text("\(college.name) \n is coming soon!"),
-                                                dismissButton: .default(Text("OK"))
-                                            )
-                                        }
-                                         */
+                                    })
+                                    .frame(width: size.width - 120, height: size.height - 30)
+                                    .scrollTransition(.interactive, axis: .horizontal) {
+                                        view, phase in
+                                        view
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                }
+                                }
+                            } else {
+                                NavigationLink(destination: EditProfileView()) {
+                                    GeometryReader(content: { proxy in
+                                        let cardSize = proxy.size
+                                        let minX = proxy.frame(in: .scrollView).minX - 60
+                                        // let minX = min(((proxy.frame(in: .scrollView).minX - 60) * 1.4), size.width * 1.4)
+                                            
+                                        Image(college.image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .offset(x: -minX)
+                                            .frame(width: proxy.size.width * 1.5)
+                                            .frame(width: cardSize.width, height: cardSize.height)
+                                            .blur(radius: 2)
+                                            .overlay {
+                                                UnavailableOverlay(college: college)
+                                            }
+                                            
+                                            .clipShape(.rect(cornerRadius: 15))
+                                            .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
+                                            /* .onTapGesture {
+                                                showAlert = true
+                                            }
+                                            .alert(isPresented: $showAlert) {
+                                                Alert(
+                                                    title: Text("School unavailable"),
+                                                    message: Text("\(college.name) \n is coming soon!"),
+                                                    dismissButton: .default(Text("OK"))
+                                                )
+                                            }
+                                             */
 
-                                    
-                                })
-                                .frame(width: size.width - 120, height: size.height - 30)
-                                .scrollTransition(.interactive, axis: .horizontal) {
-                                    view, phase in
-                                    view
-                                        .scaleEffect(phase.isIdentity ? 1 : 0.95)
-                            }
+                                        
+                                    })
+                                    .frame(width: size.width - 120, height: size.height - 30)
+                                    .scrollTransition(.interactive, axis: .horizontal) {
+                                        view, phase in
+                                        view
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                }
+                                }
                             }
                         }
                     }
+                    .padding(.horizontal, 60)
+                    .scrollTargetLayout()
+                    .frame(height: size.height, alignment: .top)
+                    
                 }
-                .padding(.horizontal, 60)
-                .scrollTargetLayout()
-                .frame(height: size.height, alignment: .top)
-                
-            }
-            .scrollTargetBehavior(.viewAligned)
-            .scrollIndicators(.hidden)
-        })
-        .frame(height: 300)
-        .padding(.horizontal, -15)
+                .scrollTargetBehavior(.viewAligned)
+                .scrollIndicators(.hidden)
+            })
+            .frame(height: 300)
+            .padding(.horizontal, -15)
         .padding(.top, 20)
+        }
             
         
     }
@@ -113,7 +124,7 @@ struct SchoolScrollView: View {
 
 struct HScroll_Preview: PreviewProvider {
     static var previews: some View {
-        SchoolScrollView(colleges: sampleColleges).environmentObject(AuthViewModel.mock)
+        SchoolScrollView(colleges: sampleColleges, titleText: "Test").environmentObject(AuthViewModel.mock)
     }
 }
 
