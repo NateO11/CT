@@ -58,12 +58,10 @@ struct SchoolView: View {
                     }
                     .padding(.bottom, 10)
                     
-                    
-                    Text("More info")
-                        .font(.title)
-                        .fontWeight(.heavy)
-                    
-                    SchoolDisclosures(info: viewModel.info).environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoAcademic, title: "Academics").environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoSocial, title: "Social").environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoOther, title: "Other").environmentObject(authState)
+
                     
                     
                 }.padding(20)
@@ -71,6 +69,9 @@ struct SchoolView: View {
             .onAppear {
                 viewModel.fetchLocations()
                 viewModel.fetchInfo()
+                viewModel.fetchInfoAcademic()
+                viewModel.fetchInfoOther()
+                viewModel.fetchInfoSocial()
             }
             .ignoresSafeArea()
 
@@ -85,8 +86,14 @@ struct SchoolView: View {
 struct SchoolDisclosures: View {
     @EnvironmentObject var authState: AuthViewModel
     var info: [SchoolInfo]
-    
+    var title: String
+   
     var body: some View {
+        HStack{
+            Text(title)
+                .font(.title)
+                .fontWeight(.heavy)
+        }
         VStack {
             ForEach(info, id: \.category) { item in
                 DisclosureGroup {

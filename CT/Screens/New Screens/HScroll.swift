@@ -22,6 +22,7 @@ struct SchoolScrollView: View {
                 Text(titleText)
                     .font(.title)
                     .bold()
+                    .padding(.top,30)
                 Spacer()
             }.padding(.horizontal, 20)
                 .padding(.bottom, -10)

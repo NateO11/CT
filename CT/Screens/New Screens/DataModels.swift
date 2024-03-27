@@ -34,9 +34,12 @@ struct Location: Identifiable {
 struct SchoolInfo {
     let category: String
     let stats: [Int]
+    let classification: String
     let statDescriptions: [String]
     let description: String
 }
+
+
 
 
 struct Review {
