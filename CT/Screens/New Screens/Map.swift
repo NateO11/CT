@@ -185,7 +185,7 @@ struct MapSchoolScrollView: View {
                                     .scrollTransition(.interactive, axis: .horizontal) {
                                         view, phase in
                                         view
-                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.9)
                                     }
                                 }
                             } else {
@@ -214,7 +214,7 @@ struct MapSchoolScrollView: View {
                                     .scrollTransition(.interactive, axis: .horizontal) {
                                         view, phase in
                                         view
-                                            .scaleEffect(phase.isIdentity ? 1 : 0.95)
+                                            .scaleEffect(phase.isIdentity ? 1 : 0.9)
                                     }
                                 }
                             }
@@ -234,7 +234,7 @@ struct MapSchoolScrollView: View {
                     if let newValue = newValue, let targetIndex = colleges.firstIndex(where: { $0.name == newValue }) {
                                             // Animate the scrolling to the new school
                                             withAnimation {
-                                                scrollViewReader.scrollTo(colleges[targetIndex].id, anchor: .center)
+                                                scrollViewReader.scrollTo(colleges[targetIndex].id, anchor: .leading)
                                             }
                                         }
                 }
