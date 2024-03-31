@@ -20,13 +20,15 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    
+    private var db = Firestore.firestore()
 
     init() {
         self.userSession = Auth.auth().currentUser
         
-        Task {
-            await fetchUser()
-        }
+//        Task {
+//            await fetchUser()
+//        }
     }
     
     func signIn(email: String, password: String) async throws -> String {
@@ -76,6 +78,29 @@ class AuthViewModel: ObservableObject {
         self.currentUser = try? snapshot.data(as: User.self)
         print("The user is \(String(describing: self.currentUser))")
         }
+    
+    
+    func fetchUserTest() {
+        let uid = Auth.auth().currentUser?.uid ?? "mockUID"
+        let doc = db.collection("Users").document(uid)
+        
+        doc.getDocument { (document, error) in
+            guard error == nil else {
+                print("error")
+                return
+            }
+            self.currentUser = document.map({ doc -> User in
+                let data = doc.data()
+                let id = data?["id"] as? String ?? ""
+                let email = data?["email"] as? String ?? ""
+                let fullname = data?["fullname"] as? String ?? ""
+                
+                return User(id: id, email: email, fullname: fullname, favorites: [])
+            })
+            
+        }
+          
+    }
     
     func addUserFavorites() async {
         // should got to the current uid and then create/ add to the existing array of favorite schools

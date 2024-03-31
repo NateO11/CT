@@ -10,40 +10,7 @@ import SwiftUI
 import MapKit
 import Firebase
 
-/* struct TopButtonsSection: View {
-    let userID: String
-    @State private var userName: String = "Loading..."    
-    
-    var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.blue, .black.opacity(0.85)]), startPoint: .topLeading, endPoint: .bottomTrailing).edgesIgnoringSafeArea(.all)
 
-            VStack(alignment: .leading) {
-            
-                WelcomeNameText(userID: userID)
-                underlineRectangle()
-                explorePageTitleText()
-
-                HStack {
-                    VStack(alignment: .leading) {
-                        StyledButton(icon: "book", title: "Schools", destination: ProfilePage())
-                        StyledButton(icon: "mappin", title: "Locations", destination: ProfilePage())
-                    }
-                    VStack(alignment: .leading) {
-                        StyledButton(icon: "graduationcap", title: "Academics", destination: ProfilePage())
-                        StyledButton(icon: "sportscourt", title: "Athletics", destination: ProfilePage())
-                    }
-                }
-            }
-            .frame(maxHeight: .infinity)
-            .padding(.leading, 20)
-            .padding(.bottom, 30)
-            .padding(.top, 60)
-        }
-
-    }
-}
-*/
 struct LargeImageSection: View {
     let imageName: String
     let title: String
@@ -165,65 +132,7 @@ struct largeMapsButton: View {
     }
 }
 
-struct WelcomeNameText: View {
-    var userID: String
-    @State private var username: String = "Default Username"
 
-    var body: some View {
-        Text("Welcome, \(username)!")
-            .font(.title)
-            .padding(.bottom, 1)
-            .foregroundColor(.white)
-            .onAppear {
-                fetchUserData()
-            }
-    }
-    
-    private func fetchUserData() {
-        let db = Firestore.firestore()
-
-        // Query the Users collection for the provided UserID
-        db.collection("Users").document(userID).getDocument { document, error in
-            if let error = error {
-                print("Error fetching document: \(error)")
-                return
-            }
-
-            if let userDoc = document {
-                let username = userDoc["Username"] as? String ?? "Default Username"
-                DispatchQueue.main.async {
-                    self.username = username
-                }
-            } else {
-                print("User not found")
-            }
-        }
-    }
-
-
-
-}
-
-
-struct explorePageTitleText: View {
-    var body: some View {
-        Text("Explore Schools")
-            .font(.largeTitle)
-            .padding(.bottom)
-            .foregroundColor(.white)
-            .bold()
-            .fontWeight(.heavy)
-    }
-}
-
-struct underlineRectangle: View {
-    var body: some View {
-        Rectangle()
-            .fill(Color.white)
-            .frame(width: 250,height: 1)
-            .edgesIgnoringSafeArea(.all)
-    }
-}
 
 struct StyledButton<Destination: View>: View {
     let icon: String

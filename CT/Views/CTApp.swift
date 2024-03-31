@@ -27,12 +27,11 @@ struct YourApp: App {
         FirebaseApp.configure()
     }
     @StateObject var viewModel = AuthViewModel()
-  var body: some Scene {
-    WindowGroup {
-      NavigationView {
-          ContentView()
-              .environmentObject(viewModel)
-      }
+    var body: some Scene {
+        WindowGroup {
+            NavigationView {
+                ContentView().environmentObject(viewModel)
+            }
+        }
     }
-  }
 }
