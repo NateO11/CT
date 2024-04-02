@@ -40,11 +40,14 @@ struct ExploreView: View {
                                 LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
                                 SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
                                 LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
-                                bottomText(text: "Contact us at CollegeTour@gmail.com")
+                                Text("Contact us at CollegeTour@gmail.com")
+                                    .font(.caption2)
+                                    .fontWeight(.thin)
+                                    .padding(.top, 10)
                             }
                             .zIndex(0)
                         } else {
-                            SearchResultsView(searchText)
+                            SearchResultsView(searchText).environmentObject(authState).zIndex(0)
                         }
 
                     }
@@ -66,7 +69,7 @@ struct ExploreView: View {
     func SearchResultsView(_ query: String) -> some View {
         if !query.isEmpty {
             let searchResults = viewModel.searchColleges(with: query)
-            ForEach(searchResults, id: \.name) { college in
+            ForEach(searchResults) { college in
                 NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
                     HStack {
                         VStack(alignment: .leading) {
@@ -113,7 +116,7 @@ struct ExploreView: View {
                 }
                 .opacity( 1+progress)
                 
-                NavigationLink(destination: ProfilePage(profileViewModel: ProfileViewModel()).environmentObject(authState)) {
+                NavigationLink(destination: ProfilePage().environmentObject(authState)) {
                     Text(authState.currentUser?.intitals ?? "DU")
                         .font(.callout)
                         .fontWeight(.semibold)
@@ -126,31 +129,10 @@ struct ExploreView: View {
                                 .fill(.white)
                                 .padding(-2)
                         }
-//                    Image("UVA")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                        .frame(width: 40, height: 40)
-//                        .clipShape(Circle())
-//                        .background {
-//                            Circle()
-//                                .fill(.white)
-//                                .padding(-2)
-//                        }
+
                 }
-                .opacity( 1)
-//                .overlay {
-//                    if showSearch {
-//                        Button {
-//                            showSearch = false
-//                            searchText = ""
-//                        } label: {
-//                            Image(systemName: "xmark")
-//                                .font(.title3)
-//                                .fontWeight(.semibold)
-//                                .foregroundColor(.white)
-//                        }
-//                    }
-//                }
+                
+
             }
             HStack(spacing: 15) {
                 NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
@@ -205,21 +187,9 @@ struct ExploreView: View {
             .padding(.horizontal, -progress*35)
             .padding(.vertical, 10)
             .offset(x: progress*25, y:progress*65)
-            .opacity( 1)
+            
         }
-//        .overlay(alignment: .topLeading) {
-//            Button {
-//                showSearch = true
-//            } label: {
-//                Image(systemName: "magnifyingglass")
-//                    .font(.title3)
-//                    .fontWeight(.semibold)
-//                    .foregroundColor(.white)
-//            }
-//            .offset(x: 13, y:10)
-//            .opacity(showSearch ? 0 : -progress)
-//        }
-        //.animation(.easeInOut(duration: 0.2), value: showSearch)
+
         .padding([.horizontal, .bottom], 15)
         .padding(.top, safeAreaTop + 10)
         .background {

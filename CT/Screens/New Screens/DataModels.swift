@@ -43,7 +43,7 @@ struct SchoolInfo {
 
 
 
-struct Review {
+struct Review: Codable {
     let text: String
     let rating: Int
     let userID: String
@@ -56,6 +56,7 @@ struct User: Identifiable, Codable {
     let email: String
     let fullname: String
     var favorites: [String] = []
+    var reviews: [Review] = []
     
     var intitals: String {
         let formatter = PersonNameComponentsFormatter()

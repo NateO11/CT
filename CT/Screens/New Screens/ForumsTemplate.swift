@@ -39,7 +39,7 @@ struct ForumsTemplate: View {
                 
             }
             
-        NavigationLink(destination: ProfilePage(profileViewModel: ProfileViewModel())) {
+        NavigationLink(destination: ProfilePage()) {
                 VStack {
                     
                     Text("Write a Review")

@@ -14,7 +14,7 @@ struct ProfilePage: View {
     @State private var showDeleteAlert = false
     @State private var showSplashScreen = true
 
-    @ObservedObject var profileViewModel: ProfileViewModel
+    // @ObservedObject var profileViewModel: ProfileViewModel
 
     @EnvironmentObject var viewModel: AuthViewModel
     
@@ -61,12 +61,12 @@ struct ProfilePage: View {
                         
                     }
                     Section("My Reviews"){
-                        if profileViewModel.reviews.isEmpty {
+                        if (viewModel.currentUser!.reviews.isEmpty) {
                             Text("Write some reviews")
                         } else {
                             ScrollView(.vertical, showsIndicators: false) {
                                 VStack {
-                                    ForEach(profileViewModel.reviews, id: \.text) { review in
+                                    ForEach(viewModel.currentUser!.reviews, id: \.text) { review in
                                         let firstChar = Array(review.userID)[0]
                                         IndividualReviewView(review: review, firstChar: String(firstChar).uppercased())
                                     }
@@ -75,7 +75,7 @@ struct ProfilePage: View {
                         }
                     }
                     .onAppear {
-                        profileViewModel.fetchReviewsForUser(userID: viewModel.currentUser?.id ?? "")
+                        viewModel.fetchReviews()
                     }
                     Section("Account"){
                         
@@ -125,7 +125,7 @@ struct ProfilePage: View {
 
 
 #Preview {
-    ProfilePage(profileViewModel: ProfileViewModel()).environmentObject(AuthViewModel.mock)
+    ProfilePage().environmentObject(AuthViewModel.mock)
 }
 
 

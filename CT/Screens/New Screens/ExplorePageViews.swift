@@ -18,117 +18,41 @@ struct LargeImageSection: View {
 
     var body: some View {
         ZStack {
-            largeImageBackground(imageName: imageName)
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .overlay {
+                    LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.5), .black], startPoint: .top, endPoint: .bottom)
+                }
 
             VStack(alignment: .leading, spacing: 10) {
                 Spacer()
-                largeImageTitleText(text: title)
+                Text(title)
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
                 HStack(spacing: 10) {
-                    largeImageSmallText(text: description)
-                    largeMapsButton(colleges: sampleColleges)
+                    Text(description)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    HStack {
+                        Spacer()
+                        NavigationLink(destination: SearchView(colleges: sampleColleges)) {
+                            Text("View Schools")
+                                .foregroundColor(.black)
+                                .padding()
+                                .bold()
+                                .background(Color.white)
+                                .cornerRadius(30)
+                        }
+                    }
                 }
             }
             .padding()
         }
         .clipShape(.rect(bottomLeadingRadius: 10, bottomTrailingRadius: 10))
         .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-        //.padding(.vertical, 20)
-    }
-}
-
-struct subTitleText: View {
-    let text: String
-    let subtext: String
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(text)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding(.bottom, 5)
-                .padding(.top, 40)
-                .bold()
-            
-            Text(subtext)
-                .padding(.bottom, 30)
-
-        }
-    }
-}
-
-struct largeImageBackground: View {
-    
-    let imageName: String
-    
-    var body: some View {
-        
-        Image(imageName)
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .overlay {
-                LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.5), .black], startPoint: .top, endPoint: .bottom)
-            }
-        
-    }
-}
-
-struct largeImageTitleText: View {
-    
-    let text: String
-    
-    var body: some View {
-        Text(text)
-            .font(.largeTitle)
-            .fontWeight(.heavy)
-            .foregroundColor(.white)
-    }
-}
-
-struct largeImageSmallText: View {
-    
-    let text: String
-
-    var body: some View {
-        
-        Text(text)
-            .font(.headline)
-            .foregroundColor(.white)
-
-    }
-}
-
-struct largeReviewsButton: View {
-    var body: some View {
-        
-        Button(action: { }) {
-            Text("Reviews")
-                .foregroundColor(.black)
-                .padding()
-                .bold()
-                .background(Color.white)
-                .cornerRadius(30)
-        }
-    }
-}
-
-struct largeMapsButton: View {
-    
-    var colleges: [College]
-
-    var body: some View {
-        
-        HStack {
-            Spacer()
-            NavigationLink(destination: SearchView(colleges: sampleColleges)) {
-                Text("View Schools")
-                    .foregroundColor(.black)
-                    .padding()
-                    .bold()
-                    .background(Color.white)
-                    .cornerRadius(30)
-            }
-        }
     }
 }
 
@@ -159,20 +83,6 @@ struct StyledButton<Destination: View>: View {
     }
 }
 
-
-struct bottomText: View {
-  
-    let text: String
-    
-    var body: some View {
-        
-        Text(text)
-            .font(.caption2)
-            .fontWeight(.thin)
-            .padding(.top, 10)
-            
-    }
-}
 
 struct xButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
