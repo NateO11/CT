@@ -133,7 +133,25 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func addUserFavorites() async {
+    func addUserFavorites(school: String)  {
+        let uid = Auth.auth().currentUser?.uid ?? "mockUID"
+        let favoritesRef = db.collection("Users").document(uid)
+        
+        favoritesRef.updateData([
+          "favorites": FieldValue.arrayUnion([school])
+        ])
+        
+        // should got to the current uid and then create/ add to the existing array of favorite schools
+        }
+    
+    func removeUserFavorites(school: String)  {
+        let uid = Auth.auth().currentUser?.uid ?? "mockUID"
+        let favoritesRef = db.collection("Users").document(uid)
+        
+        favoritesRef.updateData([
+          "favorites": FieldValue.arrayRemove([school])
+        ])
+        
         // should got to the current uid and then create/ add to the existing array of favorite schools
         }
 }

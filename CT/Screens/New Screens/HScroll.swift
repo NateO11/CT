@@ -81,17 +81,7 @@ struct SchoolScrollView: View {
                                             
                                             .clipShape(.rect(cornerRadius: 15))
                                             .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-                                            /* .onTapGesture {
-                                                showAlert = true
-                                            }
-                                            .alert(isPresented: $showAlert) {
-                                                Alert(
-                                                    title: Text("School unavailable"),
-                                                    message: Text("\(college.name) \n is coming soon!"),
-                                                    dismissButton: .default(Text("OK"))
-                                                )
-                                            }
-                                             */
+                                           
 
                                         
                                     })
@@ -131,7 +121,11 @@ struct HScroll_Preview: PreviewProvider {
 
 
 struct AvailableOverlay: View {
+    @EnvironmentObject var authState: AuthViewModel
     var college: College
+    @State var starred = false
+    
+    
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -147,7 +141,23 @@ struct AvailableOverlay: View {
             VStack(alignment: .leading, spacing: 4, content: {
                 HStack {
                     Spacer()
-                    starButton(starred: false)
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(starred == true ? .blue : .gray)
+                        .frame(width: 25,height: 25)
+                        .padding()
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .onTapGesture {
+                            if starred {
+                                authState.removeUserFavorites(school: college.name)
+                                starred.toggle()
+                            } else {
+                                authState.addUserFavorites(school: college.name)
+                                starred.toggle()
+                            }
+                        }
                     
                 }
                 Spacer()
@@ -161,6 +171,9 @@ struct AvailableOverlay: View {
                     .foregroundStyle(.white.opacity(0.8))
             })
             .padding(20)
+        }
+        .onAppear {
+            starred = authState.currentUser?.favorites.contains(college.name) ?? false
         }
     }
 }

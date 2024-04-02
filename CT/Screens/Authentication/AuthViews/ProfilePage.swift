@@ -47,12 +47,9 @@ struct ProfilePage: View {
                         } else {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 25) {
-                                    ForEach(user.favorites, id: \.self) { imageName in
-                                        Image(imageName)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .padding()
+                                    ForEach(user.favorites, id: \.self) { school in
+                                        Text(school)
+                                        
                                     }
                                 }
                                 .padding(10) // Add padding to the HStack if needed
