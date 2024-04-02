@@ -68,10 +68,9 @@ struct SchoolView: View {
             }
             .onAppear {
                 viewModel.fetchLocations()
-                viewModel.fetchInfo()
-                viewModel.fetchInfoAcademic()
-                viewModel.fetchInfoOther()
-                viewModel.fetchInfoSocial()
+                viewModel.fetchInfo(classification: "Academic")
+                viewModel.fetchInfo(classification: "Other")
+                viewModel.fetchInfo(classification: "Social")
             }
             .ignoresSafeArea()
 
@@ -106,7 +105,16 @@ struct SchoolDisclosures: View {
                         }
                     }.padding(.bottom, 20)
                     
-                    Text(item.description)
+                    Text(item.description).padding(.bottom, 20)
+                    
+                    if item.locations.isEmpty == false {
+                        VStack {
+                            Text("Must See Spots:").font(.callout).bold()
+                            ForEach(item.locations, id: \.self) { location in
+                                Text("- \(location)")
+                            }
+                        }
+                    }
                     
                     NavigationLink(destination: EditProfileView().environmentObject(authState)) {
                         VStack(alignment: .center) {

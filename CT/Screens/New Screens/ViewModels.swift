@@ -259,113 +259,46 @@ class MapViewModel: ObservableObject {
         }
     }
     
-    func fetchInfo() {
+    func fetchInfo(classification: String) {
+        
         print(college.name)
         db.collection("Schools").document(college.name).collection("Info")
+          .whereField("classification", isEqualTo: classification)
           .addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
-                return
-                // built in print statements to verify that fetching pathways are operating correctly
-            }
-
-            self.info = documents.compactMap { doc -> SchoolInfo? in
-                // parse the document into a Location object
-                let data = doc.data()
-                let category = data["category"] as? String ?? ""
-                let classification = data["classification"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let stats = data["stats"] as? [Int] ?? []
-                let statDescriptions = data["statDescriptions"] as? [String] ?? []
-            
-                // return an info object or nil
-                return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description)
-            }
-            print("Fetched locations: \(self.info)")
-
-        }
-    }
-    
-    func fetchInfoAcademic() {
-        print(college.name)
-        db.collection("Schools").document(college.name).collection("Info")
-          .whereField("classification", isEqualTo: "Academic")
-          .addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
-                return
-                // built in print statements to verify that fetching pathways are operating correctly
-            }
-
-            self.infoAcademic = documents.compactMap { doc -> SchoolInfo? in
-                // parse the document into a Location object
-                let data = doc.data()
-                let category = data["category"] as? String ?? ""
-                let classification = data["classification"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let stats = data["stats"] as? [Int] ?? []
-                let statDescriptions = data["statDescriptions"] as? [String] ?? []
-            
-                // return an info object or nil
-                return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description)
-            }
-            print("Fetched locations: \(self.infoAcademic)")
-
-        }
-    }
-    
-    func fetchInfoSocial() {
-        print(college.name)
-        db.collection("Schools").document(college.name).collection("Info")
-          .whereField("classification", isEqualTo: "Social")
-          .addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
-                return
-                // built in print statements to verify that fetching pathways are operating correctly
-            }
-
-            self.infoSocial = documents.compactMap { doc -> SchoolInfo? in
-                // parse the document into a Location object
-                let data = doc.data()
-                let category = data["category"] as? String ?? ""
-                let classification = data["classification"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let stats = data["stats"] as? [Int] ?? []
-                let statDescriptions = data["statDescriptions"] as? [String] ?? []
-            
-                // return an info object or nil
-                return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description)
-            }
-            print("Fetched locations: \(self.infoSocial)")
-
-        }
-    }
-    
-    func fetchInfoOther() {
-        print(college.name)
-        db.collection("Schools").document(college.name).collection("Info")
-          .whereField("classification", isEqualTo: "Other")
-          .addSnapshotListener { querySnapshot, error in
-            guard let documents = querySnapshot?.documents else {
-                print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
-                return
-                // built in print statements to verify that fetching pathways are operating correctly
-            }
-
-            self.infoOther = documents.compactMap { doc -> SchoolInfo? in
-                // parse the document into a Location object
-                let data = doc.data()
-                let category = data["category"] as? String ?? ""
-                let classification = data["classification"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let stats = data["stats"] as? [Int] ?? []
-                let statDescriptions = data["statDescriptions"] as? [String] ?? []
-            
-                // return an info object or nil
-                return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description)
-            }
-            print("Fetched locations: \(self.infoOther)")
+              guard let documents = querySnapshot?.documents else {
+                  print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
+                  return
+                  // built in print statements to verify that fetching pathways are operating correctly
+              }
+              
+              let fetchedInfo = documents.compactMap { doc -> SchoolInfo? in
+                  // parse the document into a Location object
+                  let data = doc.data()
+                  let category = data["category"] as? String ?? ""
+                  let classification = data["classification"] as? String ?? ""
+                  let description = data["description"] as? String ?? ""
+                  let stats = data["stats"] as? [Int] ?? []
+                  let statDescriptions = data["statDescriptions"] as? [String] ?? []
+                  let locations = data["locations"] as? [String] ?? []
+                  
+                  // return an info object or nil
+                  return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description, locations: locations)
+              }
+              switch classification {
+              case "Academic":
+                  self.infoAcademic = fetchedInfo
+                  print("Fetched Academic Info: \(self.infoAcademic)")
+              case "Social":
+                  self.infoSocial = fetchedInfo
+                  print("Fetched Social Info: \(self.infoSocial)")
+              case "Other":
+                  self.infoOther = fetchedInfo
+                  print("Fetched Other Info: \(self.infoOther)")
+              default:
+                  self.info = fetchedInfo
+                  print("Fetched All Info: \(self.info)")
+              }
+          
 
         }
     }

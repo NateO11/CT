@@ -37,6 +37,7 @@ struct SchoolInfo {
     let classification: String
     let statDescriptions: [String]
     let description: String
+    let locations: [String]
 }
 
 
