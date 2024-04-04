@@ -139,27 +139,7 @@ struct AvailableOverlay: View {
             ], startPoint: .top, endPoint: .bottom)
             
             VStack(alignment: .leading, spacing: 4, content: {
-                HStack {
-                    Spacer()
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(starred == true ? .blue : .gray)
-                        .frame(width: 25,height: 25)
-                        .padding()
-                        .background(Color.white)
-                        .clipShape(Circle())
-                        .onTapGesture {
-                            if starred {
-                                authState.removeUserFavorites(school: college.name)
-                                starred.toggle()
-                            } else {
-                                authState.addUserFavorites(school: college.name)
-                                starred.toggle()
-                            }
-                        }
-                    
-                }
+
                 Spacer()
                 Text(college.name)
                     .font(.title2)

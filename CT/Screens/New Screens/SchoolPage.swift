@@ -13,6 +13,7 @@ import Firebase
 struct SchoolView: View {
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: MapViewModel
+    @State var starred = false
 
     var body: some View {
             ScrollView {
@@ -27,6 +28,27 @@ struct SchoolView: View {
                             .frame(width: 300, height: 200)
                             .cornerRadius(8)
                             .shadow(radius: 10)
+                            .overlay {
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(starred == true ? .blue : .gray)
+                                    .frame(width: 25,height: 25)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                                    .offset(x:150, y:-100)
+                                    .shadow(radius: 10)
+                                    .onTapGesture {
+                                        if starred {
+                                            authState.removeUserFavorites(school: viewModel.college.name)
+                                            starred.toggle()
+                                        } else {
+                                            authState.addUserFavorites(school: viewModel.college.name)
+                                            starred.toggle()
+                                        }
+                                    }
+                            }
                         Spacer()
                     }
                     
@@ -71,6 +93,9 @@ struct SchoolView: View {
                 viewModel.fetchInfo(classification: "Academic")
                 viewModel.fetchInfo(classification: "Other")
                 viewModel.fetchInfo(classification: "Social")
+
+                starred = authState.currentUser?.favorites.contains(viewModel.college.name) ?? false
+                    
             }
             .ignoresSafeArea()
 

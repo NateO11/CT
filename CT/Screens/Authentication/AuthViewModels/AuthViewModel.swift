@@ -140,7 +140,7 @@ class AuthViewModel: ObservableObject {
         favoritesRef.updateData([
           "favorites": FieldValue.arrayUnion([school])
         ])
-        
+        self.currentUser?.favorites.append(school)
         // should got to the current uid and then create/ add to the existing array of favorite schools
         }
     
@@ -151,6 +151,11 @@ class AuthViewModel: ObservableObject {
         favoritesRef.updateData([
           "favorites": FieldValue.arrayRemove([school])
         ])
+        
+        self.currentUser?.favorites.removeAll { value in
+              return value == school
+            
+        }
         
         // should got to the current uid and then create/ add to the existing array of favorite schools
         }
