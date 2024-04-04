@@ -47,8 +47,8 @@ struct ExploreView: View {
                             }
                             .zIndex(0)
                         } else {
-                            SearchResultsView(searchText).environmentObject(authState).zIndex(0)
-                            // SearchResultsViewTest(viewModel: viewModel, query: searchText)
+                            //SearchResultsView(searchText).environmentObject(authState).zIndex(0)
+                            SearchResultsTestView(viewModel: viewModel, query: $searchText).environmentObject(authState)
                         }
 
                     }
@@ -232,36 +232,36 @@ struct ExploreView: View {
 }
 
 
-struct SearchResultsViewTest: View {
+struct SearchResultsTestView: View {
     @EnvironmentObject var authState: AuthViewModel
-    @ObservedObject var viewModel: ExploreViewModel
-    @State var query: String
-    @State var searchResults: [College]
-    
-    init(viewModel: ExploreViewModel, query: String) {
-        self.viewModel = viewModel
-        self.query = query
-        self.searchResults = viewModel.searchColleges(with: query)
-    }
-    
-    
+    var viewModel: ExploreViewModel // Make sure this matches the type of your viewModel
+    @Binding var query: String
+
     var body: some View {
-        ForEach(searchResults) { college in
-            NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(college.name)
-                            .multilineTextAlignment(.leading)
+        if !query.isEmpty {
+            let searchResults = viewModel.searchColleges(with: query)
+            ForEach(searchResults) { college in
+                NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(college.name)
+                                .multilineTextAlignment(.leading)
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Text(college.city)
+                                .font(.caption)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
                             .font(.title)
-                            .fontWeight(.bold)
-                        Text(college.city)
-                            .font(.caption)
                     }
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.title)
-                }.tint(.black).padding(20)
-            }.background(.black.opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous)).padding(.horizontal, 10)
+                    .tint(.black)
+                    .padding(20)
+                    .background(Color.black.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .padding(.horizontal, 10)
+                }
+            }
         }
     }
 }
