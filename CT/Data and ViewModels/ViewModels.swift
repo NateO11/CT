@@ -103,6 +103,7 @@ class LocationViewModel: ObservableObject {
         let reviewData: [String: Any] = [
             "school": college.name,
             "location": location.name,
+            // "location" : location.id
             "userID": authState?.currentUser?.id ?? "defaultID",
             "rating": rating,
             "title": title,
@@ -128,6 +129,7 @@ class LocationViewModel: ObservableObject {
     
     // function to fetch reviews for the selected location, which will eventually be displayed on the location expanded review page
     func fetchReviewsForLocation(collegeName: String, locationName: String) {
+        // use locationID instead of locationName 
         let db = Firestore.firestore()
         let schoolsRef = db.collection("Schools")
         let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
@@ -234,6 +236,7 @@ class MapViewModel: ObservableObject {
             self.locations = documents.compactMap { doc -> Location? in
                 // parse the document into a Location object
                 let data = doc.data()
+                // let id = doc.documentID()
                 let id = data["id"] as? String ?? ""
                 let name = data["name"] as? String ?? ""
                 let description = data["description"] as? String ?? ""

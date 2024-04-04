@@ -133,7 +133,9 @@ struct NewReviewView: View {
                     } else {
                         showAlert = true
                     }
-                }.alert("Must fill out all fields! \nGet a clue lil bro", isPresented: $showAlert, actions: {})
+                }
+                    .alert("Must fill out all fields! \nGet a clue lil bro", isPresented: $showAlert, actions: {})
+                    .sensoryFeedback(.success, trigger: isPresented)
             }
             HStack {
                 ForEach(0..<5) {value in

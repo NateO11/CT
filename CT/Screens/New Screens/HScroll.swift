@@ -15,7 +15,6 @@ struct SchoolScrollView: View {
     @EnvironmentObject var authState: AuthViewModel
     var colleges: [College]
     var titleText: String
-    @State private var showAlert: Bool = false
     var body: some View {
         VStack {
             HStack {

@@ -32,20 +32,24 @@ struct SchoolView: View {
                                 Image(systemName: "star.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(starred == true ? .blue : .gray)
+                                    .foregroundStyle(starred == true ? LinearGradient(colors: [.blue.opacity(0.7), .blue], startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                                     .frame(width: 25,height: 25)
                                     .padding()
                                     .background(Color.white)
                                     .clipShape(Circle())
-                                    .offset(x:150, y:-100)
+                                    .offset(x:140, y:-90)
                                     .shadow(radius: 10)
                                     .onTapGesture {
                                         if starred {
                                             authState.removeUserFavorites(school: viewModel.college.name)
-                                            starred.toggle()
+                                            withAnimation {
+                                                starred.toggle()
+                                            }
                                         } else {
                                             authState.addUserFavorites(school: viewModel.college.name)
-                                            starred.toggle()
+                                            withAnimation {
+                                                starred.toggle()
+                                            }
                                         }
                                     }
                             }
