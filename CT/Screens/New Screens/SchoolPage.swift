@@ -58,9 +58,9 @@ struct SchoolView: View {
                     }
                     .padding(.bottom, 10)
                     
-                    SchoolDisclosures(info: viewModel.infoAcademic, title: "Academics").environmentObject(authState)
-                    SchoolDisclosures(info: viewModel.infoSocial, title: "Social").environmentObject(authState)
-                    SchoolDisclosures(info: viewModel.infoOther, title: "Other").environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoAcademic, title: "Academics", college: viewModel.college).environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoSocial, title: "Social", college: viewModel.college).environmentObject(authState)
+                    SchoolDisclosures(info: viewModel.infoOther, title: "Other", college: viewModel.college).environmentObject(authState)
 
                     
                     
@@ -86,6 +86,7 @@ struct SchoolDisclosures: View {
     @EnvironmentObject var authState: AuthViewModel
     var info: [SchoolInfo]
     var title: String
+    var college: College
    
     var body: some View {
         HStack{
@@ -116,7 +117,7 @@ struct SchoolDisclosures: View {
                         }
                     }
                     
-                    NavigationLink(destination: EditProfileView().environmentObject(authState)) {
+                    NavigationLink(destination: ForumView(viewModel: ForumViewModel(college: college, info: item, authState: authState))) {
                         VStack(alignment: .center) {
                             Text("Read reviews")
                                 .foregroundColor(.white)
@@ -141,28 +142,4 @@ struct SchoolDisclosures: View {
 }
 
 
-struct StyledButtonDark<Destination: View>: View {
-    let icon: String
-    let title: String
-    let destination: Destination
 
-    var body: some View {
-        NavigationLink(destination: destination) {
-            HStack(alignment: .center) {
-                Image(systemName: icon)
-                    .foregroundColor(.white)
-                    .bold()
-                Text(title)
-                    .foregroundColor(.white)
-                    .padding(.leading, 5)
-                    .bold()
-                    .fontWeight(.heavy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading)
-        }
-        .frame(width: 180, height: 60)
-        .background(Color.black)
-        .cornerRadius(40)
-    }
-}

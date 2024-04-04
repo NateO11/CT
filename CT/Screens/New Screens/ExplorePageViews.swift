@@ -112,6 +112,33 @@ struct starButton: View {
     }
 }
 
+struct StyledButtonDark<Destination: View>: View {
+    let icon: String
+    let title: String
+    let destination: Destination
+
+    var body: some View {
+        NavigationLink(destination: destination) {
+            HStack(alignment: .center) {
+                Image(systemName: icon)
+                    .foregroundColor(.white)
+                    .bold()
+                Text(title)
+                    .foregroundColor(.white)
+                    .padding(.leading, 5)
+                    .bold()
+                    .fontWeight(.heavy)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading)
+        }
+        .frame(width: 180, height: 60)
+        .background(Color.black)
+        .cornerRadius(40)
+    }
+}
+
+
 var sampleColleges: [College] = [
     .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange),
     .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT", coordinate: CLLocationCoordinate2D(latitude: 36, longitude: -77), color: .red),

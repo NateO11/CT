@@ -74,7 +74,7 @@ class AuthViewModel: ObservableObject {
     
     func fetchUser() async {
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        guard let snapshot = try? await Firestore.firestore().collection("Users").document(uid).getDocument() else {return}
+        guard let snapshot = try? await db.collection("Users").document(uid).getDocument() else {return}
         self.currentUser = try? snapshot.data(as: User.self)
         print("The user is \(String(describing: self.currentUser))")
         }

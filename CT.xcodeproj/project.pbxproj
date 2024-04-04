@@ -20,11 +20,11 @@
 		A19CCE132B753F2D00D2419A /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE122B753F2D00D2419A /* LocationInfo.swift */; };
 		A19CCE152B753F5E00D2419A /* LocationReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE142B753F5E00D2419A /* LocationReviews.swift */; };
 		A19CCE172B753FC300D2419A /* SearchPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19CCE162B753FC300D2419A /* SearchPageView.swift */; };
+		A1F275E02BBE2C8B00F3738E /* Forum.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F275DF2BBE2C8B00F3738E /* Forum.swift */; };
 		E60F7C752B3CD43300468BCC /* ProfilePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60F7C742B3CD43300468BCC /* ProfilePage.swift */; };
 		E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */; };
 		E61CE1DA2B45F9D4009EB5D6 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */; };
 		E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E12B460093009EB5D6 /* SignUpView.swift */; };
-		E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */; };
 		E620DE8F2B9A3B4000232C5E /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE8E2B9A3B4000232C5E /* AuthViewModel.swift */; };
 		E620DE912B9A4C7C00232C5E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE902B9A4C7C00232C5E /* ContentView.swift */; };
 		E620DE972B9A9BE500232C5E /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E620DE962B9A9BE500232C5E /* EditProfileView.swift */; };
@@ -81,11 +81,11 @@
 		A19CCE122B753F2D00D2419A /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
 		A19CCE142B753F5E00D2419A /* LocationReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReviews.swift; sourceTree = "<group>"; };
 		A19CCE162B753FC300D2419A /* SearchPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageView.swift; sourceTree = "<group>"; };
+		A1F275DF2BBE2C8B00F3738E /* Forum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forum.swift; sourceTree = "<group>"; };
 		E60F7C742B3CD43300468BCC /* ProfilePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePage.swift; sourceTree = "<group>"; };
 		E61CE1D72B45F990009EB5D6 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
 		E61CE1D92B45F9D4009EB5D6 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		E61CE1E12B460093009EB5D6 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumsTemplate.swift; sourceTree = "<group>"; };
 		E620DE8E2B9A3B4000232C5E /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		E620DE902B9A4C7C00232C5E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../Views/ContentView.swift; sourceTree = "<group>"; };
 		E620DE962B9A9BE500232C5E /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -149,11 +149,11 @@
 				A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */,
 				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
 				A19CCE162B753FC300D2419A /* SearchPageView.swift */,
+				A1F275DF2BBE2C8B00F3738E /* Forum.swift */,
 				A19CCE142B753F5E00D2419A /* LocationReviews.swift */,
 				A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */,
 				A19CCE0C2B6BF06700D2419A /* HScroll.swift */,
 				A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */,
-				E61CE1E32B4A219C009EB5D6 /* ForumsTemplate.swift */,
 				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
 				E620DE902B9A4C7C00232C5E /* ContentView.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
@@ -456,11 +456,11 @@
 				A19CCE112B753E6100D2419A /* Map.swift in Sources */,
 				A1536DCC2B890F77008D96A9 /* ExploreTesting.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
-				E61CE1E42B4A219C009EB5D6 /* ForumsTemplate.swift in Sources */,
 				A19CCE0D2B6BF06700D2419A /* HScroll.swift in Sources */,
 				A180E9922B40ABA900B0514A /* ExplorePageViews.swift in Sources */,
 				E61CE1E22B460093009EB5D6 /* SignUpView.swift in Sources */,
 				E61CE1D82B45F990009EB5D6 /* LoginPageView.swift in Sources */,
+				A1F275E02BBE2C8B00F3738E /* Forum.swift in Sources */,
 				E620DE8F2B9A3B4000232C5E /* AuthViewModel.swift in Sources */,
 				A19CCE0F2B6BF18900D2419A /* SchoolPage.swift in Sources */,
 				E620DE912B9A4C7C00232C5E /* ContentView.swift in Sources */,

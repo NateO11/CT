@@ -86,6 +86,9 @@ struct LocationTestingView: View {
             .onAppear {
                 viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
             }
+            .onChange(of: displaySheet) { oldValue, newValue in
+                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.name)
+            }
         }.padding(20)
         
             .sheet(isPresented: $displaySheet) {

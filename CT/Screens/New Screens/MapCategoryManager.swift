@@ -43,20 +43,6 @@ func colorForCategory(_ category: String) -> Color {
         return Color.red
     case "Study Spots":
         return Color.blue
-    case "Engineering":
-        return Color.pink
-    case "Law":
-        return Color.blue
-    case "Business":
-        return Color.blue
-    case "Living":
-        return Color.blue
-    case "Restaurants":
-        return Color.blue
-    case "Nature":
-        return Color.green
-    case "Parking":
-        return Color.blue
     case "Local Area":
         return Color.blue
     case "Stadiums":
@@ -80,26 +66,6 @@ func symbolForCategory(_ category: String) -> String {
         return "figure.tennis"
     case "Study Spots":
         return "book.fill"
-    case "Engineering":
-        return "brain.filled.head.profile"
-    case "Law":
-        return "books.vertical.fill"
-    case "Business":
-        return "briefcase.fill"
-    case "Living":
-        return "house.fill"
-    case "Restaurants":
-        return "cup.and.saucer.fill"
-    case "Nature":
-        return "figure.hiking"
-    case "Parking":
-        return "p.square.fill"
-    case "Local Area":
-        return "globe"
-    case "Stadiums":
-        return "trophy.fill"
-    case "Health":
-        return "stethoscope"
     case "All":
         return "globe"
     case "Close":
@@ -172,7 +138,7 @@ struct ExpandedCategorySelect: View {
     }
     
     func showMenu() {
-        withAnimation {
+            withAnimation(.snappy(duration: 0.4)) {
             showLandmarksButton.toggle()
             showAthleticsButton.toggle()
             showDiningButton.toggle()
