@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */; };
-		A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */; };
 		A1536DCC2B890F77008D96A9 /* ExploreTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */; };
 		A1794BCF2B90F4D10038CF95 /* HScrollLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */; };
 		A180E9862B407F5200B0514A /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A180E9852B407F5200B0514A /* DataModels.swift */; };
@@ -69,7 +68,6 @@
 
 /* Begin PBXFileReference section */
 		A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCategoryManager.swift; sourceTree = "<group>"; };
-		A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldVersionsOfScreens.swift; sourceTree = "<group>"; };
 		A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTesting.swift; sourceTree = "<group>"; };
 		A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HScrollLocations.swift; sourceTree = "<group>"; };
 		A180E9852B407F5200B0514A /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
@@ -144,20 +142,17 @@
 		A180E9842B407F3800B0514A /* New Screens */ = {
 			isa = PBXGroup;
 			children = (
-				A19CCE122B753F2D00D2419A /* LocationInfo.swift */,
-				A180E9852B407F5200B0514A /* DataModels.swift */,
-				A105EBD42B51C8BF0001F5C7 /* OldVersionsOfScreens.swift */,
-				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
-				A19CCE162B753FC300D2419A /* SearchPageView.swift */,
+				E620DE902B9A4C7C00232C5E /* ContentView.swift */,
+				A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */,
+				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
 				A1F275DF2BBE2C8B00F3738E /* Forum.swift */,
 				A19CCE142B753F5E00D2419A /* LocationReviews.swift */,
+				A19CCE122B753F2D00D2419A /* LocationInfo.swift */,
+				A19CCE162B753FC300D2419A /* SearchPageView.swift */,
 				A19CCE0E2B6BF18900D2419A /* SchoolPage.swift */,
 				A19CCE0C2B6BF06700D2419A /* HScroll.swift */,
 				A1794BCE2B90F4D10038CF95 /* HScrollLocations.swift */,
-				A180E9912B40ABA900B0514A /* ExplorePageViews.swift */,
-				E620DE902B9A4C7C00232C5E /* ContentView.swift */,
 				A19CCE102B753E6100D2419A /* Map.swift */,
-				A1536DCB2B890F77008D96A9 /* ExploreTesting.swift */,
 				A1056CC72B3E24A30072E050 /* MapCategoryManager.swift */,
 			);
 			path = "New Screens";
@@ -202,11 +197,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		E66DB8562B26D1E9009F9359 /* ViewModels */ = {
+		E66DB8562B26D1E9009F9359 /* Data and ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A180E9852B407F5200B0514A /* DataModels.swift */,
+				A180E98D2B4081DB00B0514A /* ViewModels.swift */,
 			);
-			path = ViewModels;
+			path = "Data and ViewModels";
 			sourceTree = "<group>";
 		};
 		E66DB8572B26D1FA009F9359 /* Screens */ = {
@@ -252,7 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				E66DB8572B26D1FA009F9359 /* Screens */,
-				E66DB8562B26D1E9009F9359 /* ViewModels */,
+				E66DB8562B26D1E9009F9359 /* Data and ViewModels */,
 				E66DB8582B26D23D009F9359 /* Views */,
 				E66DB8542B26D1C8009F9359 /* Models */,
 				E670FAD22B268F6F00BB3692 /* Assets.xcassets */,
@@ -452,7 +449,6 @@
 				A19CCE172B753FC300D2419A /* SearchPageView.swift in Sources */,
 				E63AA2282B857A1B0077D89C /* OnboardingScreen1.swift in Sources */,
 				A1056CC82B3E24A30072E050 /* MapCategoryManager.swift in Sources */,
-				A105EBD52B51C8C00001F5C7 /* OldVersionsOfScreens.swift in Sources */,
 				A19CCE112B753E6100D2419A /* Map.swift in Sources */,
 				A1536DCC2B890F77008D96A9 /* ExploreTesting.swift in Sources */,
 				A180E98E2B4081DB00B0514A /* ViewModels.swift in Sources */,
