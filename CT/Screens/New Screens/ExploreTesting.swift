@@ -136,7 +136,8 @@ struct ExploreView: View {
 
             }
             HStack(spacing: 15) {
-                NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
+                NavigationLink(destination: EditProfileView()) {
+                   // NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState))
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)
@@ -241,26 +242,52 @@ struct SearchResultsTestView: View {
         if !query.isEmpty {
             let searchResults = viewModel.searchColleges(with: query)
             ForEach(searchResults) { college in
-                NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(college.name)
-                                .multilineTextAlignment(.leading)
+                
+                if college.available {
+                    NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(college.name)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                Text(college.city)
+                                    .font(.caption)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
                                 .font(.title)
-                                .fontWeight(.bold)
-                            Text(college.city)
-                                .font(.caption)
                         }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.title)
+                        .tint(.black)
+                        .padding(20)
+                        .background(Color.black.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .padding(.horizontal, 10)
+                        
                     }
-                    .tint(.black)
-                    .padding(20)
-                    .background(Color.black.opacity(0.1))
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                    .padding(.horizontal, 10)
+                } else {
+                    NavigationLink(destination: EditProfileView()) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(college.name)
+                                    .multilineTextAlignment(.leading)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                Text(college.city)
+                                    .font(.caption)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.title)
+                        }
+                        .tint(.black)
+                        .padding(20)
+                        .background(Color.black.opacity(0.05))
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .padding(.horizontal, 10)
+                    }
                 }
+                
             }
         }
     }

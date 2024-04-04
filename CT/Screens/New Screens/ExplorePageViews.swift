@@ -38,7 +38,7 @@ struct LargeImageSection: View {
                         .foregroundColor(.white)
                     HStack {
                         Spacer()
-                        NavigationLink(destination: SearchView(colleges: sampleColleges)) {
+                        NavigationLink(destination: EditProfileView()) {
                             Text("View Schools")
                                 .foregroundColor(.black)
                                 .padding()

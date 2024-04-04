@@ -18,10 +18,21 @@ struct EditProfileView: View {
 //        List{
 //            TextField(viewModel.currentUser?.fullname ?? " ", text: $textFieldInput)
 //        }
+        
         VStack{
+            Image("CTlogo2")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 250, height: 250)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .padding()
             Text("COMING SOON")
                 .font(.title)
                 .bold()
+            Text("We promise!")
+                .bold()
+            Text("Sincerely, the CollegeTour team")
+                .font(.caption)
         }
     }
 }
