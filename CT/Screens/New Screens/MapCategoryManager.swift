@@ -35,13 +35,13 @@ struct CategoryButton: ButtonStyle {
 func colorForCategory(_ category: String) -> Color {
     // function to define a color for each location type
     switch category {
-    case "Landmarks":
+    case "Landmark":
         return Color.orange
     case "Dining":
         return Color.black
     case "Athletics":
         return Color.red
-    case "Study Spots":
+    case "Library":
         return Color.blue
     case "Local Area":
         return Color.blue
@@ -58,13 +58,13 @@ func colorForCategory(_ category: String) -> Color {
 func symbolForCategory(_ category: String) -> String {
     // function to define a symbol for each location type
     switch category {
-    case "Landmarks":
+    case "Landmark":
         return "building.columns.fill"
     case "Dining":
         return "fork.knife"
     case "Athletics":
         return "figure.tennis"
-    case "Study Spots":
+    case "Library":
         return "book.fill"
     case "All":
         return "globe"
@@ -93,10 +93,10 @@ struct ExpandedCategorySelect: View {
         VStack {
             if showLandmarksButton {
                 Button("") {
-                    selectedCategory = "Landmarks"
+                    selectedCategory = "Landmark"
                     self.showMenu()
                 }
-                .buttonStyle(CategoryButton(category: "Landmarks"))
+                .buttonStyle(CategoryButton(category: "Landmark"))
             }
             if showAthleticsButton {
                 Button("") {
@@ -114,10 +114,10 @@ struct ExpandedCategorySelect: View {
             }
             if showStudyButton {
                 Button("") {
-                    selectedCategory = "Study Spots"
-                    self.showMenu()        
+                    selectedCategory = "Library"
+                    self.showMenu()
                 }
-                .buttonStyle(CategoryButton(category: "Study Spots"))
+                .buttonStyle(CategoryButton(category: "Library"))
             }
             if showAllButton {
                 Button("") {

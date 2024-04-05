@@ -74,7 +74,7 @@ struct SchoolView: View {
                         .font(.title)
                         .fontWeight(.heavy)
                     
-                    LocationScrollView(college: viewModel.college, topLocations: viewModel.filteredLocations)
+                    LocationScrollView(college: viewModel.college, topLocations: viewModel.featuredLocations)
                     
                     // Navigation Buttons
                     HStack {

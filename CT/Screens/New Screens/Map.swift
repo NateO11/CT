@@ -74,7 +74,7 @@ struct MapView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     // Giving a slight delay might help in ensuring the view is fully loaded before attempting to present the sheet.
                     self.selectedLocation = initialLocation
-                    self.mapSelectionName = initialLocation.name
+                    self.mapSelectionName = initialLocation.id
                     // This forces a re-render, but ensure your logic is sound for setting and using `selectedLocation`.
                 }
             }
@@ -99,7 +99,7 @@ struct MapView: View {
         
         
         .onChange(of: mapSelectionName) { oldValue, newValue in
-            if let selected = viewModel.locations.first(where: { $0.name == newValue }) {
+            if let selected = viewModel.locations.first(where: { $0.id == newValue }) {
                 selectedLocation = selected
             } else {
                 selectedLocation = nil

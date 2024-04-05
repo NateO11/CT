@@ -149,6 +149,6 @@ var sampleColleges: [College] = [
 
 
 var sampleLocations: [Location] = [
-    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/clarkLibrary.jpeg?alt=media&token=81f2a8dc-c47d-4a39-a66d-69f1f06f21e3"),
-    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/rotunda.jpeg?alt=media&token=dea66a98-10b6-4a0c-8b45-618650023cbd")
+    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/clarkLibrary.jpeg?alt=media&token=81f2a8dc-c47d-4a39-a66d-69f1f06f21e3", featured: false),
+    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/rotunda.jpeg?alt=media&token=dea66a98-10b6-4a0c-8b45-618650023cbd", featured: false)
 ]

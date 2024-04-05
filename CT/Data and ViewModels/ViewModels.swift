@@ -102,8 +102,8 @@ class LocationViewModel: ObservableObject {
     func submitReview(rating: Int, title: String, text: String, forLocation locationID: String) {
         let reviewData: [String: Any] = [
             "school": college.name,
-            "location": location.name,
-            // "location" : location.id
+            // "location": location.name,
+            "location" : location.id, 
             "userID": authState?.currentUser?.id ?? "defaultID",
             "rating": rating,
             "title": title,
@@ -111,7 +111,7 @@ class LocationViewModel: ObservableObject {
             "timestamp": Timestamp(date: Date())
         ] // takes review data and timestamp and turns it into a single element
 
-        db.collection("Schools").document(college.id).collection("Locations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
+        db.collection("Schools").document(college.id).collection("NewLocations").document(locationID).collection("reviews").addDocument(data: reviewData) { error in
             if let error = error {
                 print("Error adding review: \(error.localizedDescription)")
             } else {
@@ -146,7 +146,7 @@ class LocationViewModel: ObservableObject {
                 return
             } // error handling if the college doesn't exist for whatever reason
 
-            let locationsRef = collegeDocument.reference.collection("Locations")
+            let locationsRef = collegeDocument.reference.collection("NewLocations")
             let locationQuery = locationsRef.document(locationName)
             // setting up the query for that specific location
             
@@ -204,6 +204,7 @@ class MapViewModel: ObservableObject {
     @Published var infoSocial: [SchoolInfo] = []
     @Published var infoOther: [SchoolInfo] = []
     @Published var filteredLocations: [Location] = []
+    @Published var featuredLocations: [Location] = []
     // establishes blank array for locations and filtered locations, which will be updated when the map appears and is filtered respectively
     
     @Published var mapSelectionName: String?
@@ -225,7 +226,7 @@ class MapViewModel: ObservableObject {
 
     func fetchLocations() {
         print(college.name)
-        db.collection("Schools").document(college.name).collection("Locations")
+        db.collection("Schools").document(college.name).collection("NewLocations")
           .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
                 print("No locations found for college \(self.college.name): \(error?.localizedDescription ?? "")")
@@ -236,12 +237,13 @@ class MapViewModel: ObservableObject {
             self.locations = documents.compactMap { doc -> Location? in
                 // parse the document into a Location object
                 let data = doc.data()
-                // let id = doc.documentID()
-                let id = data["id"] as? String ?? ""
+                let id = doc.documentID
+                // let id = data["id"] as? String ?? ""
                 let name = data["name"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
                 let category = data["category"] as? String ?? ""
                 let imageLink = data["imageURL"] as? String ?? ""
+                let featured = data["featured"] as? Bool ?? false
 
                 // parse the GeoPoint
                 guard let geoPoint = data["coordinate"] as? GeoPoint else {
@@ -253,11 +255,13 @@ class MapViewModel: ObservableObject {
                 // convert the coordinate into the proper format for display on map
 
                 // return a Location object or nil
-                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category, imageLink: imageLink)
+                return Location(id: id, name: name, description: description, coordinate: coordinate, category: category, imageLink: imageLink, featured: featured)
             }
             print("Fetched locations: \(self.locations)")
 
-            self.filteredLocations = self.locations
+              self.filteredLocations = self.locations
+              self.featuredLocations = self.locations.filter { $0.featured == true }
+              
             // sets filtered locations to be all locations as an unfiltered default
         }
     }
