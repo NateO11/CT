@@ -17,18 +17,22 @@ struct CategoryButton: ButtonStyle {
     // possibility to show text below, just a format option
     var dimensions: CGFloat = 33
     func makeBody(configuration: Configuration) -> some View {
-        Image(systemName: symbolForCategory(category))
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.white)
-            .frame(width: dimensions, height: dimensions)
-            .padding()
-            .background(colorForCategory(category))
-            .clipShape(Circle())
-        // generates a view that uses the category's associated symbol and color
-        if showTextBelow == true {
-            Text(category)
+        VStack {
+            Image(systemName: symbolForCategory(category))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.white)
+                .frame(width: dimensions, height: dimensions)
+                .padding()
+                .background(colorForCategory(category))
+                .clipShape(Circle())
+                .shadow(radius: 10)
+            // generates a view that uses the category's associated symbol and color
+            if showTextBelow == true {
+                Text(category)
+            }
         }
+        
     }
 }
 
@@ -43,12 +47,10 @@ func colorForCategory(_ category: String) -> Color {
         return Color.red
     case "Library":
         return Color.blue
-    case "Local Area":
-        return Color.blue
-    case "Stadiums":
-        return Color.blue
-    case "Health":
-        return Color.blue
+    case "School Building":
+        return Color.init(hex: 3556687)
+    case "Dorms":
+        return Color.init(hex: 4251856)
     default:
         return Color.gray
     }
@@ -66,6 +68,10 @@ func symbolForCategory(_ category: String) -> String {
         return "figure.tennis"
     case "Library":
         return "book.fill"
+    case "School Building":
+        return "building.2.fill"
+    case "Dorms":
+        return "house.fill"
     case "All":
         return "globe"
     case "Close":
@@ -87,10 +93,13 @@ struct ExpandedCategorySelect: View {
     @State var showAthleticsButton = false
     @State var showDiningButton = false
     @State var showStudyButton = false
+    @State var showSchoolButton = false
+    @State var showDormButton = false
     @State var showAllButton = false
     
     var body: some View {
-        VStack {
+        VStack(spacing: 5) {
+            
             if showLandmarksButton {
                 Button("") {
                     selectedCategory = "Landmark"
@@ -119,6 +128,20 @@ struct ExpandedCategorySelect: View {
                 }
                 .buttonStyle(CategoryButton(category: "Library"))
             }
+            if showDormButton {
+                Button("") {
+                    selectedCategory = "Dorms"
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: "Dorms"))
+            }
+            if showSchoolButton {
+                Button("") {
+                    selectedCategory = "School Building"
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: "School Building"))
+            }
             if showAllButton {
                 Button("") {
                     selectedCategory = "All"
@@ -143,6 +166,8 @@ struct ExpandedCategorySelect: View {
             showAthleticsButton.toggle()
             showDiningButton.toggle()
             showStudyButton.toggle()
+            showDormButton.toggle()
+            showSchoolButton.toggle()
             showAllButton.toggle()
         }
         
