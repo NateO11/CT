@@ -45,12 +45,50 @@ struct MapView: View {
         
         Map(selection: $mapSelectionName) {
             ForEach(viewModel.filteredLocations, id: \.id) { location in
-                Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
-                    .tint(colorForCategory(location.category))
+                //Marker(location.name, systemImage: symbolForCategory(location.category), coordinate: location.coordinate)
+                  //  .tint(colorForCategory(location.category))
+                Annotation(coordinate: location.coordinate, anchor: .bottom) {
+                    VStack {
+                        ZStack {
+                            Circle()
+                                .fill(.white)
+                                .stroke(colorForCategory(location.category), lineWidth: 3)
+                                .frame(width: 30, height: 30)
+                            Image(systemName: symbolForCategory(location.category))
+                                .foregroundStyle(colorForCategory(location.category))
+                        }
+                        Image(systemName: "triangle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(colorForCategory(location.category))
+                            .frame(width: 10, height: 10)
+                            .rotationEffect(Angle(degrees: 180))
+                            .offset(y:-6)
+                        
+                    }
+                    
+                    .scaleEffect(location.id == mapSelectionName ? 1.3 : 0.9, anchor: .bottom)
+                    .animation(.easeInOut(duration: 0.2), value: mapSelectionName)
+                    
+                        //.scaleEffect(selectedLocation == location ? 1: 0.7)
+                        //.shadow(radius: 10)
+                } label: {
+                    Text(location.name)
+                }
+                
+
             }
         } // creates a marker at each location, using the symbol/color for associated category
         
         .mapStyle(.standard(pointsOfInterest: [])) // sets map style to show no generated locations
+        .mapControls{
+            MapPitchToggle()
+                .buttonBorderShape(.circle)
+                .padding()
+            MapCompass()
+                .buttonBorderShape(.circle)
+                .padding()
+        }
         /* .mapControls {
          MapCompass()
          .buttonBorderShape(.circle)
@@ -98,6 +136,19 @@ struct MapView: View {
                     .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.35)))
                     .presentationDragIndicator(.visible)
                     .ignoresSafeArea()
+                    .overlay(alignment: .topTrailing) {
+                        Button {
+                            clearSelection()
+                        } label: {
+                            Image(systemName: "xmark.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundStyle(.black)
+                                .frame(width: 30, height: 30)
+                                .padding(.trailing, 15)
+                                .padding(.top, 25)
+                        }
+                    }
                 
             }
             
@@ -106,17 +157,29 @@ struct MapView: View {
         
         
         .onChange(of: mapSelectionName) { oldValue, newValue in
+            print("values!")
+            print(oldValue)
+            print(newValue)
             if let newLocation = viewModel.locations.first(where: { $0.id == newValue }) {
                 if isSheetPresented {
                     // Update the content of the sheet without dismissing it.
-                    selectedLocation = newLocation
+                    withAnimation {
+                        selectedLocation = newLocation
+                    }
+                    
                 } else {
                     // Present the sheet with the new content.
-                    selectedLocation = newLocation
-                    isSheetPresented = true
+                    withAnimation {
+                        selectedLocation = newLocation
+                        isSheetPresented = true
+                    }
+                    
                 }
             } else {
-                isSheetPresented = false
+                withAnimation {
+                    isSheetPresented = false
+                }
+                
             }
         }
 // deselects location when the sheet info view is closed
