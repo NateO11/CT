@@ -30,11 +30,14 @@ struct LocationTestingView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .lineLimit(2)
+                        .padding(.trailing, 10)
                     Spacer()
-                    StarRating(rating: averageRating, maxRating: 5).font(.title2)
                     
-                }.padding(.bottom, 10)
-                
+                    
+                    
+
+                }
+                StarRating(rating: averageRating, maxRating: 5).font(.title3).padding(.bottom, 5)
                 HStack {
                     Text("\(viewModel.college.name) - \(viewModel.location.category)")
                         .font(.callout)
@@ -87,6 +90,9 @@ struct LocationTestingView: View {
                 viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
             }
             .onChange(of: displaySheet) { oldValue, newValue in
+                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
+            }
+            .onChange(of: viewModel.location.id) { oldValue, newValue in
                 viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
             }
         }.padding(20)

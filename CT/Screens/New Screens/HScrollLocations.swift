@@ -99,14 +99,25 @@ struct LocationScrollView: View {
             
             VStack(alignment: .leading, spacing: 4, content: {
                 Spacer()
-                Text(location.name)
-                    .font(.title2)
-                    .multilineTextAlignment(.leading)
-                    .fontWeight(.black)
-                    .foregroundStyle(.white)
-                Text(location.category)
-                    .font(.callout)
-                    .foregroundStyle(.white.opacity(0.8))
+                HStack(alignment: .bottom ) {
+                    VStack(alignment: .leading) {
+                        Text(location.name)
+                            .font(.title2)
+                            .multilineTextAlignment(.leading)
+                            .fontWeight(.black)
+                            .foregroundStyle(.white)
+                        Text(location.category)
+                            .font(.callout)
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.bottom, 10)
+                }
+                
             })
             .padding(20)
         })
