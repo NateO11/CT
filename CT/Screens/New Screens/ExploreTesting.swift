@@ -40,7 +40,7 @@ struct ExploreView: View {
                                 LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
                                 SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
                                 LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
-                                Text("Contact us at CollegeTour@gmail.com")
+                                Text("Contact us at CollegeTourApp@gmail.com")
                                     .font(.caption2)
                                     .fontWeight(.thin)
                                     .padding(.top, 10)

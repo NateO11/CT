@@ -40,6 +40,7 @@ class AuthViewModel: ObservableObject {
             print("Failed to Create user error \(error.localizedDescription)")
             return error.localizedDescription
         }
+        Analytics.logEvent("Sign In", parameters: nil)
         return ""
     }
     
@@ -55,6 +56,7 @@ class AuthViewModel: ObservableObject {
             print("Failed to Create user error \(error.localizedDescription)")
             return error.localizedDescription
         }
+        Analytics.logEvent("Sign Up", parameters: nil)
         return ""
     }
     

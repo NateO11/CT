@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import Firebase
 
 
 struct ForumView: View {
@@ -119,6 +120,7 @@ struct NewForumReviewView: View {
                 Button("Submit") {
                     if titleText != "" && reviewText != "" && rating != -1 {
                         onSubmit(rating + 1, titleText, reviewText)
+                        Analytics.logEvent("Review", parameters: ["user": authState.currentUser?.fullname ?? "nil","title": titleText,"text": reviewText])
                         isPresented = false
                     } else {
                         showAlert = true
