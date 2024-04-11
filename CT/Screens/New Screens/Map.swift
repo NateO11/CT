@@ -32,6 +32,7 @@ struct MapView: View {
     @State private var initialSelectedLocation: Location? = nil
     @State private var mapSelectionName: String? = nil
     @State private var selectedLocation: Location? = nil
+    @State private var isSheetPresented = false
 //    @State private var cameraPosition: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 38.03656936011733, longitude: -78.50271085255682), latitudinalMeters: 1000, longitudinalMeters: 1000))
     // variables used to update which location is currently selected
     
@@ -66,6 +67,7 @@ struct MapView: View {
         .navigationTitle("\(viewModel.college.name) - \(selectedCategory)")
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $searchText, isPresented: $showSearch)
+        .autocorrectionDisabled()
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         
         .onAppear {
@@ -87,24 +89,37 @@ struct MapView: View {
         .onChange(of: searchText) { oldCategory, newCategory in
             viewModel.searchLocations(with: searchText)
         }
-        .sheet(item: $selectedLocation, onDismiss: clearSelection) { location in
-            LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
-                .presentationDetents([.fraction(0.15),.medium,.fraction(0.99)])
-                .presentationDragIndicator(.visible)
-                .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
-                .ignoresSafeArea()
+        .sheet(isPresented: $isSheetPresented, onDismiss: clearSelection) {
+            if let location = selectedLocation {
+                LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
+                // Your existing modifiers here.
+                    .presentationDetents([.fraction(0.35),.medium,.fraction(0.99)])
+                
+                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.35)))
+                    .presentationDragIndicator(.visible)
+                    .ignoresSafeArea()
+                
+            }
             
         } // displays small sheet with basic information about location, user can then expand
         
         
         
         .onChange(of: mapSelectionName) { oldValue, newValue in
-            if let selected = viewModel.locations.first(where: { $0.id == newValue }) {
-                selectedLocation = selected
+            if let newLocation = viewModel.locations.first(where: { $0.id == newValue }) {
+                if isSheetPresented {
+                    // Update the content of the sheet without dismissing it.
+                    selectedLocation = newLocation
+                } else {
+                    // Present the sheet with the new content.
+                    selectedLocation = newLocation
+                    isSheetPresented = true
+                }
             } else {
-                selectedLocation = nil
+                isSheetPresented = false
             }
-        }// deselects location when the sheet info view is closed
+        }
+// deselects location when the sheet info view is closed
     }
     func clearSelection() {
         withAnimation {

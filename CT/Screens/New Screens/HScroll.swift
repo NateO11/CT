@@ -140,14 +140,25 @@ struct AvailableOverlay: View {
             VStack(alignment: .leading, spacing: 4, content: {
 
                 Spacer()
-                Text(college.name)
-                    .font(.title2)
-                    .multilineTextAlignment(.leading)
-                    .fontWeight(.black)
-                    .foregroundStyle(.white)
-                Text(college.city)
-                    .font(.callout)
-                    .foregroundStyle(.white.opacity(0.8))
+                HStack(alignment: .bottom) {
+                    VStack(alignment: .leading) {                        Text(college.name)
+                            .font(.title2)
+                            .multilineTextAlignment(.leading)
+                            .fontWeight(.black)
+                            .foregroundStyle(.white)
+                        Text(college.city)
+                            .font(.callout)
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.bottom, 10)
+                    
+                }
+                
             })
             .padding(20)
         }
