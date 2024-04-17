@@ -28,31 +28,31 @@ struct SchoolView: View {
                             .frame(width: 300, height: 200)
                             .cornerRadius(8)
                             .shadow(radius: 10)
-                            .overlay {
-                                Image(systemName: "star.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundStyle(starred == true ? LinearGradient(colors: [.blue.opacity(0.7), .blue], startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
-                                    .frame(width: 25,height: 25)
-                                    .padding()
-                                    .background(Color.white)
-                                    .clipShape(Circle())
-                                    .offset(x:140, y:-90)
-                                    .shadow(radius: 10)
-                                    .onTapGesture {
-                                        if starred {
-                                            authState.removeUserFavorites(school: viewModel.college.name)
-                                            withAnimation {
-                                                starred.toggle()
-                                            }
-                                        } else {
-                                            authState.addUserFavorites(school: viewModel.college.name)
-                                            withAnimation {
-                                                starred.toggle()
-                                            }
-                                        }
-                                    }
-                            }
+//                            .overlay {
+//                                Image(systemName: "star.fill")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .foregroundStyle(starred == true ? LinearGradient(colors: [.blue.opacity(0.7), .blue], startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
+//                                    .frame(width: 25,height: 25)
+//                                    .padding()
+//                                    .background(Color.white)
+//                                    .clipShape(Circle())
+//                                    .offset(x:140, y:-90)
+//                                    .shadow(radius: 10)
+//                                    .onTapGesture {
+//                                        if starred {
+//                                            authState.removeUserFavorites(school: viewModel.college.name)
+//                                            withAnimation {
+//                                                starred.toggle()
+//                                            }
+//                                        } else {
+//                                            authState.addUserFavorites(school: viewModel.college.name)
+//                                            withAnimation {
+//                                                starred.toggle()
+//                                            }
+//                                        }
+//                                    }
+//                            }
                         Spacer()
                     }
                     
@@ -149,13 +149,13 @@ struct SchoolDisclosures: View {
                     NavigationLink(destination: ForumView(viewModel: ForumViewModel(college: college, info: item, authState: authState))) {
                         VStack(alignment: .center) {
                             Text("Read reviews")
-                                .foregroundColor(.white)
+                                .foregroundColor(Color("UniversalBG"))
                                 .bold()
                                 .fontWeight(.heavy)
                         }
                     }
                     .frame(width: 160, height: 40)
-                    .background(Color.black)
+                    .background(Color("UniversalFG"))
                     .cornerRadius(40)
                     .padding()
                     
@@ -164,8 +164,8 @@ struct SchoolDisclosures: View {
                         Text(item.category).font(.headline)
                         Spacer()
                     }
-                }.tint(.black).padding()
-            }.background(.black.opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                }.tint(Color("UniversalFG")).padding()
+            }.background(Color("UniversalFG").opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         }.padding(.bottom, 20)
     }
 }

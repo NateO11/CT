@@ -33,13 +33,13 @@ struct ExploreView: View {
                             
                             VStack {
                                 // I want this first Hstack to be reserved for favorites
-                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Favorite schools").environmentObject(authState)
+                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Virginia schools").environmentObject(authState)
                                 //
                                 LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself...")
-                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Featured schools").environmentObject(authState)
-                                LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
-                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
-                                LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
+//                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Featured schools").environmentObject(authState)
+//                                LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
+//                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
+//                                LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
                                 Text("Contact us at CollegeTourApp@gmail.com")
                                     .font(.caption2)
                                     .fontWeight(.thin)
@@ -136,8 +136,8 @@ struct ExploreView: View {
 
             }
             HStack(spacing: 15) {
-                // NavigationLink(destination: EditProfileView()) {
-                NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
+                NavigationLink(destination: EditProfileView()) {
+                //NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)
@@ -258,9 +258,9 @@ struct SearchResultsTestView: View {
                             Image(systemName: "chevron.right")
                                 .font(.title)
                         }
-                        .tint(.black)
+                        .tint(Color("UniversalFG"))
                         .padding(20)
-                        .background(Color.black.opacity(0.15))
+                        .background(Color("UniversalFG").opacity(0.15))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         .padding(.horizontal, 10)
                         
@@ -280,9 +280,9 @@ struct SearchResultsTestView: View {
                             Image(systemName: "chevron.right")
                                 .font(.title)
                         }
-                        .tint(.black)
+                        .tint(Color("UniversalFG"))
                         .padding(20)
-                        .background(Color.black.opacity(0.05))
+                        .background(Color("UniversalFG").opacity(0.15))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         .padding(.horizontal, 10)
                     }

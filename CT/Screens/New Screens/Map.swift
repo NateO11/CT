@@ -143,7 +143,7 @@ struct MapView: View {
                             Image(systemName: "xmark.circle")
                                 .resizable()
                                 .scaledToFit()
-                                .foregroundStyle(.black)
+                                .foregroundStyle(Color("UniversalFG"))
                                 .frame(width: 30, height: 30)
                                 .padding(.trailing, 15)
                                 .padding(.top, 25)
@@ -154,40 +154,37 @@ struct MapView: View {
             
         } // displays small sheet with basic information about location, user can then expand
         
-        
-        
-        .onChange(of: mapSelectionName) { oldValue, newValue in
+        .onChange(of: selectedLocation?.id) { oldValue, newValue in
             print("values!")
             print(oldValue)
             print(newValue)
+            if newValue == nil {
+                isSheetPresented = false
+            } else {
+                isSheetPresented = true
+            }
+            
+        }
+        
+        .onChange(of: mapSelectionName) { oldValue, newValue in
+            
             if let newLocation = viewModel.locations.first(where: { $0.id == newValue }) {
-                if isSheetPresented {
-                    // Update the content of the sheet without dismissing it.
-                    withAnimation {
-                        selectedLocation = newLocation
-                    }
-                    
-                } else {
-                    // Present the sheet with the new content.
-                    withAnimation {
-                        selectedLocation = newLocation
-                        isSheetPresented = true
-                    }
+                
+                withAnimation {
+                    selectedLocation = newLocation
                     
                 }
             } else {
-                withAnimation {
-                    isSheetPresented = false
-                }
-                
+                selectedLocation = nil
             }
+
         }
 // deselects location when the sheet info view is closed
     }
     func clearSelection() {
         withAnimation {
-            self.selectedLocation = nil
-            self.mapSelectionName = nil
+            selectedLocation = nil
+            mapSelectionName = nil
         }
         
     }
@@ -259,7 +256,7 @@ struct MapSchoolScrollView: View {
                                             .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
                                         
                                     })
-                                    .frame(width: size.width - 120, height: size.height - 30)
+                                    .frame(width: size.width - 120, height: size.height - 10)
                                     .scrollTransition(.interactive, axis: .horizontal) {
                                         view, phase in
                                         view
@@ -304,6 +301,7 @@ struct MapSchoolScrollView: View {
                     .frame(height: size.height, alignment: .top)
                     
                 }
+                .scrollDisabled(true)
                 .scrollPosition(id: $selectedSchoolName)
                 .scrollTargetBehavior(.viewAligned)
                 .scrollIndicators(.hidden)

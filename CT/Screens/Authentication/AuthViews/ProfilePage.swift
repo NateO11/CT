@@ -41,22 +41,22 @@ struct ProfilePage: View {
                             }
                         }
                     }
-                    Section("My Schools"){
-                        if user.favorites.isEmpty {
-                            Text("Add schools to favorites!")
-                        } else {
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 25) {
-                                    ForEach(user.favorites, id: \.self) { school in
-                                        Text(school)
-                                        
-                                    }
-                                }
-                                .padding(10) // Add padding to the HStack if needed
-                            }
-                        }
-                        
-                    }
+//                    Section("My Schools"){
+//                        if user.favorites.isEmpty {
+//                            Text("Add schools to favorites!")
+//                        } else {
+//                            ScrollView(.horizontal, showsIndicators: false) {
+//                                HStack(spacing: 25) {
+//                                    ForEach(user.favorites, id: \.self) { school in
+//                                        Text(school)
+//                                        
+//                                    }
+//                                }
+//                                .padding(10) // Add padding to the HStack if needed
+//                            }
+//                        }
+//                        
+//                    }
                     Section("My Reviews"){
                         if (viewModel.currentUser!.reviews.isEmpty) {
                             Text("Write some reviews")
@@ -82,7 +82,7 @@ struct ProfilePage: View {
                         }
                     label: {
                         Text("Edit Profile")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("UniversalFG"))
                     }
                         
                         

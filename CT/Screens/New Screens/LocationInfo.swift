@@ -60,8 +60,8 @@ struct LocationTestingView: View {
                         displaySheet.toggle()
                     }
                     .frame(width: 160, height: 40)
-                    .background(Color.black)
-                    .foregroundColor(.white)
+                    .background(Color("UniversalFG"))
+                    .foregroundColor(Color("UniversalBG"))
                     .bold()
                     .fontWeight(.heavy)
                     .cornerRadius(40)

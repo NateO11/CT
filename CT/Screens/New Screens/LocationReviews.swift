@@ -35,17 +35,17 @@ struct IndividualReviewView: View {
                     .clipShape(Circle())
                     .background {
                         Circle()
-                            .fill(.black)
+                            .fill(Color("UniversalFG"))
                             .padding(-2)
                     }
                 
                 VStack(alignment: .leading) {
                     Text("\(review.userID)")
                         .font(.subheadline)
-                        .foregroundColor(.black)
+                        .foregroundColor(Color("UniversalFG"))
                     Text("\(formattedDate(review.timestamp))")
                         .font(.caption2)
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color("UniversalFG").opacity(0.7))
                 }
                 Spacer()
                 
@@ -74,14 +74,14 @@ struct IndividualReviewView: View {
             Text("\(review.title)")
                 .font(.headline)
                 .bold()
-                .foregroundColor(.black)
+                .foregroundColor(Color("UniversalFG"))
 
             
             // calls a function to format the date properly for display
 
             Text(review.text)
                 .font(.callout)
-                .foregroundColor(.black)
+                .foregroundColor(Color("UniversalFG"))
             // logic to expand the review is not integrated right now but could be down the line
 
         }

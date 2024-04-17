@@ -121,10 +121,10 @@ struct StyledButtonDark<Destination: View>: View {
         NavigationLink(destination: destination) {
             HStack(alignment: .center) {
                 Image(systemName: icon)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("UniversalBG"))
                     .bold()
                 Text(title)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("UniversalBG"))
                     .padding(.leading, 5)
                     .bold()
                     .fontWeight(.heavy)
@@ -133,7 +133,7 @@ struct StyledButtonDark<Destination: View>: View {
             .padding(.leading)
         }
         .frame(width: 180, height: 60)
-        .background(Color.black)
+        .background(Color("UniversalFG"))
         .cornerRadius(40)
     }
 }
