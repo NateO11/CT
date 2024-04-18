@@ -23,89 +23,94 @@ struct LocationTestingView: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            LazyVStack(alignment: .leading) {
-                HStack {
-                    Text(viewModel.location.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .lineLimit(2)
-                        .padding(.trailing, 10)
-                    Spacer()
+        VStack {
+            HStack {
+                Text(viewModel.location.name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .lineLimit(2)
+                
+                    
+                Spacer()
+                
+            }
+            .padding(.leading, 20)
+            .padding(.trailing, 100)
+            .padding(.top, 20)
+            .padding(.bottom, -10)
+            ScrollView(showsIndicators: false) {
+                LazyVStack(alignment: .leading) {
+                    
+                    StarRating(rating: averageRating, maxRating: 5).font(.title3).padding(.bottom, 5)
+                    HStack {
+                        Text("\(viewModel.college.name) - \(viewModel.location.category)")
+                            .font(.callout)
+                    }.padding(.bottom, 5)
+                    
+                    Text(viewModel.location.description.isEmpty ? viewModel.college.description : viewModel.location.description)
+                        .font(.caption)
+                        .fontWeight(.light)
+                    
+                    LocationImageScrollView(college: viewModel.college, location: viewModel.location)
+                        .padding(.horizontal, -20)
                     
                     
-                    
-
-                }
-                StarRating(rating: averageRating, maxRating: 5).font(.title3).padding(.bottom, 5)
-                HStack {
-                    Text("\(viewModel.college.name) - \(viewModel.location.category)")
-                        .font(.callout)
-                }.padding(.bottom, 5)
-                
-                Text(viewModel.location.description.isEmpty ? viewModel.college.description : viewModel.location.description)
-                    .font(.caption)
-                    .fontWeight(.light)
-                
-                LocationImageScrollView(college: viewModel.college, location: viewModel.location)
-                    .padding(.horizontal, -20)
-                
-                
-                HStack {
-                    Text("Reviews")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    Spacer()
-                    Button("Write a Review") {
-                        displaySheet.toggle()
+                    HStack {
+                        Text("Reviews")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Button("Write a Review") {
+                            displaySheet.toggle()
+                        }
+                        .frame(width: 160, height: 40)
+                        .background(Color("UniversalFG"))
+                        .foregroundColor(Color("UniversalBG"))
+                        .bold()
+                        .fontWeight(.heavy)
+                        .cornerRadius(40)
+                        .shadow(radius: 10)
                     }
-                    .frame(width: 160, height: 40)
-                    .background(Color("UniversalFG"))
-                    .foregroundColor(Color("UniversalBG"))
-                    .bold()
-                    .fontWeight(.heavy)
-                    .cornerRadius(40)
-                    .shadow(radius: 10)
-                }
-                
-                
-                
-                
-                VStack(alignment: .leading) {
-                    // if no reviews are in firestore, a single text line is displayed instead of an empty list where reviews otherwise would be
-                    if viewModel.reviews.isEmpty {
-                        Text("Be the first to review this location")
-                    } else {
+                    
+                    
+                    
+                    
+                    VStack(alignment: .leading) {
+                        // if no reviews are in firestore, a single text line is displayed instead of an empty list where reviews otherwise would be
+                        if viewModel.reviews.isEmpty {
+                            Text("Be the first to review this location")
+                        } else {
                             ForEach(viewModel.reviews, id: \.text) { review in
                                 let firstChar = Array(review.userID)[0]
                                 IndividualReviewView(review: review, firstChar: String(firstChar).uppercased())
                             } // uses individual review view for consistent formatting throughout
-                        
+                            
+                        }
                     }
+                    
+                    
                 }
-                
-                
-            }
-            .onAppear {
-                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
-            }
-            .onChange(of: displaySheet) { oldValue, newValue in
-                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
-            }
-            .onChange(of: viewModel.location.id) { oldValue, newValue in
-                viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
-            }
-        }.padding(20)
-        
-            .sheet(isPresented: $displaySheet) {
-                NewReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $displaySheet) { rating, title, text in
-                    viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+                .onAppear {
+                    viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
                 }
-                .presentationDetents([.fraction(0.4)])
-            }
+                .onChange(of: displaySheet) { oldValue, newValue in
+                    viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
+                }
+                .onChange(of: viewModel.location.id) { oldValue, newValue in
+                    viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationName: viewModel.location.id)
+                }
+            }.padding(20)
+            
+                .sheet(isPresented: $displaySheet) {
+                    NewReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $displaySheet) { rating, title, text in
+                        viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+                    }
+                    .presentationDetents([.fraction(0.4)])
+                }
             
             
-        
+            
+        }
     }
 }
 
