@@ -143,17 +143,33 @@ struct NewForumReviewView: View {
             }
             .padding(.bottom,5)
             Rectangle()
-                .fill(.black.opacity(0.3))
+                .fill(Color("UniversalFG").opacity(0.3))
                 .frame(height: 1)
-            TextField("Title", text: $titleText)
+            TextField("Title your review", text: $titleText)
                 .textFieldStyle(.automatic)
                 .font(.title2)
             Rectangle()
-                .fill(.black.opacity(0.3))
+                .fill(Color("UniversalFG").opacity(0.3))
                 .frame(height: 1)
-            TextField("Review", text: $reviewText)
-                .textFieldStyle(.automatic)
-                .font(.title2)
+            ZStack(alignment: .leading) {
+                if reviewText == "" {
+                    VStack {
+                        Text("Share your thoughts!")
+                            .textFieldStyle(.automatic)
+                            .font(.title2)
+                            .foregroundStyle(Color("UniversalFG"))
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 5)
+                        Spacer()
+                    }
+                    
+                }
+                TextEditor(text: $reviewText)
+                    .textFieldStyle(.automatic)
+                    .font(.title2)
+                    .opacity(reviewText == "" ? 0.8 : 1)
+            }.padding(.leading, -4)
+            
             Spacer()
             
         }
