@@ -20,41 +20,13 @@ struct SchoolView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Spacer().frame(height: 70)
                     
-                    HStack {
-                        Spacer()
-                        Image(viewModel.college.image)
+                    
+                    Image(viewModel.college.image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 300, height: 200)
+                            .frame(width: 350, height: 200)
                             .cornerRadius(8)
                             .shadow(radius: 10)
-//                            .overlay {
-//                                Image(systemName: "star.fill")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .foregroundStyle(starred == true ? LinearGradient(colors: [.blue.opacity(0.7), .blue], startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
-//                                    .frame(width: 25,height: 25)
-//                                    .padding()
-//                                    .background(Color.white)
-//                                    .clipShape(Circle())
-//                                    .offset(x:140, y:-90)
-//                                    .shadow(radius: 10)
-//                                    .onTapGesture {
-//                                        if starred {
-//                                            authState.removeUserFavorites(school: viewModel.college.name)
-//                                            withAnimation {
-//                                                starred.toggle()
-//                                            }
-//                                        } else {
-//                                            authState.addUserFavorites(school: viewModel.college.name)
-//                                            withAnimation {
-//                                                starred.toggle()
-//                                            }
-//                                        }
-//                                    }
-//                            }
-                        Spacer()
-                    }
                     
                     // School Information
                     Text(viewModel.college.name)

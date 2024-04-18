@@ -15,6 +15,7 @@ struct LargeImageSection: View {
     let imageName: String
     let title: String
     let description: String
+    let buttonText: String
 
     var body: some View {
         ZStack {
@@ -32,21 +33,21 @@ struct LargeImageSection: View {
                     .font(.largeTitle)
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
-                HStack(spacing: 10) {
+                HStack(spacing: 5) {
                     Text(description)
                         .font(.headline)
                         .foregroundColor(.white)
-                    HStack {
+               
                         Spacer()
                         NavigationLink(destination: EditProfileView()) {
-                            Text("View Schools")
+                            Text(buttonText)
                                 .foregroundColor(.black)
                                 .padding()
                                 .bold()
                                 .background(Color.white)
                                 .cornerRadius(30)
                         }
-                    }
+                    
                 }
             }
             .padding()

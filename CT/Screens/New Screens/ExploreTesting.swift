@@ -35,7 +35,8 @@ struct ExploreView: View {
                                 // I want this first Hstack to be reserved for favorites
                                 SchoolScrollView(colleges: viewModel.colleges, titleText: "Virginia schools").environmentObject(authState)
                                 //
-                                LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself...")
+                                LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself", buttonText: "View Schools")
+                                LargeImageSection(imageName: "stockimage3", title: "Our purpose", description: "We want to help you learn about colleges", buttonText: "About Us")
 //                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Featured schools").environmentObject(authState)
 //                                LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
 //                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
