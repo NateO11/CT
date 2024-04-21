@@ -48,8 +48,12 @@ struct Review: Codable {
     let text: String
     let rating: Int
     let userID: String
+    let userName: String
+    let userInitials: String
     let title: String
     let timestamp: Date
+    let locationName: String
+    let schoolName: String
 }
 
 struct User: Identifiable, Codable {

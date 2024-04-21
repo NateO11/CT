@@ -16,33 +16,35 @@ import MapKit
 struct IndividualReviewView: View {
     let review: Review
     let firstChar: String
+    let isProfilePage: Bool
     // logic to show/hide lines of a really long review, but not really using this right now
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                /* ZStack {
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 35, height: 35)
-                    Text(String(firstChar).uppercased())
-                        .foregroundStyle(Color.white)
-                } */ // results in what looks like a user icon of sorts ... i want to create a system for this that has an associated color for every user or maybe allows profile pictures ... probably a v2 thing
-                Image("UVA")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 40, height: 40)
+                Text(review.userInitials)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(width: 40,height: 40)
+                    .background(Color(.systemGray3))
                     .clipShape(Circle())
                     .background {
                         Circle()
-                            .fill(Color("UniversalFG"))
+                            .fill(.white)
                             .padding(-2)
                     }
                 
                 VStack(alignment: .leading) {
-                    Text("\(review.userID)")
-                        .font(.subheadline)
-                        .foregroundColor(Color("UniversalFG"))
+                    if isProfilePage {
+                        Text("\(review.schoolName) - \(review.locationName)")
+                            .font(.subheadline)
+                            .foregroundColor(Color("UniversalFG"))
+                    } else {
+                        Text("\(review.userName)")
+                            .font(.subheadline)
+                            .foregroundColor(Color("UniversalFG"))
+                    }
                     Text("\(formattedDate(review.timestamp))")
                         .font(.caption2)
                         .foregroundColor(Color("UniversalFG").opacity(0.7))
@@ -70,31 +72,65 @@ struct IndividualReviewView: View {
             
             
             .padding(.vertical, 1)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("\(review.title)")
+                        .font(.headline)
+                        .bold()
+                        .foregroundColor(Color("UniversalFG"))
 
-            Text("\(review.title)")
-                .font(.headline)
-                .bold()
-                .foregroundColor(Color("UniversalFG"))
+                    
+                    // calls a function to format the date properly for display
+
+                    Text(review.text)
+                        .font(.callout)
+                        .foregroundColor(Color("UniversalFG"))
+                    // logic to expand the review is not integrated right now but could be down the line
+
+                }
+                Spacer()
+                if isProfilePage == false {
+                    VStack {
+                        Spacer()
+                        Menu {
+                            Button {
+                                reportReview(userID: review.userID)
+                            } label: {
+                                HStack(spacing: 5) {
+                                    Image(systemName: "exclamationmark.bubble")
+                                    Text("Report Comment")
+                                }.tint(.red)
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .font(.title)
+                                .foregroundColor(Color("UniversalFG"))
+                        }
+                    }
+                }
+            }
 
             
-            // calls a function to format the date properly for display
-
-            Text(review.text)
-                .font(.callout)
-                .foregroundColor(Color("UniversalFG"))
-            // logic to expand the review is not integrated right now but could be down the line
-
         }
         .padding()
-        /* HStack {
-            Spacer()
-            Rectangle()
-                .fill(.black.opacity(0.7))
-                .frame(width: 250, height: 2)
-            Spacer()
-        } */
         
     }
+    private func reportReview(userID: String) {
+        let db = Firestore.firestore()
+        let usersRef = db.collection("Users").document(userID)
+        
+        usersRef.updateData([
+                "reports": FieldValue.increment(Int64(1))
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("Document successfully updated")
+                }
+            }
+    }
+    
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"
