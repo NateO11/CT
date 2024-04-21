@@ -135,7 +135,7 @@ class AuthViewModel: ObservableObject {
 
             DispatchQueue.main.async {
                 // I dont totally understand the underlying logic here, but this essentially ensures the function is executed on the main thread and data is loaded at the proper time
-                print("Fetched reviews: \(self.currentUser?.reviews ?? [])")
+                print("Fetched reviews for user: \(self.currentUser?.reviews ?? [])")
             }
         }
     }

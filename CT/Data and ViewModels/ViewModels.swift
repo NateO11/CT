@@ -129,8 +129,8 @@ class LocationViewModel: ObservableObject {
     }
     
     // function to fetch reviews for the selected location, which will eventually be displayed on the location expanded review page
-    func fetchReviewsForLocation(collegeName: String, locationName: String) {
-        // use locationID instead of locationName 
+    func fetchReviewsForLocation(collegeName: String, locationID: String) {
+        // use locationID instead of locationName
         let db = Firestore.firestore()
         let schoolsRef = db.collection("Schools")
         let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
@@ -148,7 +148,7 @@ class LocationViewModel: ObservableObject {
             } // error handling if the college doesn't exist for whatever reason
 
             let locationsRef = collegeDocument.reference.collection("NewLocations")
-            let locationQuery = locationsRef.document(locationName)
+            let locationQuery = locationsRef.document(locationID)
             // setting up the query for that specific location
             
             locationQuery.getDocument { (locationDocument, locationError) in
@@ -192,7 +192,7 @@ class LocationViewModel: ObservableObject {
 
                     DispatchQueue.main.async {
                         // I dont totally understand the underlying logic here, but this essentially ensures the function is executed on the main thread and data is loaded at the proper time
-                        print("Fetched reviews: \(self.reviews)")
+                        print("Fetched reviews for \(locationID): \(self.reviews.count)")
                     }
                 }
             }
@@ -231,7 +231,7 @@ class MapViewModel: ObservableObject {
     // minor function that pulls firestore data (geopoint) and converts it into the type of object needed for map interpretation (CLLcoords)
 
     func fetchLocations() {
-        print(college.name)
+        print("Fetching locations for \(college.name)")
         db.collection("Schools").document(college.name).collection("NewLocations")
           .addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
@@ -263,7 +263,7 @@ class MapViewModel: ObservableObject {
                 // return a Location object or nil
                 return Location(id: id, name: name, description: description, coordinate: coordinate, category: category, imageLink: imageLink, featured: featured)
             }
-            print("Fetched locations: \(self.locations)")
+              print("Fetched locations: \(self.locations.count)")
 
               self.filteredLocations = self.locations
               self.featuredLocations = self.locations.filter { $0.featured == true }
@@ -274,7 +274,7 @@ class MapViewModel: ObservableObject {
     
     func fetchInfo(classification: String) {
         
-        print(college.name)
+        print("Fetching \(classification) info for \(college.name)")
         db.collection("Schools").document(college.name).collection("Info")
           .whereField("classification", isEqualTo: classification)
           .addSnapshotListener { querySnapshot, error in
@@ -300,16 +300,16 @@ class MapViewModel: ObservableObject {
               switch classification {
               case "Academic":
                   self.infoAcademic = fetchedInfo
-                  print("Fetched Academic Info: \(self.infoAcademic)")
+                  print("Fetched Academic Info: \(self.infoAcademic.count)")
               case "Social":
                   self.infoSocial = fetchedInfo
-                  print("Fetched Social Info: \(self.infoSocial)")
+                  print("Fetched Social Info: \(self.infoSocial.count)")
               case "Other":
                   self.infoOther = fetchedInfo
-                  print("Fetched Other Info: \(self.infoOther)")
+                  print("Fetched Other Info: \(self.infoOther.count)")
               default:
                   self.info = fetchedInfo
-                  print("Fetched All Info: \(self.info)")
+                  print("Fetched All Info: \(self.info.count)")
               }
           
 
@@ -461,7 +461,7 @@ class ForumViewModel: ObservableObject {
 
                     DispatchQueue.main.async {
                         // I dont totally understand the underlying logic here, but this essentially ensures the function is executed on the main thread and data is loaded at the proper time
-                        print("Fetched reviews: \(self.reviews)")
+                        print("Fetched reviews for \(infoName): \(self.reviews)")
                     }
                 }
             }

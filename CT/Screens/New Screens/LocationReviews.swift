@@ -129,6 +129,7 @@ struct IndividualReviewView: View {
                     print("Document successfully updated")
                 }
             }
+        print("Reported user \(userID)")
     }
     
     private func formattedDate(_ date: Date) -> String {

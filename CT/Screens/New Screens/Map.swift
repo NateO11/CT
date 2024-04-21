@@ -90,14 +90,6 @@ struct MapView: View {
                 .buttonBorderShape(.circle)
                 .padding()
         }
-        /* .mapControls {
-         MapCompass()
-         .buttonBorderShape(.circle)
-         .padding()
-         MapUserLocationButton()
-         .buttonBorderShape(.circle)
-         .padding()
-         } */ // native map buttons to help user orient themselves, kinda useless tho might delete
         
         .overlay(alignment: .bottomTrailing) {
             ExpandedCategorySelect(selectedCategory: $selectedCategory)
@@ -181,28 +173,20 @@ struct MapView: View {
             
         } // displays small sheet with basic information about location, user can then expand
         
-        .onChange(of: selectedLocation?.id) { oldValue, newValue in
-            print("values!")
-            print(oldValue)
-            print(newValue)
-            if newValue == nil {
-                isSheetPresented = false
-            } else {
-                isSheetPresented = true
-            }
-            
-        }
         
         .onChange(of: mapSelectionName) { oldValue, newValue in
+            print("values have changed")
             
             if let newLocation = viewModel.locations.first(where: { $0.id == newValue }) {
                 
                 withAnimation {
                     selectedLocation = newLocation
+                    isSheetPresented = true
                     
                 }
             } else {
                 selectedLocation = nil
+                isSheetPresented = false
             }
 
         }
