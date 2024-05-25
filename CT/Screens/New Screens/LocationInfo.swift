@@ -12,6 +12,7 @@ import MapKit
 
 
 struct LocationTestingView: View {
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: LocationViewModel
     @State private var displaySheet: Bool = false
@@ -104,17 +105,12 @@ struct LocationTestingView: View {
             
         }
         .onAppear {
-            print("Sheet is appearing")
-            viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationID: viewModel.location.id)
-        }
-        .onChange(of: displaySheet) { oldValue, newValue in
-            print("Display sheet was just toggled")
-            viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationID: viewModel.location.id)
-        }
+                viewModel.fetchReviewsForLocation2()
+            }
         .onChange(of: viewModel.location.id) { oldValue, newValue in
-            print("the locationID just changed")
-            viewModel.fetchReviewsForLocation(collegeName: viewModel.college.name, locationID: viewModel.location.id)
-        }
+                viewModel.fetchReviewsForLocation2()
+            }
+        
     }
 }
 

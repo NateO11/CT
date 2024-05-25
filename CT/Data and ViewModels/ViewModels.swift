@@ -88,6 +88,7 @@ class LocationViewModel: ObservableObject {
         self.college = college
         self.location = location
         self.authState = authState
+        fetchReviewsForLocation2()
     }
     // initiating any screen requires passing through the college and location
 
@@ -128,76 +129,29 @@ class LocationViewModel: ObservableObject {
         } // attempt at sending the new review element to a reviews collection for the current user ... wasn't working due to authstate/firestore complications but this is a very achieveable step
     }
     
-    // function to fetch reviews for the selected location, which will eventually be displayed on the location expanded review page
-    func fetchReviewsForLocation(collegeName: String, locationID: String) {
-        // use locationID instead of locationName
-        let db = Firestore.firestore()
-        let schoolsRef = db.collection("Schools")
-        let collegeQuery = schoolsRef.whereField("name", isEqualTo: collegeName)
-        // setting up the query for that specific college
-        
-        collegeQuery.getDocuments { [weak self] (collegeQuerySnapshot, collegeError) in
-            guard let self = self, collegeError == nil else {
-                print("Error fetching college: \(collegeError?.localizedDescription ?? "Unknown error")")
-                return
-            }
-
-            guard let collegeDocument = collegeQuerySnapshot?.documents.first else {
-                print("College not found")
-                return
-            } // error handling if the college doesn't exist for whatever reason
-
-            let locationsRef = collegeDocument.reference.collection("NewLocations")
-            let locationQuery = locationsRef.document(locationID)
-            // setting up the query for that specific location
+    func fetchReviewsForLocation2() {
+            let reviewsRef = db.collection("Schools").document(college.id)
+                                    .collection("NewLocations").document(location.id)
+                                    .collection("reviews")
             
-            locationQuery.getDocument { (locationDocument, locationError) in
-                guard locationError == nil else {
-                    print("Error fetching location: \(locationError!.localizedDescription)")
+            reviewsRef.getDocuments { [weak self] snapshot, error in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Error fetching reviews: \(error.localizedDescription)")
                     return
                 }
-
-                guard let locationDocument = locationDocument else {
-                    print("Location not found")
-                    return
-                } // error handling if the location doesn't exist for whatever reason
-
-                // query for the reviews subcollection within the location
-                let reviewsRef = locationDocument.reference.collection("reviews")
-
-                reviewsRef.getDocuments { (reviewsQuerySnapshot, reviewsError) in
-                    guard reviewsError == nil else {
-                        print("Error fetching reviews: \(reviewsError!.localizedDescription)")
-                        return
-                    }
-
-                    self.reviews = reviewsQuerySnapshot?.documents.compactMap { reviewDocument in
-                        guard let text = reviewDocument["text"] as? String,
-                              let rating = reviewDocument["rating"] as? Int,
-                              let userID = reviewDocument["userID"] as? String,
-                              let userName = reviewDocument["userName"] as? String,
-                              let userInitials = reviewDocument["userInitials"] as? String,
-                              let title = reviewDocument["title"] as? String,
-                              let timestamp = reviewDocument["timestamp"] as? Timestamp,
-                              let locationName = reviewDocument["locationName"] as? String,
-                              let schoolName = reviewDocument["schoolName"] as? String
-                        else {
-                            return nil
-                        }
-
-                        return Review(text: text, rating: rating, userID: userID, userName: userName, userInitials: userInitials, title: title, timestamp: timestamp.dateValue(), locationName: locationName, schoolName: schoolName)
-                    } ?? []
-                    // returns series of reviews, or a blank array if no reviews have been written yet (which would ultimately display an alternative message on the location expanded page) ... at this point we would implement some sort of filtering / relevancy algorithm if we wanted to show X amount of reviews rather than every single one
-                    
-
-                    DispatchQueue.main.async {
-                        // I dont totally understand the underlying logic here, but this essentially ensures the function is executed on the main thread and data is loaded at the proper time
-                        print("Fetched reviews for \(locationID): \(self.reviews.count)")
-                    }
+                
+                self.reviews = snapshot?.documents.compactMap { document in
+                    try? document.data(as: Review.self)
+                } ?? []
+                
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
                 }
             }
         }
-    }
+    
+    
 }
 
 

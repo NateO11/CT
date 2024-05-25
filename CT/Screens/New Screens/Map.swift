@@ -102,7 +102,10 @@ struct MapView: View {
         .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
         
         .onAppear {
-            viewModel.fetchLocations()
+            if viewModel.locations.isEmpty {
+                viewModel.fetchLocations()
+            }
+            
             if let initialLocation = initialSelectedLocation, selectedLocation == nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     // Giving a slight delay might help in ensuring the view is fully loaded before attempting to present the sheet.
