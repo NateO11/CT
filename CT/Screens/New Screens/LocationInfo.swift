@@ -10,6 +10,96 @@ import SwiftUI
 import MapKit
 
 
+struct AlternateLocationView: View {
+    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.openURL) var openURL
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: LocationViewModel
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottomLeading) {
+                // Background Image
+                AsyncImage(url: URL(string: viewModel.location.imageLink)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
+                        .overlay {
+                            LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.3), .black.opacity(0.4), .black.opacity(0.5), .black.opacity(0.7), .black.opacity(0.9), .black, .black], startPoint: .top, endPoint: .bottom)
+                        }
+                } placeholder: {
+                    Color.black
+                }
+                VStack(alignment: .leading) {
+                    Text("\(viewModel.college.name) - \(viewModel.location.category)")
+                        .font(.callout)
+                        .foregroundColor(.white)
+                        .shadow(radius: 10)
+                        
+                    
+                    Text(viewModel.location.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .lineLimit(2)
+                        .foregroundColor(.white)
+                        .padding(.bottom, 5)
+                    
+                    HStack {
+                        Spacer() // Pushes the buttons to center
+                        GroupBox {
+                            VStack(spacing: 5) {
+                                Image(systemName: "star")
+                                Text("Favorite")
+                                    .font(.caption)
+                                    .bold()
+                            }
+                            .padding(.vertical, -5)
+                            .frame(width: geometry.size.width * 0.2)
+                        }
+                        ShareLink(item: URL(string: "https://www.virginia.edu/")!, subject: Text("Download College Tour!"), message: Text("Check out this spot at \(viewModel.college.name) in College Tour!")) {
+                            GroupBox {
+                                VStack(spacing: 5) {
+                                    Image(systemName: "square.and.arrow.up")
+                                    Text("Share")
+                                        .font(.caption)
+                                        .bold()
+                                }
+                                .padding(.vertical, -5)
+                                .frame(width: geometry.size.width * 0.2)
+                            }
+                        }.tint(.primary)
+                        
+                        Button {
+                            openURL(URL(string: "http://maps.apple.com/?q=\(viewModel.location.name)&ll=\(String(viewModel.location.coordinate.latitude)),\(String(viewModel.location.coordinate.longitude))")!)
+                        } label: {
+                            GroupBox {
+                                VStack(spacing: 5) {
+                                    Image(systemName: "mappin.circle")
+                                    Text("Directions")
+                                        .font(.caption)
+                                        .bold()
+                                }
+                                .padding(.vertical, -5)
+                                .frame(width: geometry.size.width * 0.2)
+                            }
+                        }.tint(.primary)
+                        
+                        Spacer() // Pushes the buttons to center
+                    }
+                    .frame(maxWidth: .infinity) // Ensure the HStack stretches across the width
+                    .padding(.bottom, 20)
+                }
+                .padding()
+                
+                
+            }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+    }
+}
+
 
 struct LocationTestingView: View {
     @Environment(\.scenePhase) var scenePhase

@@ -125,14 +125,31 @@ struct MapView: View {
         }
         .sheet(isPresented: $isSheetPresented, onDismiss: clearSelection) {
             if let location = selectedLocation {
-                LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
+                // LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
+                AlternateLocationView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
                 // Your existing modifiers here.
-                    .presentationDetents([.fraction(0.35),.medium,.fraction(0.99)])
-                
-                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.35)))
+                    //.presentationDetents([.fraction(0.35),.medium,.fraction(0.99)])
+                    .presentationDetents([.fraction(0.4)])
+                    .presentationBackgroundInteraction(.enabled(upThrough: .fraction(0.4)))
                     .presentationDragIndicator(.visible)
                     .ignoresSafeArea()
                     .overlay(alignment: .topTrailing) {
+                        Button {
+                            clearSelection()
+                        } label: {
+                            ZStack {
+                                Circle()
+                                    .fill(.gray)
+                                    .frame(width: 35, height: 35)
+                                Image(systemName: "xmark")
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                    .bold()
+                            }.padding()
+                            
+                        }
+                    }
+                    /* .overlay(alignment: .topTrailing) {
                         HStack(spacing: 0) {
                             Menu {
                                 Button {
@@ -170,7 +187,7 @@ struct MapView: View {
                             }
                         }
                         
-                    }
+                    } */
                 
             }
             
