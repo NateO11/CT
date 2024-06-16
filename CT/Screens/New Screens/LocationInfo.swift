@@ -50,8 +50,8 @@ struct AlternateLocationView: View {
                         Spacer() // Pushes the buttons to center
                         GroupBox {
                             VStack(spacing: 5) {
-                                Image(systemName: "star")
-                                Text("Favorite")
+                                Image(systemName: "bookmark")
+                                Text("Save")
                                     .font(.caption)
                                     .bold()
                             }

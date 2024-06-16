@@ -17,13 +17,13 @@ struct TopicImagePair {
 }
 
 
-var basicImagePairs: [TopicImagePair] =  [TopicImagePair(topic: "Athletics", url: "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"),
-                                          TopicImagePair(topic: "Dorms", url: "https://i0.wp.com/bcc-newspack.s3.amazonaws.com/uploads/2021/05/050321-Parkway-Gardens-ColinBoyle-14.jpg?fit=1200%2C798&ssl=1"),
-                                          TopicImagePair(topic: "Local area", url: "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"),
-                                          TopicImagePair(topic: "Recreation", url: "https://rec.virginia.edu/sites/recsports2017.virginia.edu/files/indoor-pool-at-ngrc-uva.jpg"),
-                                          TopicImagePair(topic: "Engineering", url: "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"),
-                                          TopicImagePair(topic: "Dining", url: "https://lh3.googleusercontent.com/mw7ZoK3R4VQNRqI2unzf-XacniB9VRCyWmDfz23amzKRshxAznFr6EYHj0aD0WOO0V0b5b9SGdhFfXrPHZqD48i9t1OG0ij_SBUl-Xg"),
-                                          TopicImagePair(topic: "Hiking", url: "https://thehoppyhikers.com/wp-content/uploads/2021/11/rivanna001.jpeg"),
+var basicImagePairs: [TopicImagePair] =  [TopicImagePair(topic: "Charlottesville", url: "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"),
+    TopicImagePair(topic: "Athletics", url: "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"),
+    TopicImagePair(topic: "Dorms", url: "https://news.virginia.edu/sites/default/files/Header_New_Dorms_Aerial__SS_01-2.jpg"),
+    TopicImagePair(topic: "Recreation", url: "https://rec.virginia.edu/sites/recsports2017.virginia.edu/files/indoor-pool-at-ngrc-uva.jpg"),
+    TopicImagePair(topic: "Academics", url: "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"),
+    TopicImagePair(topic: "Dining", url: "https://wcav.images.worldnow.com/images/20205423_G.jpg?auto=webp&disable=upscale&height=560&fit=bounds&lastEditedDate=1609193636000"),
+                                          
                                           
 ]
 
@@ -38,14 +38,21 @@ struct NewSchoolView: View {
 
     var body: some View {
         NavigationStack {
-            
+            ZStack {
+                LinearGradient(colors: [.pink.opacity(0.5), .clear, .clear, .clear, .clear, ], startPoint: .topTrailing, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                LinearGradient(colors: [.orange, .clear, .clear, .clear, .clear, ], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .edgesIgnoringSafeArea(.all)
+                
                 ScrollView {
                     VStack(alignment: .leading) {
+                        Text(college.name)
+                            .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
                         Text(college.city).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
                             SchoolTopicCard(topic: "Basics", imageURL: "https://reveal.scholarslab.org/images/trigger_images/Rotunda_above.jpg")
-                            SchoolTopicCard(topic: "Map", imageURL: "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/pass/GoogleMapTA.jpg")
+                            SchoolTopicCard(topic: "Map", imageURL: "https://www.mapshop.com/wp-content/uploads/2017/10/uva_1.jpg")
                             ForEach(basicImagePairs, id: \.topic) { item in
                                 NavigationLink(destination: SchoolTopicPage(college: college, topic: item.topic)) {
                                     SchoolTopicCard(topic: item.topic, imageURL: item.url)
@@ -56,20 +63,16 @@ struct NewSchoolView: View {
                         }.padding(.horizontal, 20)
                             .padding(.top, 15)
                     }
-                        
+                    
                     
                 }
                 .scrollIndicators(.hidden)
-                .navigationTitle(college.name)
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Image(systemName: "ellipsis.circle")
-                            .font(.title2)
-                            .foregroundColor(Color("UniversalFG"))
-                    }
-                }
                 
-            
+
+                
+                
+                
+            }
         }
         
     }
@@ -123,7 +126,8 @@ struct SchoolTopicCard: View {
                         
                     })
                     .padding(.vertical, 20)
-                    .padding(.horizontal, 15)
+                    .padding(.leading, 15)
+                    .padding(.trailing, 10)
 
                     
                 }
@@ -154,7 +158,7 @@ struct SchoolTopicPage: View {
                 GroupBox {
                     Text("The description of the topic will go here. The description of the topic will go here. The description of the topic will go here. The description of the topic will go here. ")
                 }.padding(.horizontal, 10)
-             }
+            }
             
         }
         .scrollIndicators(.hidden)
@@ -174,6 +178,7 @@ struct SchoolTopicPage: View {
             }
         }
     }
+    
 }
 
 
@@ -282,8 +287,8 @@ struct NewLocationScrollView: View {
             .scrollTargetBehavior(.viewAligned)
             .scrollIndicators(.hidden)
         })
-        .frame(height: 200)
-        .padding(.horizontal, 40)
+        .frame(height: 250)
+        .padding(.horizontal, -15)
         .padding(.top, 10)
             
         
