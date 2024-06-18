@@ -137,8 +137,9 @@ struct ExploreView: View {
 
             }
             HStack(spacing: 15) {
-                NavigationLink(destination: EditProfileView()) {
+                // NavigationLink(destination: EditProfileView()) {
                 //NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
+                NavigationLink(destination: NewMapViewAllSchools(viewModel: viewModel, initialSelectedLocation: viewModel.colleges.first { $0.name == "University of Virginia" }).environmentObject(authState)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white)

@@ -48,42 +48,48 @@ struct AlternateLocationView: View {
                     
                     HStack {
                         Spacer() // Pushes the buttons to center
-                        GroupBox {
                             VStack(spacing: 5) {
                                 Image(systemName: "bookmark")
                                 Text("Save")
                                     .font(.caption)
                                     .bold()
                             }
-                            .padding(.vertical, -5)
-                            .frame(width: geometry.size.width * 0.2)
-                        }
+                            .padding(.vertical, 10)
+                            .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.15)
+                            .background(Color.white.opacity(0.2))
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                        
                         ShareLink(item: URL(string: "https://www.virginia.edu/")!, subject: Text("Download College Tour!"), message: Text("Check out this spot at \(viewModel.college.name) in College Tour!")) {
-                            GroupBox {
                                 VStack(spacing: 5) {
                                     Image(systemName: "square.and.arrow.up")
                                     Text("Share")
                                         .font(.caption)
                                         .bold()
                                 }
-                                .padding(.vertical, -5)
-                                .frame(width: geometry.size.width * 0.2)
-                            }
+                                .padding(.vertical, 10)
+                                .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.15)
+                                .background(Color.white.opacity(0.2))
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                            
                         }.tint(.primary)
                         
                         Button {
                             openURL(URL(string: "http://maps.apple.com/?q=\(viewModel.location.name)&ll=\(String(viewModel.location.coordinate.latitude)),\(String(viewModel.location.coordinate.longitude))")!)
                         } label: {
-                            GroupBox {
                                 VStack(spacing: 5) {
                                     Image(systemName: "mappin.circle")
                                     Text("Directions")
                                         .font(.caption)
                                         .bold()
                                 }
-                                .padding(.vertical, -5)
-                                .frame(width: geometry.size.width * 0.2)
-                            }
+                                .padding(.vertical, 10)
+                                .frame(width: geometry.size.width * 0.25, height: geometry.size.width * 0.15)
+                                .background(Color.white.opacity(0.2))
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                            
                         }.tint(.primary)
                         
                         Spacer() // Pushes the buttons to center
