@@ -28,34 +28,34 @@ var basicImagePairs: [TopicImagePair] =  [TopicImagePair(topic: "Charlottesville
 ]
 
 
+
+let categories = ["Landmark", "Athletics", "Dining", "Dorms", "Library", "School Building"]
+
 // potential animation when school viewed for the first time
 
 struct NewSchoolView: View {
-    // @EnvironmentObject var authState: AuthViewModel
-    // @ObservedObject var viewModel: MapViewModel
-    var college: College
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: MapViewModel
     var gridItemLayout: [GridItem] = [GridItem(), GridItem()]
 
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(colors: [.pink.opacity(0.5), .clear, .clear, .clear, .clear, ], startPoint: .topTrailing, endPoint: .bottomTrailing)
+                LinearGradient(colors: [.clear.opacity(0.5), .clear, .clear, ], startPoint: .topTrailing, endPoint: .bottomTrailing)
                     .edgesIgnoringSafeArea(.all)
-                LinearGradient(colors: [.orange, .clear, .clear, .clear, .clear, ], startPoint: .topLeading, endPoint: .bottomTrailing)
+                LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, ], startPoint: .topLeading, endPoint: .bottomTrailing)
                     .edgesIgnoringSafeArea(.all)
                 
                 ScrollView {
                     VStack(alignment: .leading) {
-                        Text(college.name)
+                        Text(viewModel.college.name)
                             .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
-                        Text(college.city).font(.headline).fontWeight(.light)
+                        Text(viewModel.college.city).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
-                            SchoolTopicCard(topic: "Basics", imageURL: "https://reveal.scholarslab.org/images/trigger_images/Rotunda_above.jpg")
-                            SchoolTopicCard(topic: "Map", imageURL: "https://www.mapshop.com/wp-content/uploads/2017/10/uva_1.jpg")
-                            ForEach(basicImagePairs, id: \.topic) { item in
-                                NavigationLink(destination: SchoolTopicPage(college: college, topic: item.topic)) {
-                                    SchoolTopicCard(topic: item.topic, imageURL: item.url)
+                            ForEach(categories, id: \.self) { topic in
+                                NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: topic)) {
+                                    SchoolTopicCard(topic: topic, imageURL: topicToURL(topic: topic))
                                 }
                                 
                             }
@@ -75,6 +75,25 @@ struct NewSchoolView: View {
             }
         }
         
+        
+    }
+    
+    func topicToURL(topic: String) -> String {
+        if topic == "Landmarks" {
+            return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
+        } else if topic == "Dorms" {
+            return "https://news.virginia.edu/sites/default/files/Header_New_Dorms_Aerial__SS_01-2.jpg"
+        } else if topic == "Dining" {
+            return "https://wcav.images.worldnow.com/images/20205423_G.jpg?auto=webp&disable=upscale&height=560&fit=bounds&lastEditedDate=1609193636000"
+        } else if topic == "Athletics" {
+            return "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"
+        } else if topic == "School Building" {
+            return "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"
+        } else if topic == "Library" {
+            return "https://news.virginia.edu/sites/default/files/Header_SF_AldermanRenaming_TomDaly.jpg"
+        } else {
+            return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
+        }
     }
 }
 
@@ -144,38 +163,41 @@ struct SchoolTopicCard: View {
 
 
 struct SchoolTopicPage: View {
-    // @EnvironmentObject var authState: AuthViewModel
-    // @ObservedObject var viewModel: MapViewModel
-    var college: College
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: MapViewModel
     var topic: String
     var body: some View {
-        ScrollView {
-            VStack {
-                NewLocationScrollView(college: college, topicLocations: sampleLocations)
-                GroupBox {
-                }.groupBoxStyle(StatsGroupBoxStyle(topic: topic, stats: BasicStats))
-                    .padding(.horizontal, 10)
-                GroupBox {
-                    Text("The description of the topic will go here. The description of the topic will go here. The description of the topic will go here. The description of the topic will go here. ")
-                }.padding(.horizontal, 10)
+        
+        ZStack {
+            LinearGradient(colors: [.clear.opacity(0.5), .clear, .clear, ], startPoint: .topTrailing, endPoint: .bottomTrailing)
+                .edgesIgnoringSafeArea(.all)
+            LinearGradient(colors: [.clear, .clear, .clear, .clear, .clear, ], startPoint: .topLeading, endPoint: .bottomTrailing)
+                .edgesIgnoringSafeArea(.all)
+            
+            ScrollView {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(topic)
+                            .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
+                        Text(viewModel.college.name).font(.headline).fontWeight(.light)
+                            .padding(.horizontal, 18)
+                    }
+                    Spacer()
+                }
+                VStack {
+                    NewLocationScrollView(college: viewModel.college, topicLocations: viewModel.locations.filter { $0.category == topic })
+                    
+                    GroupBox {
+                        Text("UVA is home to 27 D1 NCAA sports teams and competes in the ACC conference. The Hoos have brought home 35 championship trophies over the past decade - the most famous being the mens March Madness victory in 2019.")
+                    }.padding(.horizontal, 20)
+                }
+                
             }
+            .scrollIndicators(.hidden)
             
         }
-        .scrollIndicators(.hidden)
-        .navigationTitle(college.id)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                VStack {
-                    Text(topic).font(.headline)
-                    Text(college.name).font(.subheadline)
-                }.padding()
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Image(systemName: "ellipsis.circle")
-                    .font(.title2)
-                    .foregroundColor(Color("UniversalFG"))
-            }
+        .onAppear {
+            viewModel.fetchLocations()
         }
     }
     
@@ -188,40 +210,13 @@ struct Stat {
     var suffix: String?
 }
 
-var BasicStats: [Stat] = [Stat(value: 1600, label: "SAT"), Stat(value: 57, label: "Majors"), Stat(value: 26, label: "Acceptance", suffix: " %")]
+var BasicStats: [Stat] = [Stat(value: 17, label: "Students", suffix: "k"), Stat(value: 95, label: "Graduation", suffix: "%"), Stat(value: 26, label: "Acceptance", suffix: " %")]
 
-struct StatsGroupBoxStyle: GroupBoxStyle {
-    var topic: String
-    var stats: [Stat]
-    func makeBody(configuration: Configuration) -> some View {
-        GroupBox(label: Label("By the numbers", systemImage: "chart.pie.fill").foregroundStyle(.blue), content: {
-            HStack {
-                ForEach(stats, id: \.label) { stat in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            
-                            Text(String(stat.value)).font(.system(size: 24, weight: .bold, design: .rounded)) + Text(stat.suffix ?? "").font(.system(size: 14, weight: .semibold, design: .rounded))
-                            Text(stat.label).font(.system(size: 16, weight: .semibold, design: .rounded)).lineLimit(2)
-                            
-                        }.padding(.horizontal)
-                        if stats.last?.label != stat.label  {
-                            Divider()
-                                .frame(width: 1)
-                                .overlay(.black)
-                        }
-                    }
-                }
-                Spacer()
-            }
-        })
-    }
-    
-    
-}
+
 
 
 struct NewLocationScrollView: View {
-    // @EnvironmentObject var authState: AuthViewModel
+    @EnvironmentObject var authState: AuthViewModel
     var college: College
     var topicLocations: [Location]
     var body: some View {
@@ -231,7 +226,7 @@ struct NewLocationScrollView: View {
             ScrollView(.horizontal) {
                 HStack(spacing: 4) {
                     ForEach(topicLocations) { location in
-                        NavigationLink(destination: EditProfileView()) {
+                        NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: location).environmentObject(authState)) {
                             GeometryReader(content: { proxy in
                                 let cardSize = proxy.size
                                 let minX = proxy.frame(in: .scrollView).minX - 60
@@ -340,6 +335,4 @@ var UVA: College = .init(id: "UVA", available: true, name: "University of Virgin
 
 
 
-#Preview(body: {
-    NewSchoolView(college: UVA)
-})
+
