@@ -53,6 +53,12 @@ struct NewSchoolView: View {
                         Text(viewModel.college.city).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
+                            NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: "Landmark")) {
+                                SchoolTopicCard(topic: "Basics", imageURL: topicToURL(topic: "Basics"))
+                            }
+                            NavigationLink(destination: MapView(viewModel: MapViewModel(college: viewModel.college)).environmentObject(authState)) {
+                                SchoolTopicCard(topic: "Map", imageURL: topicToURL(topic: "Map"))
+                            }
                             ForEach(categories, id: \.self) { topic in
                                 NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: topic)) {
                                     SchoolTopicCard(topic: topic, imageURL: topicToURL(topic: topic))
@@ -91,6 +97,10 @@ struct NewSchoolView: View {
             return "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"
         } else if topic == "Library" {
             return "https://news.virginia.edu/sites/default/files/Header_SF_AldermanRenaming_TomDaly.jpg"
+        } else if topic == "Basics" {
+            return "https://i.pinimg.com/originals/1d/13/12/1d13123d3570cc0d571ad118dda87460.jpg"
+        } else if topic == "Map" {
+            return "https://rotunda.virginia.edu/sites/g/files/jsddwu951/files/styles/crop_freeform/public/2022-01/Lawn_Aerial_Spring_2020_SS_05%20%281%29.jpg?itok=tnokOEHp"
         } else {
             return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
         }
