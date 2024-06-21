@@ -197,9 +197,11 @@ struct SchoolTopicPage: View {
                 VStack {
                     NewLocationScrollView(college: viewModel.college, topicLocations: viewModel.locations.filter { $0.category == topic })
                     
-                    GroupBox {
-                        Text("UVA is home to 27 D1 NCAA sports teams and competes in the ACC conference. The Hoos have brought home 35 championship trophies over the past decade - the most famous being the mens March Madness victory in 2019.")
-                    }.padding(.horizontal, 20)
+                    InformationCardView(stats: BasicStats, bodyText: sampleBodyText)
+                        .padding(.horizontal, 20)
+                    
+                    ReviewsCardView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.locations.first { $0.name == "Rotunda" } ?? sampleLocations[0])).environmentObject(authState)
+                        .padding(.horizontal, 20)
                 }
                 
             }
@@ -215,14 +217,107 @@ struct SchoolTopicPage: View {
 
 
 struct Stat {
-    var value: Int
-    var label: String
-    var suffix: String?
+    var symbolName: String
+    var color: String
+    var intValue: Int
+    var statDescription: String
+    var intSuffix: String?
 }
 
-var BasicStats: [Stat] = [Stat(value: 17, label: "Students", suffix: "k"), Stat(value: 95, label: "Graduation", suffix: "%"), Stat(value: 26, label: "Acceptance", suffix: " %")]
+var BasicStats: [Stat] = [Stat(symbolName: "graduationcap.fill", color: "blue", intValue: 98, statDescription: "Graduation rate", intSuffix: "%"), Stat(symbolName: "person.fill", color: "blue", intValue: 20, statDescription: "Student population", intSuffix: "k")]
+var sampleBodyText: String = "UVA is an incredible institution that lies in the beautiful city of Charlottesville, Virginia. I don't really know what else to say, but I'm sure I will come up with it at some point. For now I just want enough text to make it seem like I filled the space"
 
 
+struct InformationCardView: View {
+    var stats: [Stat]
+    var bodyText: String
+    var body: some View {
+        GroupBox {
+            VStack {
+                ForEach(stats, id: \.statDescription) { stat in
+                    HStack(spacing: 0) {
+                        ZStack {
+                            Circle()
+                                .fill(.blue.opacity(0.7).gradient)
+                                .frame(width: 45, height: 45)
+                            Image(systemName: stat.symbolName)
+                                .foregroundStyle(.white)
+                                .font(.title2)
+                        }
+                        .padding(.trailing, 5)
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack(spacing: 0) {
+                                Text(String(stat.intValue))
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                if (stat.intSuffix != nil) {
+                                    Text(stat.intSuffix ?? "")
+                                        .font(.title3)
+                                }
+                            }
+                            Text(stat.statDescription)
+                                .font(.subheadline)
+                                .fontWeight(.light)
+                                .foregroundStyle(.primary.opacity(0.8))
+                            
+                        }
+                        .padding(.leading, 5)
+                        Spacer()
+                    }
+                }
+                .padding(.bottom, 5)
+                Text(bodyText)
+                    .font(.subheadline)
+            }
+        }.backgroundStyle(Color("UniversalBG").gradient)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+    }
+}
+
+
+struct ReviewsCardView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: LocationViewModel
+    @State private var displaySheet: Bool = false
+
+    var body: some View {
+        GroupBox {
+            VStack {
+                HStack {
+                    Text("Student Insights")
+                        .font(.title2)
+                        .bold()
+                    Spacer()
+                    Button {
+                        displaySheet.toggle()
+                    } label: {
+                        Image(systemName: "plus.bubble")
+                            .font(.title2)
+                    }
+                }
+                
+                if viewModel.reviews.isEmpty {
+                    Text("Be the first to share your thoughts!")
+                } else {
+                    ForEach(viewModel.reviews, id: \.text) { review in
+                        let firstChar = Array(review.userID)[0]
+                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false)
+                        
+                    } // uses individual review view for consistent formatting throughout
+                    
+                }
+            }
+        }.backgroundStyle(Color("UniversalBG").gradient)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+        
+        .sheet(isPresented: $displaySheet) {
+            NewReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $displaySheet) { rating, title, text in
+                viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+            }
+            .presentationDetents([.fraction(0.4)])
+        }
+    }
+}
 
 
 struct NewLocationScrollView: View {

@@ -11,7 +11,6 @@ import MapKit
 
 
 struct AlternateLocationView: View {
-    @Environment(\.scenePhase) var scenePhase
     @Environment(\.openURL) var openURL
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: LocationViewModel

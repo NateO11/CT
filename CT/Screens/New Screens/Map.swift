@@ -416,10 +416,8 @@ struct NewMapViewAllSchools: View {
             
             if let initialLocation = initialSelectedLocation, selectedSchool == nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    // Giving a slight delay might help in ensuring the view is fully loaded before attempting to present the sheet.
                     self.selectedSchool = initialLocation
                     self.selectedSchoolName = initialLocation.id
-                    // This forces a re-render, but ensure your logic is sound for setting and using `selectedLocation`.
                 }
             }
         }
@@ -455,7 +453,6 @@ struct NewMapViewAllSchools: View {
             }
         }
         .onChange(of: selectedSchoolName) { oldValue, newValue in
-            print("values have changed")
             
             if let newLocation = viewModel.colleges.first(where: { $0.id == newValue }) {
                 
@@ -464,6 +461,7 @@ struct NewMapViewAllSchools: View {
                     isSheetPresented = true
                     
                 }
+                print(selectedSchool?.name)
             } else {
                 selectedSchool = nil
                 isSheetPresented = false
@@ -484,8 +482,6 @@ struct NewMapViewAllSchools: View {
 
 
 struct SchoolPopUpView: View {
-    @Environment(\.scenePhase) var scenePhase
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var authState: AuthViewModel
     var college: College
 
@@ -532,7 +528,7 @@ struct SchoolPopUpView: View {
                         
                         
                     }
-                    .frame(maxWidth: .infinity) // Ensure the HStack stretches across the width
+                    .frame(maxWidth: .infinity)
                     .padding(.bottom, 20)
                 }
                 .padding()
