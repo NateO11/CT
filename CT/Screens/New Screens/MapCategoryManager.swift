@@ -39,20 +39,26 @@ struct CategoryButton: ButtonStyle {
 func colorForCategory(_ category: String) -> Color {
     // function to define a color for each location type
     switch category {
-    case "Landmark":
+    case "Basics":
         return Color.orange
     case "Dining":
         return Color.black
     case "Athletics":
         return Color.red
-    case "Library":
+    case "Recreation":
         return Color.blue
-    case "School Building":
+    case "Academics":
         return Color.init(hex: 3556687)
     case "Dorms":
         return Color.init(hex: 4251856)
-    default:
+    case "All":
         return Color.gray
+    case "Close":
+        return Color.gray
+    case "Expand":
+        return Color.gray
+    default:
+        return Color.green
     }
     // the locations listed here are a lot more extensive than they will actually be in the builds, but it gives more felxibility if we want to expand categories
 }
@@ -60,18 +66,20 @@ func colorForCategory(_ category: String) -> Color {
 func symbolForCategory(_ category: String) -> String {
     // function to define a symbol for each location type
     switch category {
-    case "Landmark":
+    case "Basics":
         return "building.columns.fill"
     case "Dining":
         return "fork.knife"
     case "Athletics":
+        return "trophy"
+    case "Recreation":
         return "figure.tennis"
-    case "Library":
-        return "book.fill"
-    case "School Building":
+    case "Academics":
         return "building.2.fill"
     case "Dorms":
         return "house.fill"
+    case "Local area":
+        return "map.fill"
     case "All":
         return "globe"
     case "Close":
@@ -79,7 +87,7 @@ func symbolForCategory(_ category: String) -> String {
     case "Expand" :
         return "square.stack.3d.up"
     default:
-        return "gearshape.fill"
+        return "map.fill"
     }
     // same idea as the color function, we don't actually use all of these categories but have the option to build in more if needed
 }
@@ -88,12 +96,14 @@ func symbolForCategory(_ category: String) -> String {
 
 struct ExpandedCategorySelect: View {
     @Binding var selectedCategory: String
+    var cityName: String
     @State private var isExpanded = false
     @State var showLandmarksButton = false
     @State var showAthleticsButton = false
     @State var showDiningButton = false
     @State var showStudyButton = false
     @State var showSchoolButton = false
+    @State var showLocalButton = false
     @State var showDormButton = false
     @State var showAllButton = false
     
@@ -102,10 +112,10 @@ struct ExpandedCategorySelect: View {
             
             if showLandmarksButton {
                 Button("") {
-                    selectedCategory = "Landmark"
+                    selectedCategory = "Basics"
                     self.showMenu()
                 }
-                .buttonStyle(CategoryButton(category: "Landmark"))
+                .buttonStyle(CategoryButton(category: "Basics"))
             }
             if showAthleticsButton {
                 Button("") {
@@ -123,10 +133,10 @@ struct ExpandedCategorySelect: View {
             }
             if showStudyButton {
                 Button("") {
-                    selectedCategory = "Library"
+                    selectedCategory = "Recreation"
                     self.showMenu()
                 }
-                .buttonStyle(CategoryButton(category: "Library"))
+                .buttonStyle(CategoryButton(category: "Recreation"))
             }
             if showDormButton {
                 Button("") {
@@ -137,10 +147,17 @@ struct ExpandedCategorySelect: View {
             }
             if showSchoolButton {
                 Button("") {
-                    selectedCategory = "School Building"
+                    selectedCategory = "Academics"
                     self.showMenu()
                 }
-                .buttonStyle(CategoryButton(category: "School Building"))
+                .buttonStyle(CategoryButton(category: "Academics"))
+            }
+            if showLocalButton {
+                Button("") {
+                    selectedCategory = cityName
+                    self.showMenu()
+                }
+                .buttonStyle(CategoryButton(category: cityName))
             }
             if showAllButton {
                 Button("") {
@@ -168,6 +185,7 @@ struct ExpandedCategorySelect: View {
             showStudyButton.toggle()
             showDormButton.toggle()
             showSchoolButton.toggle()
+            showLocalButton.toggle()
             showAllButton.toggle()
         }
         

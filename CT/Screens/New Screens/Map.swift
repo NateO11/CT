@@ -92,7 +92,7 @@ struct MapView: View {
         }
         
         .overlay(alignment: .bottomTrailing) {
-            ExpandedCategorySelect(selectedCategory: $selectedCategory)
+            ExpandedCategorySelect(selectedCategory: $selectedCategory, cityName: viewModel.college.city.components(separatedBy: ",")[0])
                 .padding(30)
         } // category modification button, lets user filter types of locations
         .navigationTitle("\(viewModel.college.name) - \(selectedCategory)")

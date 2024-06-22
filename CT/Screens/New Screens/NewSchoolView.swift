@@ -29,7 +29,7 @@ var basicImagePairs: [TopicImagePair] =  [TopicImagePair(topic: "Charlottesville
 
 
 
-let categories = ["Landmark", "Athletics", "Dining", "Dorms", "Library", "School Building"]
+
 
 // potential animation when school viewed for the first time
 
@@ -37,6 +37,7 @@ struct NewSchoolView: View {
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: MapViewModel
     var gridItemLayout: [GridItem] = [GridItem(), GridItem()]
+    
 
     var body: some View {
         NavigationStack {
@@ -47,13 +48,15 @@ struct NewSchoolView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 ScrollView {
+                    let city = viewModel.college.city.components(separatedBy: ",")[0]
+                    let categories = [city, "Athletics", "Recreation", "Dining", "Dorms", "Academics"]
                     VStack(alignment: .leading) {
                         Text(viewModel.college.name)
                             .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
                         Text(viewModel.college.city).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
-                            NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: "Landmark")) {
+                            NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: "Basics")) {
                                 SchoolTopicCard(topic: "Basics", imageURL: topicToURL(topic: "Basics"))
                             }
                             NavigationLink(destination: MapView(viewModel: MapViewModel(college: viewModel.college)).environmentObject(authState)) {
@@ -85,7 +88,7 @@ struct NewSchoolView: View {
     }
     
     func topicToURL(topic: String) -> String {
-        if topic == "Landmarks" {
+        if topic == "Charlottesville" {
             return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
         } else if topic == "Dorms" {
             return "https://news.virginia.edu/sites/default/files/Header_New_Dorms_Aerial__SS_01-2.jpg"
@@ -93,10 +96,10 @@ struct NewSchoolView: View {
             return "https://wcav.images.worldnow.com/images/20205423_G.jpg?auto=webp&disable=upscale&height=560&fit=bounds&lastEditedDate=1609193636000"
         } else if topic == "Athletics" {
             return "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"
-        } else if topic == "School Building" {
+        } else if topic == "Academics" {
             return "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"
-        } else if topic == "Library" {
-            return "https://news.virginia.edu/sites/default/files/Header_SF_AldermanRenaming_TomDaly.jpg"
+        } else if topic == "Recreation" {
+            return "https://rec.virginia.edu/sites/recsports2017.virginia.edu/files/styles/hero_image/public/indoor-lap-pool-at-ngrc-uva_0.jpg?itok=9MnguXas"
         } else if topic == "Basics" {
             return "https://i.pinimg.com/originals/1d/13/12/1d13123d3570cc0d571ad118dda87460.jpg"
         } else if topic == "Map" {
