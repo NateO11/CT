@@ -149,45 +149,7 @@ struct MapView: View {
                             
                         }
                     }
-                /* .overlay(alignment: .topTrailing) {
-                 HStack(spacing: 0) {
-                 Menu {
-                 Button {
-                 openURL(URL(string: "http://maps.apple.com/?q=\(location.name)&ll=\(String(location.coordinate.latitude)),\(String(location.coordinate.longitude))")!)
-                 } label: {
-                 HStack(spacing: 5) {
-                 Image(systemName: "mappin")
-                 Text("Open in maps")
-                 }.tint(Color("UniversalFG"))
-                 }
-                 ShareLink(item: URL(string: "https://www.virginia.edu/")!, subject: Text("Download College Tour!"), message: Text("Check out this spot at \(viewModel.college.name) in College Tour!")) {
-                 Label("Share", systemImage: "square.and.arrow.up")
-                 }
-                 
-                 } label: {
-                 Image(systemName: "ellipsis.circle")
-                 .resizable()
-                 .scaledToFit()
-                 .foregroundStyle(Color("UniversalFG"))
-                 .frame(width: 30, height: 30)
-                 .padding(.trailing, 15)
-                 .padding(.top, 25)
-                 }
-                 
-                 Button {
-                 clearSelection()
-                 } label: {
-                 Image(systemName: "xmark.circle")
-                 .resizable()
-                 .scaledToFit()
-                 .foregroundStyle(Color("UniversalFG"))
-                 .frame(width: 30, height: 30)
-                 .padding(.trailing, 15)
-                 .padding(.top, 25)
-                 }
-                 }
-                 
-                 } */
+                    
                 
             }
             

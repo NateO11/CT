@@ -17,6 +17,7 @@ struct IndividualReviewView: View {
     let review: Review
     let firstChar: String
     let isProfilePage: Bool
+    let isStars: Bool
     // logic to show/hide lines of a really long review, but not really using this right now
     
     var body: some View {
@@ -51,22 +52,23 @@ struct IndividualReviewView: View {
                 }
                 Spacer()
                 
-                HStack(spacing: 5) {
-                    ForEach(0..<review.rating, id: \.self) { _ in
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
-                            .frame(width: 15)
-                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)
-                    }
-                    ForEach(review.rating..<5, id: \.self) { _ in
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.gray)
-                            .frame(width: 15)
-                            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)
-                    }
-                    
-                } // this creates a horizontal list of stars resembling whatever the associated rating is, yellow stars appear first and gray (if its not 5 star) appear second
-                
+                if isStars {
+                    HStack(spacing: 5) {
+                        ForEach(0..<review.rating, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                                .frame(width: 15)
+                                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)
+                        }
+                        ForEach(review.rating..<5, id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.gray)
+                                .frame(width: 15)
+                                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 2)
+                        }
+                        
+                    } // this creates a horizontal list of stars resembling whatever the associated rating is, yellow stars appear first and gray (if its not 5 star) appear second
+                }
                 
             }
             

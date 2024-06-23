@@ -64,7 +64,7 @@ struct ForumView: View {
                     } else {
                         ForEach(viewModel.reviews, id: \.text) { review in
                             let firstChar = Array(review.userID)[0]
-                            IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false)
+                            IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false, isStars: true)
                         } // uses individual review view for consistent formatting throughout
                         
                     }

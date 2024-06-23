@@ -56,14 +56,14 @@ struct NewSchoolView: View {
                         Text(viewModel.college.city).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
-                            NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: "Basics")) {
+                            NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topicViewModel: TopicViewModel(topic: "Basics", college: viewModel.college))) {
                                 SchoolTopicCard(topic: "Basics", imageURL: topicToURL(topic: "Basics"))
                             }
                             NavigationLink(destination: MapView(viewModel: MapViewModel(college: viewModel.college)).environmentObject(authState)) {
                                 SchoolTopicCard(topic: "Map", imageURL: topicToURL(topic: "Map"))
                             }
                             ForEach(categories, id: \.self) { topic in
-                                NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topic: topic)) {
+                                NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topicViewModel: TopicViewModel(topic: topic, college: viewModel.college))) {
                                     SchoolTopicCard(topic: topic, imageURL: topicToURL(topic: topic))
                                 }
                                 
@@ -178,7 +178,7 @@ struct SchoolTopicCard: View {
 struct SchoolTopicPage: View {
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: MapViewModel
-    var topic: String
+    @ObservedObject var topicViewModel: TopicViewModel
     var body: some View {
         
         ZStack {
@@ -190,7 +190,7 @@ struct SchoolTopicPage: View {
             ScrollView {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(topic)
+                        Text(topicViewModel.topic)
                             .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
                         Text(viewModel.college.name).font(.headline).fontWeight(.light)
                             .padding(.horizontal, 18)
@@ -198,12 +198,12 @@ struct SchoolTopicPage: View {
                     Spacer()
                 }
                 VStack {
-                    NewLocationScrollView(college: viewModel.college, topicLocations: viewModel.locations.filter { $0.category == topic })
+                    NewLocationScrollView(college: viewModel.college, topicLocations: viewModel.locations.filter { $0.category == topicViewModel.topic })
                     
-                    InformationCardView(stats: BasicStats, bodyText: sampleBodyText)
+                    InformationCardView(stats: topicViewModel.stats, bodyText: topicViewModel.bodyText)
                         .padding(.horizontal, 20)
                     
-                    ReviewsCardView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.locations.first { $0.name == "Rotunda" } ?? sampleLocations[0])).environmentObject(authState)
+                    ReviewsCardView(viewModel: TopicViewModel(topic: topicViewModel.topic, college: viewModel.college), reviews: topicViewModel.reviews).environmentObject(authState)
                         .padding(.horizontal, 20)
                 }
                 
@@ -213,21 +213,15 @@ struct SchoolTopicPage: View {
         }
         .onAppear {
             viewModel.fetchLocations()
+            topicViewModel.fetchReviews()
+            topicViewModel.fetchTopicData()
         }
     }
     
 }
 
 
-struct Stat {
-    var symbolName: String
-    var color: String
-    var intValue: Int
-    var statDescription: String
-    var intSuffix: String?
-}
-
-var BasicStats: [Stat] = [Stat(symbolName: "graduationcap.fill", color: "blue", intValue: 98, statDescription: "Graduation rate", intSuffix: "%"), Stat(symbolName: "person.fill", color: "blue", intValue: 20, statDescription: "Student population", intSuffix: "k")]
+var BasicStats: [Stat] = [Stat(symbolName: "graduationcap.fill", color: 15036928, intValue: 98, statDescription: "Graduation rate", intSuffix: "%"), Stat(symbolName: "person.fill", color: 15036928, intValue: 20, statDescription: "Student population", intSuffix: "k")]
 var sampleBodyText: String = "UVA is an incredible institution that lies in the beautiful city of Charlottesville, Virginia. I don't really know what else to say, but I'm sure I will come up with it at some point. For now I just want enough text to make it seem like I filled the space"
 
 
@@ -236,41 +230,47 @@ struct InformationCardView: View {
     var bodyText: String
     var body: some View {
         GroupBox {
-            VStack {
-                ForEach(stats, id: \.statDescription) { stat in
-                    HStack(spacing: 0) {
-                        ZStack {
-                            Circle()
-                                .fill(.blue.opacity(0.7).gradient)
-                                .frame(width: 45, height: 45)
-                            Image(systemName: stat.symbolName)
-                                .foregroundStyle(.white)
-                                .font(.title2)
-                        }
-                        .padding(.trailing, 5)
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack(spacing: 0) {
-                                Text(String(stat.intValue))
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                if (stat.intSuffix != nil) {
-                                    Text(stat.intSuffix ?? "")
-                                        .font(.title3)
-                                }
+            if stats.isEmpty {
+                Text("School info coming soon")
+                    .font(.title2)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+            } else {
+                VStack {
+                    ForEach(stats, id: \.statDescription) { stat in
+                        HStack(spacing: 0) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(hex: stat.color).opacity(0.7).gradient)
+                                    .frame(width: 45, height: 45)
+                                Image(systemName: stat.symbolName)
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
                             }
-                            Text(stat.statDescription)
-                                .font(.subheadline)
-                                .fontWeight(.light)
-                                .foregroundStyle(.primary.opacity(0.8))
-                            
+                            .padding(.trailing, 5)
+                            VStack(alignment: .leading, spacing: 0) {
+                                HStack(spacing: 0) {
+                                    Text(String(stat.intValue))
+                                        .font(.title3)
+                                        .fontWeight(.semibold)
+                                    Text(stat.intSuffix)
+                                        .font(.title3)
+                                    
+                                }
+                                Text(stat.statDescription)
+                                    .font(.subheadline)
+                                    .fontWeight(.light)
+                                    .foregroundStyle(.primary.opacity(0.8))
+                                
+                            }
+                            .padding(.leading, 5)
+                            Spacer()
                         }
-                        .padding(.leading, 5)
-                        Spacer()
                     }
+                    .padding(.bottom, 5)
+                    Text(bodyText)
+                        .font(.subheadline)
                 }
-                .padding(.bottom, 5)
-                Text(bodyText)
-                    .font(.subheadline)
             }
         }.backgroundStyle(Color("UniversalBG").gradient)
             .clipShape(RoundedRectangle(cornerRadius: 25))
@@ -280,7 +280,8 @@ struct InformationCardView: View {
 
 struct ReviewsCardView: View {
     @EnvironmentObject var authState: AuthViewModel
-    @ObservedObject var viewModel: LocationViewModel
+    @ObservedObject var viewModel: TopicViewModel
+    var reviews: [Review]
     @State private var displaySheet: Bool = false
 
     var body: some View {
@@ -299,12 +300,13 @@ struct ReviewsCardView: View {
                     }
                 }
                 
-                if viewModel.reviews.isEmpty {
+                if reviews.isEmpty {
                     Text("Be the first to share your thoughts!")
+                        .padding()
                 } else {
-                    ForEach(viewModel.reviews, id: \.text) { review in
+                    ForEach(reviews, id: \.text) { review in
                         let firstChar = Array(review.userID)[0]
-                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false)
+                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false, isStars: false)
                         
                     } // uses individual review view for consistent formatting throughout
                     
@@ -314,11 +316,87 @@ struct ReviewsCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 25))
         
         .sheet(isPresented: $displaySheet) {
-            NewReviewView(viewModel: LocationViewModel(college: viewModel.college, location: viewModel.location), isPresented: $displaySheet) { rating, title, text in
-                viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.location.id)
+            NewTopicReviewView(viewModel: TopicViewModel(topic: viewModel.topic, college: viewModel.college), isPresented: $displaySheet) { rating, title, text in
+                viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.topic)
             }
             .presentationDetents([.fraction(0.4)])
         }
+        .onAppear {
+            viewModel.fetchReviews()
+        }
+    }
+    
+}
+
+
+struct NewTopicReviewView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    @ObservedObject var viewModel: TopicViewModel
+    
+    
+    @Binding var isPresented: Bool
+    @State private var titleText: String = ""
+    @State private var reviewText: String = ""
+    @State private var showAlert: Bool = false
+    var onSubmit: (Int, String, String) -> Void
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Button("Cancel") {
+                    isPresented = false
+                }
+                Spacer()
+                Text("Write a Review")
+                    .font(.title3)
+                    .bold()
+                Spacer()
+                Button("Submit") {
+                    if titleText != "" && reviewText != ""  {
+                        onSubmit(0, titleText, reviewText)
+                        Analytics.logEvent("Review", parameters: ["user": authState.currentUser?.fullname ?? "nil","title": titleText,"text": reviewText])
+                        viewModel.fetchReviews()
+                        isPresented = false
+                    } else {
+                        showAlert = true
+                    }
+                }
+                    .alert("Must fill out all fields! \nGet a clue lil bro", isPresented: $showAlert, actions: {})
+                    .sensoryFeedback(.success, trigger: isPresented)
+            }
+            
+            Rectangle()
+                .fill(Color("UniversalFG").opacity(0.3))
+                .frame(height: 1)
+            TextField("Title your review", text: $titleText)
+                .textFieldStyle(.automatic)
+                .font(.title2)
+            Rectangle()
+                .fill(Color("UniversalFG").opacity(0.3))
+                .frame(height: 1)
+            ZStack(alignment: .leading) {
+                if reviewText == "" {
+                    VStack {
+                        Text("Share your thoughts!")
+                            .textFieldStyle(.automatic)
+                            .font(.title2)
+                            .foregroundStyle(Color("UniversalFG"))
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 5)
+                        Spacer()
+                    }
+                    
+                }
+                TextEditor(text: $reviewText)
+                    .textFieldStyle(.automatic)
+                    .font(.title2)
+                    .opacity(reviewText == "" ? 0.8 : 1)
+            }.padding(.leading, -4)
+            
+            Spacer()
+            
+        }
+        .padding()
     }
 }
 

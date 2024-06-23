@@ -42,6 +42,14 @@ struct SchoolInfo {
 }
 
 
+struct Stat: Codable {
+    var symbolName: String
+    var color: Int
+    var intValue: Int
+    var statDescription: String
+    var intSuffix: String
+}
+
 
 
 struct Review: Codable {

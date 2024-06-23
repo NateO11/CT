@@ -142,7 +142,7 @@ struct ExploreView: View {
                 NavigationLink(destination: NewMapViewAllSchools(viewModel: viewModel, initialSelectedLocation: viewModel.colleges.first { $0.name == "University of Virginia" }).environmentObject(authState)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(.white)
+                            .fill(.white.gradient)
                             .shadow(radius: 10)
                         HStack(spacing: 0) {
                             Image(systemName: "map.fill")
@@ -166,15 +166,15 @@ struct ExploreView: View {
                 NavigationLink(destination: EditProfileView().environmentObject(authState)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(.white)
+                            .fill(.white.gradient)
                             .shadow(radius: 10)
                         HStack(spacing: 0) {
-                            Image(systemName: "star.fill")
+                            Image(systemName: "bookmark.fill")
                                 .fontWeight(.semibold)
                                 .foregroundColor(.blue)
                                 .shadow(radius: 10)
                                 .frame(width: 40, height: 40)
-                            Text("Favorites")
+                            Text("Saved")
                                 .font(.headline)
                                 .fontWeight(.semibold)
                                 .lineLimit(1)

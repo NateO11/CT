@@ -65,7 +65,7 @@ struct ProfilePage: View {
                                 VStack {
                                     ForEach(viewModel.currentUser!.reviews, id: \.text) { review in
                                         let firstChar = Array(review.userID)[0]
-                                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: true)
+                                        IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: true, isStars: true)
                                     }
                                 }
                             }

@@ -58,6 +58,7 @@ struct AlternateLocationView: View {
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(10)
                             .shadow(radius: 5)
+                            .foregroundStyle(.white)
                         
                         ShareLink(item: URL(string: "https://www.virginia.edu/")!, subject: Text("Download College Tour!"), message: Text("Check out this spot at \(viewModel.college.name) in College Tour!")) {
                                 VStack(spacing: 5) {
@@ -72,7 +73,7 @@ struct AlternateLocationView: View {
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                             
-                        }.tint(.primary)
+                        }.tint(.white)
                         
                         Button {
                             openURL(URL(string: "http://maps.apple.com/?q=\(viewModel.location.name)&ll=\(String(viewModel.location.coordinate.latitude)),\(String(viewModel.location.coordinate.longitude))")!)
@@ -89,7 +90,7 @@ struct AlternateLocationView: View {
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                             
-                        }.tint(.primary)
+                        }.tint(.white)
                         
                         Spacer() // Pushes the buttons to center
                     }
@@ -178,7 +179,7 @@ struct LocationTestingView: View {
                         } else {
                             ForEach(viewModel.reviews, id: \.text) { review in
                                 let firstChar = Array(review.userID)[0]
-                                IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false)
+                                IndividualReviewView(review: review, firstChar: String(firstChar).uppercased(), isProfilePage: false, isStars: true)
                             } // uses individual review view for consistent formatting throughout
                             
                         }

@@ -155,6 +155,104 @@ class LocationViewModel: ObservableObject {
 }
 
 
+class TopicViewModel: ObservableObject {
+    @Published var stats: [Stat] = []
+    @Published var reviews: [Review] = []
+    @Published var bodyText: String = ""
+    
+    var authState: AuthViewModel?
+    @Published var topic: String
+    @Published var college: College
+    private var db = Firestore.firestore()
+    init(topic: String, college: College, authState: AuthViewModel? = nil) {
+        self.topic = topic
+        self.college = college
+        self.authState = authState
+    }
+    
+    func fetchReviews() {
+        let reviewsRef = db.collection("Schools").document(college.id).collection("Topics").document(topic).collection("reviews")
+        
+        reviewsRef.getDocuments { [weak self] snapshot, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error fetching reviews: \(error.localizedDescription)")
+                return
+            }
+            
+            self.reviews = snapshot?.documents.compactMap { document in
+                try? document.data(as: Review.self)
+            } ?? []
+            print(self.reviews)
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
+    func fetchTopicData() {
+        let topicRef = db.collection("Schools").document(college.id).collection("Topics").document(topic)
+        topicRef.getDocument { [weak self] document, error in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error fetching topic data: \(error.localizedDescription)")
+                return
+            }
+            
+            if let document = document, document.exists {
+                self.bodyText = document.get("bodyText") as? String ?? ""
+                
+                let statsRef = topicRef.collection("stats")
+                statsRef.getDocuments { statsSnapshot, error in
+                    if let error = error {
+                        print("Error fetching stats: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    self.stats = statsSnapshot?.documents.compactMap { document in
+                        try? document.data(as: Stat.self)
+                    } ?? []
+                    
+                    DispatchQueue.main.async {
+                        self.objectWillChange.send()
+                    }
+                }
+            } else {
+                print("Topic document does not exist")
+            }
+        }
+    
+    }
+    
+    @MainActor
+    func submitReview(rating: Int, title: String, text: String, forLocation locationID: String) {
+        let reviewData: [String: Any] = [
+            "schoolName": college.name,
+            "locationName": topic,
+            "userID": authState?.currentUser?.id ?? "defaultID",
+            "userName" : authState?.currentUser?.fullname ?? "defaultName",
+            "userInitials" : authState?.currentUser?.intitals ?? "defaultInitials",
+            "rating": rating,
+            "title": title,
+            "text": text,
+            "timestamp": Timestamp(date: Date())
+        ] // takes review data and timestamp and turns it into a single element
+
+        db.collection("Schools").document(college.id).collection("Topics").document(topic).collection("reviews").addDocument(data: reviewData) { error in
+            if let error = error {
+                print("Error adding review: \(error.localizedDescription)")
+            } else {
+                print("Review successfully added!")
+            }
+        } // sends the new review element to a reviews collection for that specific location ... need to work on this logic to ensure it goes to the location Id and not the location name
+        db.collection("Users").document(authState?.currentUser?.id ?? "test").collection("reviews").addDocument(data: reviewData) { error in
+            if let error = error {
+                print("Error adding review: \(error.localizedDescription)")
+            } else {
+                print("Review successfully added!")
+            }
+        } // attempt at sending the new review element to a reviews collection for the current user ... wasn't working due to authstate/firestore complications but this is a very achieveable step
+    }
+}
 
 // view model used to generate the map screen for each school... includes functions for fetching locations, interpreting firestore data, and filtering location categories ... might modify this in the future so we could have an overall map screen that shows individual schools as icons instead of specific locations, but that might require an entirely new view model instead
 class MapViewModel: ObservableObject {
