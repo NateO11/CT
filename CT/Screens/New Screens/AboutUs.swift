@@ -13,7 +13,6 @@ struct AboutUs: View {
                 Text("Our Mission")
                     .multilineTextAlignment(.leading)
                     .font(.largeTitle)
-                    .foregroundColor(.black)
                     .padding(.horizontal)
                     .bold()
                     .padding(.bottom)
@@ -22,7 +21,6 @@ struct AboutUs: View {
                 HStack {
                     Text("Our mission is to bridge the gap between high school and college by providing high school students with an authentic insight into college culture. Founded by two passionate entrepreneurs from the University of Virginia, our app empowers prospective college students to make informed decisions by accessing honest reviews and experiences shared by current students.")
                         .font(.title2)
-                        .foregroundColor(.black)
                         .padding(.horizontal)
                 }
                 

@@ -14,6 +14,7 @@ struct AlternateLocationView: View {
     @Environment(\.openURL) var openURL
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: LocationViewModel
+    @EnvironmentObject var bookmarks: Bookmarks
 
     var body: some View {
         GeometryReader { geometry in
@@ -47,9 +48,16 @@ struct AlternateLocationView: View {
                     
                     HStack {
                         Spacer() // Pushes the buttons to center
+                        Button {
+                            if bookmarks.contains(viewModel.location) {
+                                bookmarks.remove(viewModel.location)
+                                } else {
+                                    bookmarks.add(viewModel.location)
+                                }
+                        } label: {
                             VStack(spacing: 5) {
-                                Image(systemName: "bookmark")
-                                Text("Save")
+                                Image(systemName: bookmarks.contains(viewModel.location) ? "bookmark.fill" : "bookmark")
+                                Text(bookmarks.contains(viewModel.location) ? "Unsave" : "Save")
                                     .font(.caption)
                                     .bold()
                             }
@@ -58,7 +66,8 @@ struct AlternateLocationView: View {
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                            .foregroundStyle(.white)
+                        }.tint(.white)
+                            
                         
                         ShareLink(item: URL(string: "https://www.virginia.edu/")!, subject: Text("Download College Tour!"), message: Text("Check out this spot at \(viewModel.college.name) in College Tour!")) {
                                 VStack(spacing: 5) {

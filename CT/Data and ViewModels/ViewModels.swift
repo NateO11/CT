@@ -173,7 +173,7 @@ class TopicViewModel: ObservableObject {
     func fetchReviews() {
         let reviewsRef = db.collection("Schools").document(college.id).collection("Topics").document(topic).collection("reviews")
         
-        reviewsRef.getDocuments { [weak self] snapshot, error in
+        reviewsRef.addSnapshotListener { [weak self] snapshot, error in
             guard let self = self else { return }
             if let error = error {
                 print("Error fetching reviews: \(error.localizedDescription)")
@@ -183,12 +183,13 @@ class TopicViewModel: ObservableObject {
             self.reviews = snapshot?.documents.compactMap { document in
                 try? document.data(as: Review.self)
             } ?? []
-            print(self.reviews)
+            
             DispatchQueue.main.async {
                 self.objectWillChange.send()
             }
         }
     }
+
     func fetchTopicData() {
         let topicRef = db.collection("Schools").document(college.id).collection("Topics").document(topic)
         topicRef.getDocument { [weak self] document, error in
@@ -242,6 +243,7 @@ class TopicViewModel: ObservableObject {
                 print("Error adding review: \(error.localizedDescription)")
             } else {
                 print("Review successfully added!")
+                self.fetchReviews()
             }
         } // sends the new review element to a reviews collection for that specific location ... need to work on this logic to ensure it goes to the location Id and not the location name
         db.collection("Users").document(authState?.currentUser?.id ?? "test").collection("reviews").addDocument(data: reviewData) { error in
@@ -518,5 +520,42 @@ class ForumViewModel: ObservableObject {
                 }
             }
         }
+    }
+}
+
+
+class Bookmarks: ObservableObject {
+    // the actual resorts the user has favorited
+    @Published private var bookmarks: Set<String>
+
+    // the key we're using to read/write in UserDefaults
+    private let key = "Favorites"
+
+    init() {
+        // load our saved data
+
+        // still here? Use an empty array
+        bookmarks = []
+    }
+
+    // returns true if our set contains this resort
+    func contains(_ location: Location) -> Bool {
+        bookmarks.contains(location.id)
+    }
+
+    // adds the resort to our set and saves the change
+    func add(_ location: Location) {
+        bookmarks.insert(location.id)
+        save()
+    }
+
+    // removes the resort from our set and saves the change
+    func remove(_ location: Location) {
+        bookmarks.remove(location.id)
+        save()
+    }
+
+    func save() {
+        // write out our data
     }
 }

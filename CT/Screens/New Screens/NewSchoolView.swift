@@ -203,7 +203,7 @@ struct SchoolTopicPage: View {
                     InformationCardView(stats: topicViewModel.stats, bodyText: topicViewModel.bodyText)
                         .padding(.horizontal, 20)
                     
-                    ReviewsCardView(viewModel: TopicViewModel(topic: topicViewModel.topic, college: viewModel.college), reviews: topicViewModel.reviews).environmentObject(authState)
+                    ReviewsCardView(viewModel: TopicViewModel(topic: topicViewModel.topic, college: viewModel.college, authState: authState), reviews: topicViewModel.reviews).environmentObject(authState)
                         .padding(.horizontal, 20)
                 }
                 
@@ -316,7 +316,7 @@ struct ReviewsCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 25))
         
         .sheet(isPresented: $displaySheet) {
-            NewTopicReviewView(viewModel: TopicViewModel(topic: viewModel.topic, college: viewModel.college), isPresented: $displaySheet) { rating, title, text in
+            NewTopicReviewView(viewModel: TopicViewModel(topic: viewModel.topic, college: viewModel.college, authState: authState), isPresented: $displaySheet) { rating, title, text in
                 viewModel.submitReview(rating: rating, title: title, text: text, forLocation: viewModel.topic)
             }
             .presentationDetents([.fraction(0.4)])

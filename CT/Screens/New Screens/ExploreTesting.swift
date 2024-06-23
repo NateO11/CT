@@ -14,6 +14,7 @@ import Firebase
 struct ExploreView: View {
     @EnvironmentObject var authState: AuthViewModel
     @ObservedObject var viewModel: ExploreViewModel
+    @State private var bookmarks = Bookmarks()
     
     @State var searchText: String = ""
     
@@ -64,7 +65,7 @@ struct ExploreView: View {
                 .coordinateSpace(name: "SCROLL")
                 .edgesIgnoringSafeArea(.top)
             }
-        }
+        }.environmentObject(bookmarks)
     }
     
     @ViewBuilder
