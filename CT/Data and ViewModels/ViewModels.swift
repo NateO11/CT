@@ -533,7 +533,12 @@ class Bookmarks: ObservableObject {
 
     init() {
         // load our saved data
-
+        if let savedData = UserDefaults.standard.data(forKey: key) {
+                    if let decodedData = try? JSONDecoder().decode(Set<String>.self, from: savedData) {
+                        bookmarks = decodedData
+                        return
+                    }
+                }
         // still here? Use an empty array
         bookmarks = []
     }
@@ -556,6 +561,9 @@ class Bookmarks: ObservableObject {
     }
 
     func save() {
+        if let encodedData = try? JSONEncoder().encode(bookmarks) {
+                    UserDefaults.standard.set(encodedData, forKey: key)
+                }
         // write out our data
     }
 }
