@@ -36,12 +36,9 @@ struct ExploreView: View {
                                 // I want this first Hstack to be reserved for favorites
                                 SchoolScrollView(colleges: viewModel.colleges, titleText: "Virginia schools").environmentObject(authState)
                                 //
-                                LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself", buttonText: "View Schools", destination: AboutUs())
+                                LargeImageSection(imageName: "stockimage5", title: "Find your new home", description: "Read reviews from students just like yourself", buttonText: "View Schools", destination: SchoolListView(viewModel: viewModel).environmentObject(authState))
                                 LargeImageSection(imageName: "stockimage3", title: "Our purpose", description: "We want to help you learn about colleges", buttonText: "About Us", destination: AboutUs())
-//                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Featured schools").environmentObject(authState)
-//                                LargeImageSection(imageName: "stockimage3", title: "Discover Colleges That Fit You Best", description: "Use our maps to explore campuses")
-//                                SchoolScrollView(colleges: viewModel.colleges, titleText: "Local schools").environmentObject(authState)
-//                                LargeImageSection(imageName: "stockimage2", title: "What's your next step? ", description: "Learn about more schools near you")
+
                                 Text("Contact us at CollegeTourApp@gmail.com")
                                     .font(.caption2)
                                     .fontWeight(.thin)
@@ -247,48 +244,61 @@ struct SearchResultsTestView: View {
             ForEach(searchResults) { college in
                 
                 if college.available {
-                    NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(college.name)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                Text(college.city)
-                                    .font(.caption)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.title)
-                        }
-                        .tint(Color("UniversalFG"))
-                        .padding(20)
-                        .background(Color("UniversalFG").opacity(0.15))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .padding(.horizontal, 10)
+                    NavigationLink(destination: NewSchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
                         
-                    }
+                        GroupBox {
+                            HStack {
+                                Image(college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(college.id)
+                                        .font(.title3)
+                                        .fontWeight(.semibold)
+
+                                    Text(college.city)
+                                        .font(.subheadline)
+                                        .fontWeight(.light)
+                                        .foregroundStyle(.primary.opacity(0.8))
+                                }
+                                .padding(.leading, 5)
+                                Spacer()
+                            }
+                        }.backgroundStyle(Color("UniversalBG").gradient)
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            .padding(.horizontal, 20)
+                        
+                    }.tint(.primary)
                 } else {
                     NavigationLink(destination: EditProfileView()) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(college.name)
-                                    .multilineTextAlignment(.leading)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                Text(college.city)
-                                    .font(.caption)
+                        GroupBox {
+                            HStack {
+                                Image(college.image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(college.id)
+                                        .font(.title3)
+                                        .fontWeight(.semibold)
+
+                                    Text(college.city)
+                                        .font(.subheadline)
+                                        .fontWeight(.light)
+                                        .foregroundStyle(.primary.opacity(0.8))
+                                }
+                                .padding(.leading, 5)
+                                Spacer()
                             }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.title)
-                        }
-                        .tint(Color("UniversalFG"))
-                        .padding(20)
-                        .background(Color("UniversalFG").opacity(0.15))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .padding(.horizontal, 10)
-                    }
+                        }.backgroundStyle(Color("UniversalBG").gradient)
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            .padding(.horizontal, 20)
+                    }.tint(.primary)
                 }
                 
             }
@@ -391,3 +401,77 @@ struct BookmarksView: View {
     }
 }
 
+
+struct SchoolListView: View {
+    @EnvironmentObject var authState: AuthViewModel
+    var viewModel: ExploreViewModel
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("All Schools")
+                    .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
+                ForEach(viewModel.colleges) { college in
+                    
+                    if college.available {
+                        NavigationLink(destination: NewSchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                            
+                            GroupBox {
+                                HStack {
+                                    Image(college.image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        Text(college.id)
+                                            .font(.title3)
+                                            .fontWeight(.semibold)
+
+                                        Text(college.city)
+                                            .font(.subheadline)
+                                            .fontWeight(.light)
+                                            .foregroundStyle(.primary.opacity(0.8))
+                                    }
+                                    .padding(.leading, 5)
+                                    Spacer()
+                                }
+                            }.backgroundStyle(Color("UniversalBG").gradient)
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
+                                .padding(.horizontal, 20)
+                            
+                        }.tint(.primary)
+                    } else {
+                        NavigationLink(destination: EditProfileView()) {
+                            GroupBox {
+                                HStack {
+                                    Image(college.image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        Text(college.id)
+                                            .font(.title3)
+                                            .fontWeight(.semibold)
+
+                                        Text(college.city)
+                                            .font(.subheadline)
+                                            .fontWeight(.light)
+                                            .foregroundStyle(.primary.opacity(0.8))
+                                    }
+                                    .padding(.leading, 5)
+                                    Spacer()
+                                }
+                            }.backgroundStyle(Color("UniversalBG").gradient)
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
+                                .padding(.horizontal, 20)
+                        }.tint(.primary)
+                    }
+                    
+                }
+            }
+        }
+    }
+}

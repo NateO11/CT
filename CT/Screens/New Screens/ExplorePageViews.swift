@@ -11,12 +11,12 @@ import MapKit
 import Firebase
 
 
-struct LargeImageSection: View {
+struct LargeImageSection<Destination: View>: View {
     let imageName: String
     let title: String
     let description: String
     let buttonText: String
-    let destination: any View
+    let destination: Destination
 
     var body: some View {
         ZStack {
@@ -40,7 +40,7 @@ struct LargeImageSection: View {
                         .foregroundColor(.white)
                
                         Spacer()
-                        NavigationLink(destination: AboutUs()) {
+                        NavigationLink(destination: destination) {
                             Text(buttonText)
                                 .foregroundColor(.black)
                                 .padding()
