@@ -18,6 +18,7 @@ struct IndividualReviewView: View {
     let firstChar: String
     let isProfilePage: Bool
     let isStars: Bool
+    @State private var showAlert: Bool = false
     // logic to show/hide lines of a really long review, but not really using this right now
     
     var body: some View {
@@ -111,7 +112,7 @@ struct IndividualReviewView: View {
                         }
                     }
                 }
-            }
+            }.alert("Comment reported", isPresented: $showAlert, actions: {})
 
             
         }
@@ -132,6 +133,7 @@ struct IndividualReviewView: View {
                 }
             }
         print("Reported user \(userID)")
+        showAlert = true
     }
     
     private func formattedDate(_ date: Date) -> String {

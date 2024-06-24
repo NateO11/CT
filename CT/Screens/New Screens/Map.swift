@@ -329,6 +329,7 @@ struct NewMapViewAllSchools: View {
     @State private var selectedSchool: College? = nil
     @State private var selectedSchoolName: String? = nil
     @State private var isSheetPresented = false
+    @State private var goToSchoolPage = false
     
     init(viewModel: ExploreViewModel, initialSelectedLocation: College? = nil) {
         self._viewModel = ObservedObject(initialValue: viewModel)
@@ -389,7 +390,7 @@ struct NewMapViewAllSchools: View {
         .sheet(isPresented: $isSheetPresented, onDismiss: clearSelection) {
             if let college = selectedSchool {
                 // LocationTestingView(viewModel: LocationViewModel(college: viewModel.college, location: location, authState: authState))
-                SchoolPopUpView(college: college).environmentObject(authState)
+                SchoolPopUpView(college: college, showNext: $goToSchoolPage).environmentObject(authState)
                 // Your existing modifiers here.
                 //.presentationDetents([.fraction(0.35),.medium,.fraction(0.99)])
                     .presentationDetents([.fraction(0.4)])
@@ -415,6 +416,9 @@ struct NewMapViewAllSchools: View {
             
             }
         }
+        .navigationDestination(isPresented: $goToSchoolPage, destination: {
+            NewSchoolView(viewModel: MapViewModel(college: selectedSchool ?? viewModel.colleges[0])).environmentObject(authState)
+        })
         .onChange(of: selectedSchoolName) { oldValue, newValue in
             
             if let newLocation = viewModel.colleges.first(where: { $0.id == newValue }) {
@@ -447,29 +451,28 @@ struct NewMapViewAllSchools: View {
 struct SchoolPopUpView: View {
     @EnvironmentObject var authState: AuthViewModel
     var college: College
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var showNext: Bool
 
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .bottomLeading) {
                 // Background Image
-                AsyncImage(url: URL(string: "https://news.virginia.edu/sites/default/files/Header_SF_AldermanRenaming_TomDaly.jpg")) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .clipped()
-                        .overlay {
-                            LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.3), .black.opacity(0.4), .black.opacity(0.5), .black.opacity(0.7), .black.opacity(0.9), .black, .black], startPoint: .top, endPoint: .bottom)
-                        }
-                } placeholder: {
-                    Color.black
-                }
+                Image(college.image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .overlay {
+                        LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.3), .black.opacity(0.4), .black.opacity(0.5), .black.opacity(0.7), .black.opacity(0.9), .black, .black], startPoint: .top, endPoint: .bottom)
+                    }
+                
                 VStack(alignment: .leading) {
                     Text(college.city)
                         .font(.callout)
                         .foregroundColor(.white)
                         .shadow(radius: 10)
-                        
+                    
                     
                     Text(college.name)
                         .font(.largeTitle)
@@ -478,7 +481,14 @@ struct SchoolPopUpView: View {
                         .foregroundColor(.white)
                         .padding(.bottom, 5)
                     
-                    NavigationLink(destination: NewSchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
+                    Button {
+                        if college.available {
+                            self.presentationMode.wrappedValue.dismiss()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.showNext = true
+                            }
+                        }
+                    } label: {
                         Text("Explore")
                             .font(.headline)
                             .foregroundStyle(.white)
@@ -488,9 +498,9 @@ struct SchoolPopUpView: View {
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(10)
                             .shadow(radius: 5)
-                        
-                        
                     }
+                    
+                
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 20)
                 }
