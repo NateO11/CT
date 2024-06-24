@@ -337,45 +337,53 @@ struct BookmarksView: View {
                 VStack(alignment: .leading) {
                     Text("Saved locations")
                         .font(.largeTitle).padding(.horizontal, 18).fontWeight(.bold).padding(.top, 10)
-                    ForEach(bookmarks.getBookmarks(), id: \.id) { bookmark in
-                        if let college = viewModel.colleges.first(where: { $0.name == bookmark.schoolName }) {
-                            NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: bookmark.id).environmentObject(authState)) {
-                                GroupBox {
-                                    HStack {
-                                        AsyncImage(url: URL(string: bookmark.locationImageURL)) { image in
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 50, height: 50)
-                                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        } placeholder: {
-                                            Color.black
-                                                .frame(width: 50, height: 50)
-                                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                    if bookmarks.getBookmarks().isEmpty {
+                        HStack {
+                            Spacer()
+                            Text("Go bookmark some locations!")
+                            Spacer()
+                        }.padding(.top, 20)
+                    } else {
+                        ForEach(bookmarks.getBookmarks(), id: \.id) { bookmark in
+                            if let college = viewModel.colleges.first(where: { $0.name == bookmark.schoolName }) {
+                                NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: bookmark.id).environmentObject(authState)) {
+                                    GroupBox {
+                                        HStack {
+                                            AsyncImage(url: URL(string: bookmark.locationImageURL)) { image in
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 50, height: 50)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            } placeholder: {
+                                                Color.black
+                                                    .frame(width: 50, height: 50)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                            }
+                                            VStack(alignment: .leading, spacing: 0) {
+                                                Text(String(bookmark.name))
+                                                    .font(.title3)
+                                                    .fontWeight(.semibold)
+                                                
+                                                
+                                                
+                                                Text(bookmark.schoolName)
+                                                    .font(.subheadline)
+                                                    .fontWeight(.light)
+                                                    .foregroundStyle(.primary.opacity(0.8))
+                                                
+                                            }
+                                            .padding(.leading, 5)
+                                            Spacer()
                                         }
-                                        VStack(alignment: .leading, spacing: 0) {
-                                            Text(String(bookmark.name))
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                            
-                                            
-                                            
-                                            Text(bookmark.schoolName)
-                                                .font(.subheadline)
-                                                .fontWeight(.light)
-                                                .foregroundStyle(.primary.opacity(0.8))
-                                            
-                                        }
-                                        .padding(.leading, 5)
-                                        Spacer()
-                                    }
-                                }.backgroundStyle(Color("UniversalBG").gradient)
-                                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                                    .padding(.horizontal, 20)
-                                
-                            }.tint(.primary)
+                                    }.backgroundStyle(Color("UniversalBG").gradient)
+                                        .clipShape(RoundedRectangle(cornerRadius: 25))
+                                        .padding(.horizontal, 20)
+                                    
+                                }.tint(.primary)
+                            }
+                            
                         }
-                        
                     }
                 }
             }
