@@ -50,9 +50,9 @@ struct AlternateLocationView: View {
                         Spacer() // Pushes the buttons to center
                         Button {
                             if bookmarks.contains(viewModel.location) {
-                                bookmarks.remove(viewModel.location)
+                                bookmarks.remove(viewModel.location, for: viewModel.college)
                                 } else {
-                                    bookmarks.add(viewModel.location)
+                                    bookmarks.add(viewModel.location, for: viewModel.college)
                                 }
                         } label: {
                             VStack(spacing: 5) {

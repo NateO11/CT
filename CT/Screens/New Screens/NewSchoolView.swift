@@ -412,7 +412,7 @@ struct NewLocationScrollView: View {
             ScrollView(.horizontal) {
                 HStack(spacing: 4) {
                     ForEach(topicLocations) { location in
-                        NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: location).environmentObject(authState)) {
+                        NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: location.id).environmentObject(authState)) {
                             GeometryReader(content: { proxy in
                                 let cardSize = proxy.size
                                 let minX = proxy.frame(in: .scrollView).minX - 60

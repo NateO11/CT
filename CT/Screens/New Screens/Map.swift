@@ -30,14 +30,14 @@ struct MapView: View {
     @State private var searchResults: [Location] = []
     
     // updates location categories when modified
-    @State private var initialSelectedLocation: Location? = nil
+    @State private var initialSelectedLocation: String? = nil
     @State private var mapSelectionName: String? = nil
     @State private var selectedLocation: Location? = nil
     @State private var isSheetPresented = false
 //    @State private var cameraPosition: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 38.03656936011733, longitude: -78.50271085255682), latitudinalMeters: 1000, longitudinalMeters: 1000))
     // variables used to update which location is currently selected
     
-    init(viewModel: MapViewModel, initialSelectedLocation: Location? = nil) {
+    init(viewModel: MapViewModel, initialSelectedLocation: String? = nil) {
         self._viewModel = ObservedObject(initialValue: viewModel)
         self._initialSelectedLocation = State(initialValue: initialSelectedLocation)
     }
@@ -109,8 +109,9 @@ struct MapView: View {
             if let initialLocation = initialSelectedLocation, selectedLocation == nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     // Giving a slight delay might help in ensuring the view is fully loaded before attempting to present the sheet.
-                    self.selectedLocation = initialLocation
-                    self.mapSelectionName = initialLocation.id
+                    self.mapSelectionName = initialLocation
+                    self.selectedLocation = viewModel.locations.first {$0.id == initialLocation}
+                    
                     // This forces a re-render, but ensure your logic is sound for setting and using `selectedLocation`.
                 }
             }

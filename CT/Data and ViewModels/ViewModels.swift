@@ -524,9 +524,16 @@ class ForumViewModel: ObservableObject {
 }
 
 
+struct BookmarkInfo: Hashable, Codable {
+    var id: String
+    var locationImageURL: String
+    var name: String
+    var schoolName: String
+}
+
 class Bookmarks: ObservableObject {
     // the actual resorts the user has favorited
-    @Published private var bookmarks: Set<String>
+    @Published private var bookmarks: Set<BookmarkInfo>
 
     // the key we're using to read/write in UserDefaults
     private let key = "Favorites"
@@ -534,7 +541,7 @@ class Bookmarks: ObservableObject {
     init() {
         // load our saved data
         if let savedData = UserDefaults.standard.data(forKey: key) {
-                    if let decodedData = try? JSONDecoder().decode(Set<String>.self, from: savedData) {
+                    if let decodedData = try? JSONDecoder().decode(Set<BookmarkInfo>.self, from: savedData) {
                         bookmarks = decodedData
                         return
                     }
@@ -545,25 +552,35 @@ class Bookmarks: ObservableObject {
 
     // returns true if our set contains this resort
     func contains(_ location: Location) -> Bool {
-        bookmarks.contains(location.id)
+        bookmarks.contains { $0.id == location.id}
     }
 
     // adds the resort to our set and saves the change
-    func add(_ location: Location) {
-        bookmarks.insert(location.id)
+    func add(_ location: Location, for college: College) {
+        let bookmark = BookmarkInfo(id: location.id, locationImageURL: location.imageLink, name: location.name, schoolName: college.id)
+        bookmarks.insert(bookmark)
         save()
+        bookmarks.forEach { bookmark in
+            print(bookmark.schoolName)
+            print(bookmark.name)
+        }
     }
 
     // removes the resort from our set and saves the change
-    func remove(_ location: Location) {
-        bookmarks.remove(location.id)
-        save()
+    func remove(_ location: Location, for college: College) {
+        if let bookmark = bookmarks.first(where: { $0.id == location.id }) {
+            bookmarks.remove(bookmark)
+            save()
+        }
     }
 
     func save() {
         if let encodedData = try? JSONEncoder().encode(bookmarks) {
-                    UserDefaults.standard.set(encodedData, forKey: key)
-                }
-        // write out our data
+            UserDefaults.standard.set(encodedData, forKey: key)
+        }
+    }
+    
+    func getBookmarks() -> [BookmarkInfo] {
+        return Array(bookmarks)
     }
 }
