@@ -372,6 +372,7 @@ struct BookmarksView: View {
                                             }
                                             VStack(alignment: .leading, spacing: 0) {
                                                 Text(String(bookmark.name))
+                                                    .multilineTextAlignment(.leading)
                                                     .font(.title3)
                                                     .fontWeight(.semibold)
                                                 
@@ -425,6 +426,7 @@ struct SchoolListView: View {
                                     
                                     VStack(alignment: .leading, spacing: 0) {
                                         Text(college.id)
+                                            .multilineTextAlignment(.leading)
                                             .font(.title3)
                                             .fontWeight(.semibold)
 
@@ -453,6 +455,7 @@ struct SchoolListView: View {
                                     
                                     VStack(alignment: .leading, spacing: 0) {
                                         Text(college.id)
+                                            .multilineTextAlignment(.leading)
                                             .font(.title3)
                                             .fontWeight(.semibold)
 

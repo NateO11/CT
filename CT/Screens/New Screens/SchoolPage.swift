@@ -66,9 +66,7 @@ struct SchoolView: View {
             }
             .onAppear {
                 viewModel.fetchLocations()
-                viewModel.fetchInfo(classification: "Academic")
-                viewModel.fetchInfo(classification: "Other")
-                viewModel.fetchInfo(classification: "Social")
+                
 
                 starred = authState.currentUser?.favorites.contains(viewModel.college.name) ?? false
                     

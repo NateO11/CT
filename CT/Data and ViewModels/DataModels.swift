@@ -20,6 +20,7 @@ struct College: Identifiable {
     let image: String
     let coordinate: CLLocationCoordinate2D
     let color: Color
+    var imageURLs: [String: String]
 }
 
 struct Location: Identifiable {

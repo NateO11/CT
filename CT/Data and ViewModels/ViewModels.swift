@@ -60,7 +60,7 @@ class ExploreViewModel: ObservableObject {
                 
                 // parses data from every college within the firestore database, uses nil coalescing to ensure no errors occur if data is absent
 
-                return College(id: id, available: available, name: name, city: city, description: description, image: image, coordinate: coordinate, color: Color(hex: color))
+                return College(id: id, available: available, name: name, city: city, description: description, image: image, coordinate: coordinate, color: Color(hex: color), imageURLs: [:])
                 // this systematically fills the colleges array, which is ultimately displayed on the explore page and subsequently accessed when looking at school specific views
             }
         }
@@ -277,6 +277,7 @@ class MapViewModel: ObservableObject {
     
     init(college: College) {
         self.college = college
+        fetchImageURLs()
     }
     
     func convertGeoPointToCoordinate(_ geoPoint: GeoPoint) -> CLLocationCoordinate2D {
@@ -326,49 +327,22 @@ class MapViewModel: ObservableObject {
         }
     }
     
-    func fetchInfo(classification: String) {
-        
-        print("Fetching \(classification) info for \(college.name)")
-        db.collection("Schools").document(college.name).collection("Info")
-          .whereField("classification", isEqualTo: classification)
-          .addSnapshotListener { querySnapshot, error in
-              guard let documents = querySnapshot?.documents else {
-                  print("No info found for college \(self.college.name): \(error?.localizedDescription ?? "")")
-                  return
-                  // built in print statements to verify that fetching pathways are operating correctly
-              }
-              
-              let fetchedInfo = documents.compactMap { doc -> SchoolInfo? in
-                  // parse the document into a Location object
-                  let data = doc.data()
-                  let category = data["category"] as? String ?? ""
-                  let classification = data["classification"] as? String ?? ""
-                  let description = data["description"] as? String ?? ""
-                  let stats = data["stats"] as? [Int] ?? []
-                  let statDescriptions = data["statDescriptions"] as? [String] ?? []
-                  let locations = data["locations"] as? [String] ?? []
-                  
-                  // return an info object or nil
-                  return SchoolInfo(category: category, stats: stats, classification: classification, statDescriptions: statDescriptions, description: description, locations: locations)
-              }
-              switch classification {
-              case "Academic":
-                  self.infoAcademic = fetchedInfo
-                  print("Fetched Academic Info: \(self.infoAcademic.count)")
-              case "Social":
-                  self.infoSocial = fetchedInfo
-                  print("Fetched Social Info: \(self.infoSocial.count)")
-              case "Other":
-                  self.infoOther = fetchedInfo
-                  print("Fetched Other Info: \(self.infoOther.count)")
-              default:
-                  self.info = fetchedInfo
-                  print("Fetched All Info: \(self.info.count)")
-              }
-          
-
+    func fetchImageURLs() {
+            db.collection("Schools").document(college.name).collection("ImageURLs").getDocuments { (snapshot, error) in
+                if let error = error {
+                    print("Error fetching image URLs: \(error)")
+                    return
+                }
+                var imageURLs: [String: String] = [:]
+                for document in snapshot?.documents ?? [] {
+                    let data = document.data()
+                    if let topic = data["topic"] as? String, let url = data["url"] as? String {
+                        imageURLs[topic] = url
+                    }
+                }
+                self.college.imageURLs = imageURLs
+            }
         }
-    }
     
 
     // function to update filtered locations and map when a new category is selected

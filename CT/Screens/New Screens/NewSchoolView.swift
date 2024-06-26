@@ -57,14 +57,14 @@ struct NewSchoolView: View {
                             .padding(.horizontal, 18)
                         LazyVGrid(columns: gridItemLayout, alignment: .center, spacing: 15) {
                             NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topicViewModel: TopicViewModel(topic: "Basics", college: viewModel.college))) {
-                                SchoolTopicCard(topic: "Basics", imageURL: topicToURL(topic: "Basics"))
+                                SchoolTopicCard(topic: "Basics", imageURL: viewModel.college.imageURLs["Basics"] ?? "")
                             }
                             NavigationLink(destination: MapView(viewModel: MapViewModel(college: viewModel.college)).environmentObject(authState)) {
-                                SchoolTopicCard(topic: "Map", imageURL: topicToURL(topic: "Map"))
+                                SchoolTopicCard(topic: "Map", imageURL: viewModel.college.imageURLs["Map"] ?? "")
                             }
                             ForEach(categories, id: \.self) { topic in
                                 NavigationLink(destination: SchoolTopicPage(viewModel: MapViewModel(college: viewModel.college), topicViewModel: TopicViewModel(topic: topic, college: viewModel.college))) {
-                                    SchoolTopicCard(topic: topic, imageURL: topicToURL(topic: topic))
+                                    SchoolTopicCard(topic: topic, imageURL: viewModel.college.imageURLs[topic] ?? "")
                                 }
                                 
                             }
@@ -87,27 +87,7 @@ struct NewSchoolView: View {
         
     }
     
-    func topicToURL(topic: String) -> String {
-        if topic == "Charlottesville" {
-            return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
-        } else if topic == "Dorms" {
-            return "https://news.virginia.edu/sites/default/files/Header_New_Dorms_Aerial__SS_01-2.jpg"
-        } else if topic == "Dining" {
-            return "https://wcav.images.worldnow.com/images/20205423_G.jpg?auto=webp&disable=upscale&height=560&fit=bounds&lastEditedDate=1609193636000"
-        } else if topic == "Athletics" {
-            return "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"
-        } else if topic == "Academics" {
-            return "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"
-        } else if topic == "Recreation" {
-            return "https://rec.virginia.edu/sites/recsports2017.virginia.edu/files/styles/hero_image/public/indoor-lap-pool-at-ngrc-uva_0.jpg?itok=9MnguXas"
-        } else if topic == "Basics" {
-            return "https://i.pinimg.com/originals/1d/13/12/1d13123d3570cc0d571ad118dda87460.jpg"
-        } else if topic == "Map" {
-            return "https://rotunda.virginia.edu/sites/g/files/jsddwu951/files/styles/crop_freeform/public/2022-01/Lawn_Aerial_Spring_2020_SS_05%20%281%29.jpg?itok=tnokOEHp"
-        } else {
-            return "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"
-        }
-    }
+    
 }
 
 
@@ -516,7 +496,7 @@ struct NewLocationScrollView: View {
 }
 
 
-var UVA: College = .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange)
+var UVA: College = .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange, imageURLs: [:])
 
 
 

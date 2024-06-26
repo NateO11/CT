@@ -142,11 +142,11 @@ struct StyledButtonDark<Destination: View>: View {
 
 
 var sampleColleges: [College] = [
-    .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange),
-    .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT", coordinate: CLLocationCoordinate2D(latitude: 36, longitude: -77), color: .red),
-    .init(id: "JMU", available: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU", coordinate: CLLocationCoordinate2D(latitude: 37, longitude: -77.2), color: .purple),
-    .init(id: "GMU", available: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU", coordinate: CLLocationCoordinate2D(latitude: 39, longitude: -77.5), color: .green),
-    .init(id: "W&M", available: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -76), color: .green)
+    .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange, imageURLs: [:]),
+    .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT", coordinate: CLLocationCoordinate2D(latitude: 36, longitude: -77), color: .red, imageURLs: [:]),
+    .init(id: "JMU", available: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU", coordinate: CLLocationCoordinate2D(latitude: 37, longitude: -77.2), color: .purple, imageURLs: [:]),
+    .init(id: "GMU", available: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU", coordinate: CLLocationCoordinate2D(latitude: 39, longitude: -77.5), color: .green, imageURLs: [:]),
+    .init(id: "W&M", available: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -76), color: .green, imageURLs: [:])
 ]
 
 
