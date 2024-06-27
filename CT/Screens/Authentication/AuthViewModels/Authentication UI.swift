@@ -36,8 +36,8 @@ struct AuthButtonStyle: View {
         Text(buttonText)
             .font(.title)
             .frame(width: 200, height: 60)
-            .background(Color.black)
-            .foregroundColor(.white)
+            .background(Color("UniversalFG").gradient)
+            .foregroundColor(Color("UniversalBG"))
             .cornerRadius(10)
             .shadow(radius: 5)
     }
@@ -50,7 +50,7 @@ struct AuthTitleAndImage: View {
     var body: some View {
         VStack {
 
-            Image("CTlogo")
+            Image("CTlogo3")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)

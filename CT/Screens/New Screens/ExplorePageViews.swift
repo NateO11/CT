@@ -45,7 +45,7 @@ struct LargeImageSection<Destination: View>: View {
                                 .foregroundColor(.black)
                                 .padding()
                                 .bold()
-                                .background(Color.white)
+                                .background(Color.white.gradient)
                                 .cornerRadius(30)
                         }
                     

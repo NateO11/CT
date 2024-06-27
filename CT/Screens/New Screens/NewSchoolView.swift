@@ -391,7 +391,7 @@ struct NewLocationScrollView: View {
             
             ScrollView(.horizontal) {
                 HStack(spacing: 4) {
-                    ForEach(topicLocations) { location in
+                    ForEach(topicLocations.sorted(by: { $0.featured && !$1.featured })) { location in
                         NavigationLink(destination: MapView(viewModel: MapViewModel(college: college), initialSelectedLocation: location.id).environmentObject(authState)) {
                             GeometryReader(content: { proxy in
                                 let cardSize = proxy.size
@@ -403,7 +403,7 @@ struct NewLocationScrollView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .offset(x: -minX)
-                                        .frame(width: proxy.size.width * 1.5)
+                                        .frame(width: proxy.size.width * 1.4)
                                         .frame(width: cardSize.width, height: cardSize.height)
                                         .overlay {
                                             OverlayView(college, location)
@@ -476,9 +476,7 @@ struct NewLocationScrollView: View {
                             .multilineTextAlignment(.leading)
                             .fontWeight(.black)
                             .foregroundStyle(.white)
-                        Text(location.category)
-                            .font(.callout)
-                            .foregroundStyle(.white.opacity(0.8))
+                        
                     }
                     Spacer()
                     Image(systemName: "chevron.right")
