@@ -46,7 +46,7 @@ struct ExploreView: View {
                             }
                             .zIndex(0)
                         } else {
-                            //SearchResultsView(searchText).environmentObject(authState).zIndex(0)
+                            
                             SearchResultsTestView(viewModel: viewModel, query: $searchText).environmentObject(authState)
                         }
 
@@ -65,29 +65,7 @@ struct ExploreView: View {
         }.environmentObject(bookmarks)
     }
     
-    @ViewBuilder
-    func SearchResultsView(_ query: String) -> some View {
-        if !query.isEmpty {
-            let searchResults = viewModel.searchColleges(with: query)
-            ForEach(searchResults) { college in
-                NavigationLink(destination: SchoolView(viewModel: MapViewModel(college: college)).environmentObject(authState)) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(college.name)
-                                .multilineTextAlignment(.leading)
-                                .font(.title)
-                                .fontWeight(.bold)
-                            Text(college.city)
-                                .font(.caption)
-                        }
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.title)
-                    }.tint(.black).padding(20)
-                }.background(.black.opacity(0.1)).clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous)).padding(.horizontal, 10)
-            }
-        }
-    }
+    
 
     
     
@@ -476,5 +454,53 @@ struct SchoolListView: View {
                 }
             }
         }
+    }
+}
+
+
+struct LargeImageSection<Destination: View>: View {
+    let imageName: String
+    let title: String
+    let description: String
+    let buttonText: String
+    let destination: Destination
+
+    var body: some View {
+        ZStack {
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .overlay {
+                    LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.5), .black], startPoint: .top, endPoint: .bottom)
+                }
+
+            VStack(alignment: .leading, spacing: 10) {
+                Spacer()
+                Text(title)
+                    .font(.largeTitle)
+                    .fontWeight(.heavy)
+                    .foregroundColor(.white)
+                HStack(spacing: 5) {
+                    Text(description)
+                        .font(.headline)
+                        .foregroundColor(.white)
+               
+                        Spacer()
+                        NavigationLink(destination: destination) {
+                            Text(buttonText)
+                                .foregroundColor(.black)
+                                .padding()
+                                .bold()
+                                .background(Color.white.gradient)
+                                .cornerRadius(30)
+                        }
+                    
+                }
+            }
+            .padding()
+        }
+        .clipShape(.rect(bottomLeadingRadius: 10, bottomTrailingRadius: 10))
+        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
     }
 }

@@ -11,52 +11,7 @@ import MapKit
 import Firebase
 
 
-struct LargeImageSection<Destination: View>: View {
-    let imageName: String
-    let title: String
-    let description: String
-    let buttonText: String
-    let destination: Destination
 
-    var body: some View {
-        ZStack {
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-                .overlay {
-                    LinearGradient(colors: [.clear, .clear, .clear, .black.opacity(0.1), .black.opacity(0.5), .black], startPoint: .top, endPoint: .bottom)
-                }
-
-            VStack(alignment: .leading, spacing: 10) {
-                Spacer()
-                Text(title)
-                    .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.white)
-                HStack(spacing: 5) {
-                    Text(description)
-                        .font(.headline)
-                        .foregroundColor(.white)
-               
-                        Spacer()
-                        NavigationLink(destination: destination) {
-                            Text(buttonText)
-                                .foregroundColor(.black)
-                                .padding()
-                                .bold()
-                                .background(Color.white.gradient)
-                                .cornerRadius(30)
-                        }
-                    
-                }
-            }
-            .padding()
-        }
-        .clipShape(.rect(bottomLeadingRadius: 10, bottomTrailingRadius: 10))
-        .shadow(color: .black.opacity(0.25), radius: 8, x: 5, y: 10)
-    }
-}
 
 
 
@@ -141,16 +96,3 @@ struct StyledButtonDark<Destination: View>: View {
 }
 
 
-var sampleColleges: [College] = [
-    .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange, imageURLs: [:]),
-    .init(id: "VT", available: true, name: "Virginia Tech", city: "Blacksburg, Virginia", description: "A lovely school", image: "VT", coordinate: CLLocationCoordinate2D(latitude: 36, longitude: -77), color: .red, imageURLs: [:]),
-    .init(id: "JMU", available: true, name: "James Madison University", city: "Harrisonburg, Virginia", description: "A lovely school", image: "JMU", coordinate: CLLocationCoordinate2D(latitude: 37, longitude: -77.2), color: .purple, imageURLs: [:]),
-    .init(id: "GMU", available: true, name: "George Mason University", city: "Fairfax, Virginia", description: "A lovely school", image: "GMU", coordinate: CLLocationCoordinate2D(latitude: 39, longitude: -77.5), color: .green, imageURLs: [:]),
-    .init(id: "W&M", available: true, name: "William and Mary", city: "Williamsburg, Virginia", description: "A lovely school", image: "WandM", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -76), color: .green, imageURLs: [:])
-]
-
-
-var sampleLocations: [Location] = [
-    .init(id: "1", name: "Rotunda", description: "idk", coordinate: CLLocationCoordinate2D(latitude: 17, longitude: 18), category: "Landmarks", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/clarkLibrary.jpeg?alt=media&token=81f2a8dc-c47d-4a39-a66d-69f1f06f21e3", featured: false),
-    .init(id: "2", name: "Runk", description: "I love runnk girl", coordinate: CLLocationCoordinate2D(latitude: 20, longitude: 18), category: "Dining", imageLink: "https://firebasestorage.googleapis.com/v0/b/collegetour-fb638.appspot.com/o/rotunda.jpeg?alt=media&token=dea66a98-10b6-4a0c-8b45-618650023cbd", featured: false)
-]

@@ -139,33 +139,6 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
-    
-    func addUserFavorites(school: String)  {
-        let uid = Auth.auth().currentUser?.uid ?? "mockUID"
-        let favoritesRef = db.collection("Users").document(uid)
-        
-        favoritesRef.updateData([
-          "favorites": FieldValue.arrayUnion([school])
-        ])
-        self.currentUser?.favorites.append(school)
-        // should got to the current uid and then create/ add to the existing array of favorite schools
-        }
-    
-    func removeUserFavorites(school: String)  {
-        let uid = Auth.auth().currentUser?.uid ?? "mockUID"
-        let favoritesRef = db.collection("Users").document(uid)
-        
-        favoritesRef.updateData([
-          "favorites": FieldValue.arrayRemove([school])
-        ])
-        
-        self.currentUser?.favorites.removeAll { value in
-              return value == school
-            
-        }
-        
-        // should got to the current uid and then create/ add to the existing array of favorite schools
-        }
 }
 
 extension AuthViewModel {

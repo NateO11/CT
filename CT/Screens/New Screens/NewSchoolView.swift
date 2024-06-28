@@ -11,26 +11,6 @@ import MapKit
 import Firebase
 
 
-struct TopicImagePair {
-    var topic: String
-    var url: String
-}
-
-
-var basicImagePairs: [TopicImagePair] =  [TopicImagePair(topic: "Charlottesville", url: "https://charlottesville.guide/wp-content/uploads/2019/02/trin1-1.jpg"),
-    TopicImagePair(topic: "Athletics", url: "https://news.virginia.edu/sites/default/files/article_image/mens_hoops_academics_mr_header_1.jpg"),
-    TopicImagePair(topic: "Dorms", url: "https://news.virginia.edu/sites/default/files/Header_New_Dorms_Aerial__SS_01-2.jpg"),
-    TopicImagePair(topic: "Recreation", url: "https://rec.virginia.edu/sites/recsports2017.virginia.edu/files/indoor-pool-at-ngrc-uva.jpg"),
-    TopicImagePair(topic: "Academics", url: "https://news.virginia.edu/sites/default/files/article_image/thornton_hall_engineering_fall_ss_header_3-2.jpg"),
-    TopicImagePair(topic: "Dining", url: "https://wcav.images.worldnow.com/images/20205423_G.jpg?auto=webp&disable=upscale&height=560&fit=bounds&lastEditedDate=1609193636000"),
-                                          
-                                          
-]
-
-
-
-
-
 // potential animation when school viewed for the first time
 
 struct NewSchoolView: View {
@@ -201,8 +181,6 @@ struct SchoolTopicPage: View {
 }
 
 
-var BasicStats: [Stat] = [Stat(symbolName: "graduationcap.fill", color: 15036928, intValue: 98, statDescription: "Graduation rate", intSuffix: "%"), Stat(symbolName: "person.fill", color: 15036928, intValue: 20, statDescription: "Student population", intSuffix: "k")]
-var sampleBodyText: String = "UVA is an incredible institution that lies in the beautiful city of Charlottesville, Virginia. I don't really know what else to say, but I'm sure I will come up with it at some point. For now I just want enough text to make it seem like I filled the space"
 
 
 struct InformationCardView: View {
@@ -494,7 +472,6 @@ struct NewLocationScrollView: View {
 }
 
 
-var UVA: College = .init(id: "UVA", available: true, name: "University of Virginia", city: "Charlottesville, Virginia", description: "A lovely school", image: "UVA", coordinate: CLLocationCoordinate2D(latitude: 38, longitude: -77.1), color: Color.orange, imageURLs: [:])
 
 
 
