@@ -248,39 +248,40 @@ struct WeatherCardView: View {
     @State var currentCondition: String = ""
     var body: some View {
         GroupBox {
-            VStack(alignment: .leading) {
-                Text("Current Weather")
-                    .font(.title2)
-                    .bold()
-                HStack {
-                    Text("\(currentTemp)ºF")
-                        .font(.largeTitle)
-                    Image(systemName: "cloud.sun")
-                        .font(.largeTitle)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Current Weather")
+                        .font(.title2)
                         .bold()
-                        .padding(.horizontal, 5)
-                    
-                    Spacer()
-                    
-                    Button {
-                        openURL(URL(string: "https://weather.apple.com/?city=\(viewModel.college.city.components(separatedBy: ",")[0])&lat=\(viewModel.college.coordinate.latitude)&lng=\(viewModel.college.coordinate.longitude)")!)
-                    } label: {
-                        VStack(spacing: 5) {
-                            Image(systemName: "cloud.sun.fill")
-                            Text("See more")
-                                .font(.caption)
-                                .bold()
-                        }
-                        .padding(10)
-                        .background(Color.blue.gradient.opacity(0.9))
-                        .cornerRadius(8)
-                        .shadow(radius: 5)
+                    HStack {
+                        Text("\(currentTemp)ºF")
+                            .font(.largeTitle)
+                        Image(systemName: "cloud.sun")
+                            .font(.largeTitle)
+                            .bold()
+                            .padding(.horizontal, 5)
                         
-                    }.tint(.white)
+                        Spacer()
+                    }.padding(.leading, 10)
                 }
-                .padding(.leading, 10)
+                Button {
+                    openURL(URL(string: "https://weather.apple.com/?city=\(viewModel.college.city.components(separatedBy: ",")[0])&lat=\(viewModel.college.coordinate.latitude)&lng=\(viewModel.college.coordinate.longitude)")!)
+                } label: {
+                    VStack(spacing: 5) {
+                        Image(systemName: "cloud.sun.fill")
+                        Text("See more")
+                            .font(.caption)
+                            .bold()
+                    }
+                    .padding(10)
+                    .background(Color.blue.gradient.opacity(0.9))
+                    .cornerRadius(8)
+                    .shadow(radius: 5)
+                    
+                }.tint(.white)
             }
-                            
+                
         }.onAppear {
             Task {
                 self.currentTemp = await fetchForecast(college:viewModel.college)["Temp"] ?? ""
