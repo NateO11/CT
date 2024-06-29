@@ -17,6 +17,7 @@ struct ExploreView: View {
     @State private var bookmarks = Bookmarks()
     
     @State var searchText: String = ""
+    @FocusState var isInputActive: Bool
     
     @State var offsetY: CGFloat = 0
     //@State var showSearch: Bool = false
@@ -80,9 +81,22 @@ struct ExploreView: View {
                         .foregroundColor(.white)
                         .onTapGesture {
                             searchText = ""
+                            isInputActive = false
                         }
                     TextField("Search", text: $searchText)
+                        .keyboardType(.asciiCapable)
                         .foregroundStyle(.white)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
+                        
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                Button("Done") {
+                                    isInputActive = false
+                                }
+                            }
+                        }
                     
                 }
                 .padding(.vertical, 10)
@@ -115,7 +129,7 @@ struct ExploreView: View {
             HStack(spacing: 15) {
                 // NavigationLink(destination: EditProfileView()) {
                 //NavigationLink(destination: MapSchoolView(viewModel: viewModel, schools: viewModel.colleges).environmentObject(authState)) {
-                NavigationLink(destination: NewMapViewAllSchools(viewModel: viewModel, initialSelectedLocation: viewModel.colleges.first { $0.name == "University of Virginia" }).environmentObject(authState)) {
+                NavigationLink(destination: NewMapViewAllSchools(viewModel: viewModel ).environmentObject(authState)) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.white.gradient)

@@ -202,6 +202,7 @@ struct NewMapViewAllSchools: View {
     @State private var selectedSchoolName: String? = nil
     @State private var isSheetPresented = false
     @State private var goToSchoolPage = false
+    @State private var oldSelectedSchool: College? = nil
     
     init(viewModel: ExploreViewModel, initialSelectedLocation: College? = nil) {
         self._viewModel = ObservedObject(initialValue: viewModel)
@@ -289,7 +290,7 @@ struct NewMapViewAllSchools: View {
             }
         }
         .navigationDestination(isPresented: $goToSchoolPage, destination: {
-            NewSchoolView(viewModel: MapViewModel(college: selectedSchool ?? viewModel.colleges[0])).environmentObject(authState)
+            NewSchoolView(viewModel: MapViewModel(college: oldSelectedSchool ?? viewModel.colleges[0])).environmentObject(authState)
         })
         .onChange(of: selectedSchoolName) { oldValue, newValue in
             
@@ -297,6 +298,7 @@ struct NewMapViewAllSchools: View {
                 
                 withAnimation {
                     selectedSchool = newLocation
+                    oldSelectedSchool = newLocation
                     isSheetPresented = true
                     
                 }
@@ -367,7 +369,7 @@ struct SchoolPopUpView: View {
                             .bold()
                             .padding()
                             .frame(width: geometry.size.width * 0.6)
-                            .background(Color.white.opacity(0.2))
+                            .background(Color.white.opacity(0.2).gradient)
                             .cornerRadius(10)
                             .shadow(radius: 5)
                     }

@@ -17,6 +17,7 @@ struct SignUpView: View {
     @State private var confirmPassword: String = ""
     @State private var username: String = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @FocusState var isInputActive: Bool
     
     var body: some View {
         NavigationStack{
@@ -25,9 +26,30 @@ struct SignUpView: View {
                     
                     AuthTitleAndImage(title: "Sign Up ")
                     AuthTextFieldStyle(innerText: "Full Name", variableName: $fullName)
+                        .keyboardType(.asciiCapable)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
+                        
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                Button("Done") {
+                                    isInputActive = false
+                                }
+                            }
+                        }
                     AuthTextFieldStyle(innerText: "Email", variableName: $email)
+                        .keyboardType(.emailAddress)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
                     AuthTextFieldStyle(innerText: "Password", variableName: $password)
+                        .keyboardType(.asciiCapable)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
                     AuthTextFieldStyle(innerText: "Confirm Password", variableName: $confirmPassword)
+                        .keyboardType(.asciiCapable)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
                         .padding(.bottom)
                     
                     Button {

@@ -15,6 +15,7 @@ struct LoginPageView: View {
     @State private var validLoginMessage: String = ""
     @State private var validLoginMessageBool: Bool = false
     @EnvironmentObject var viewModel: AuthViewModel
+    @FocusState var isInputActive: Bool
     
     var body: some View {
         NavigationStack{
@@ -23,7 +24,24 @@ struct LoginPageView: View {
                 
                     AuthTitleAndImage(title: "Login")
                     AuthTextFieldStyle(innerText: "Email", variableName: $email)
+                        .keyboardType(.emailAddress)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
+                        
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+                                Spacer()
+                                Button("Done") {
+                                    isInputActive = false
+                                }
+                            }
+                        }
                     AuthTextFieldStyle(innerText: "Password", variableName: $password)
+                        .keyboardType(.asciiCapable)
+                        .focused($isInputActive)
+                        .autocorrectionDisabled(true)
+                        
+                        
                         .padding(.bottom)
                 
                     // button for login using protocol
