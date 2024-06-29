@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import MapKit
 import Firebase
-
+import WeatherKit
 
 // potential animation when school viewed for the first time
 
@@ -163,6 +163,11 @@ struct SchoolTopicPage: View {
                     InformationCardView(stats: topicViewModel.stats, bodyText: topicViewModel.bodyText)
                         .padding(.horizontal, 20)
                     
+                    if topicViewModel.topic == viewModel.college.city.components(separatedBy: ",")[0] {
+                        WeatherCardView(viewModel: viewModel)
+                            .padding(.horizontal, 20)
+                    }
+                    
                     ReviewsCardView(viewModel: TopicViewModel(topic: topicViewModel.topic, college: viewModel.college, authState: authState), reviews: topicViewModel.reviews).environmentObject(authState)
                         .padding(.horizontal, 20)
                 }
@@ -194,12 +199,12 @@ struct InformationCardView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
             } else {
-                VStack {
+                VStack(alignment: .leading) {
                     ForEach(stats, id: \.statDescription) { stat in
                         HStack(spacing: 0) {
                             ZStack {
                                 Circle()
-                                    .fill(Color(hex: stat.color).opacity(0.7).gradient)
+                                    .fill(Color(hex: stat.color).opacity(0.9).gradient)
                                     .frame(width: 45, height: 45)
                                 Image(systemName: stat.symbolName)
                                     .foregroundStyle(.white)
@@ -234,6 +239,71 @@ struct InformationCardView: View {
             .clipShape(RoundedRectangle(cornerRadius: 25))
     }
 }
+
+struct WeatherCardView: View {
+    @Environment(\.openURL) var openURL
+    @ObservedObject var viewModel: MapViewModel
+    let weatherService = WeatherService()
+    @State var currentTemp: String = ""
+    @State var currentCondition: String = ""
+    var body: some View {
+        GroupBox {
+            VStack(alignment: .leading) {
+                Text("Current Weather")
+                    .font(.title2)
+                    .bold()
+                HStack {
+                    Text("\(currentTemp)ºF")
+                        .font(.largeTitle)
+                    Image(systemName: "cloud.sun")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding(.horizontal, 5)
+                    
+                    Spacer()
+                    
+                    Button {
+                        openURL(URL(string: "https://weather.apple.com/?city=\(viewModel.college.city.components(separatedBy: ",")[0])&lat=\(viewModel.college.coordinate.latitude)&lng=\(viewModel.college.coordinate.longitude)")!)
+                    } label: {
+                        VStack(spacing: 5) {
+                            Image(systemName: "cloud.sun.fill")
+                            Text("See more")
+                                .font(.caption)
+                                .bold()
+                        }
+                        .padding(10)
+                        .background(Color.blue.gradient.opacity(0.9))
+                        .cornerRadius(8)
+                        .shadow(radius: 5)
+                        
+                    }.tint(.white)
+                }
+                .padding(.leading, 10)
+            }
+                            
+        }.onAppear {
+            Task {
+                self.currentTemp = await fetchForecast(college:viewModel.college)["Temp"] ?? ""
+                self.currentCondition = await fetchForecast(college: viewModel.college)["Condition"] ?? ""
+            }
+        }
+        .backgroundStyle(Color("UniversalBG").gradient)
+            .clipShape(RoundedRectangle(cornerRadius: 25))
+    }
+    
+    
+    func fetchForecast(college: College) async -> [String: String] {
+        let cityCoords = CLLocation(latitude: college.coordinate.latitude, longitude: college.coordinate.longitude)
+        let weather = try! await weatherService.weather(for: cityCoords)
+        return ["Condition" : weather.currentWeather.condition.description, "Temp" : String(Int(round(weather.currentWeather.temperature.converted(to: .fahrenheit).value)))]
+    }
+    
+    func weatherConditionToSymbol(condition: String) {
+        
+    }
+}
+
+
 
 
 struct ReviewsCardView: View {
